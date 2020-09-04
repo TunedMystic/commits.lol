@@ -2,13 +2,13 @@ package models
 
 import "time"
 
-// GitSource ...
+// GitSource is the model for the git_source table.
 type GitSource struct {
 	ID   int    `db:"id"`
 	Name string `db:"name"`
 }
 
-// GitUser ...
+// GitUser is the model for the git_user table.
 type GitUser struct {
 	ID        int    `db:"id"`
 	SourceID  int    `db:"source_id"`
@@ -19,7 +19,7 @@ type GitUser struct {
 	Source GitSource `db:"source"`
 }
 
-// GitRepo ...
+// GitRepo is the model for the git_repo table.
 type GitRepo struct {
 	ID          int    `db:"id"`
 	SourceID    int    `db:"source_id"`
@@ -30,7 +30,7 @@ type GitRepo struct {
 	Source *GitSource `db:"source"`
 }
 
-// GitCommit ...
+// GitCommit is the model for the git_commit table.
 type GitCommit struct {
 	ID       int       `db:"id"`
 	SourceID int       `db:"source_id"`

@@ -11,7 +11,6 @@ import (
 // Server contains all dependencies for the application.
 type Server struct {
 	Templates *template.Template
-	Router    *mux.Router
 	DB        db.Database
 }
 
@@ -23,6 +22,7 @@ func NewServer(DB db.Database) *Server {
 	return &s
 }
 
+// IndexHandler renders the index page.
 func (s *Server) IndexHandler(w http.ResponseWriter, r *http.Request) {
 	commits, err := s.DB.RecentCommits()
 	if err != nil {
@@ -32,13 +32,10 @@ func (s *Server) IndexHandler(w http.ResponseWriter, r *http.Request) {
 	s.Templates.ExecuteTemplate(w, "index", commits)
 }
 
+// Routes returns the routes for the application.
 func (s *Server) Routes() *mux.Router {
 	router := mux.NewRouter()
 	router.HandleFunc("/", s.IndexHandler).Methods("GET")
 	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	return router
-}
-
-type TemplateContext struct {
-	//
 }
