@@ -13,7 +13,7 @@ type SqliteDB struct {
 	DB *sqlx.DB
 }
 
-// NewSqliteDB creates a new *SqliteDB.
+// NewSqliteDB connects to the database, and returns a new *SqliteDB type.
 func NewSqliteDB() *SqliteDB {
 	config := config.GetConfig()
 	sdb := SqliteDB{}
@@ -21,7 +21,7 @@ func NewSqliteDB() *SqliteDB {
 	return &sdb
 }
 
-// RecentCommits ...
+// RecentCommits returns the most recent commits.
 func (s *SqliteDB) RecentCommits() ([]*models.GitCommit, error) {
 	commits := []*models.GitCommit{}
 
