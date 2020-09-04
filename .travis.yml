@@ -1,0 +1,23 @@
+language: go
+
+go:
+  - "1.14.x"
+
+env:
+  - GO111MODULE=on
+
+branches:
+  only:
+    - master
+
+cache:
+  directories:
+    - $HOME/.cache/go-build  # Build cache
+    - $HOME/gopath/pkg/mod   # Go modules
+
+install: make install
+
+script: make test
+
+after_success:
+    - bash <(curl -s https://codecov.io/bash)
