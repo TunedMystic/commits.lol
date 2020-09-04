@@ -1,0 +1,36 @@
+CREATE TABLE IF NOT EXISTS git_source (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS git_user (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    source_id INTEGER NOT NULL,
+    username VARCHAR(50) NOT NULL,
+    url VARCHAR(100) UNIQUE NOT NULL,
+    avatar_url VARCHAR(200) NOT NULL,
+    FOREIGN KEY(source_id) REFERENCES git_source(id)
+);
+
+CREATE TABLE IF NOT EXISTS git_repo (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    source_id INTEGER NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    description VARCHAR(100) NOT NULL,
+    url VARCHAR(200) UNIQUE NOT NULL,
+    FOREIGN KEY(source_id) REFERENCES git_source(id)
+);
+
+CREATE TABLE IF NOT EXISTS git_commit (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    source_id INTEGER NOT NULL,
+    author_id INTEGER,
+    repo_id INTEGER NOT NULL,
+    message VARCHAR(500) NOT NULL,
+    sha VARCHAR(40) NOT NULL,
+    url VARCHAR(200) UNIQUE NOT NULL,
+    date DATETIME NOT NULL,
+    FOREIGN KEY(source_id) REFERENCES git_source(id),
+    FOREIGN KEY(repo_id) REFERENCES git_repo(id),
+    FOREIGN KEY(author_id) REFERENCES git_user(id)
+);
