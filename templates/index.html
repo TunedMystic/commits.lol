@@ -1,0 +1,28 @@
+{{define "index"}}
+{{template "header" .}}
+
+<h1>(ノಠ益ಠ)ノ</h1>
+<h3>Devs say the darndest things</h3>
+
+<br />
+
+{{range .}}
+    <div class="commit" style="border: 1px solid black;">
+        <div class="user" style="display: flex; align-items: center;">
+            <a target="_blank" href="{{.Author.URL}}" style="display: flex; align-items: center;">
+                <img alt="{{.Author.Username}}" src="{{.Author.AvatarURL}}" height="40" width="40" style="border-radius: 9999px;">
+                <span>{{.Author.Username}}</span>
+            </a>
+        </div>
+        <div class="commit-message" style="overflow: auto; background-color: #f5f5f5; padding: 0px 10px;">
+            <a target="_blank" href="{{.URL}}">
+                <p>{{.Message}}</p>
+            </a>
+        </div>
+        <span style="font-size: 14px; color: #808080; padding: 0px 10px;">{{.Date}}</span>
+    </div>
+    <br />
+{{end}}
+
+{{ template "footer" .}}
+{{end}}
