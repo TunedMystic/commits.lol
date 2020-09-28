@@ -15,5 +15,8 @@
 misc
 tmp
 
+# Misc files
+tailwind.min.css
+
 # Binary
 commits.lol
