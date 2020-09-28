@@ -16,9 +16,10 @@ type Server struct {
 
 // NewServer creates a new Server type.
 func NewServer(DB db.Database) *Server {
-	s := Server{}
-	s.DB = DB
-	s.Templates = template.Must(template.New("").ParseGlob("templates/*.html"))
+	s := Server{
+		DB:        DB,
+		Templates: template.Must(template.New("").ParseGlob("templates/*.html")),
+	}
 	return &s
 }
 

@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS git_repo (
 CREATE TABLE IF NOT EXISTS git_commit (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     source_id INTEGER NOT NULL,
-    author_id INTEGER,
+    author_id INTEGER NOT NULL,
     repo_id INTEGER NOT NULL,
     message VARCHAR(500) NOT NULL,
     sha VARCHAR(40) NOT NULL,

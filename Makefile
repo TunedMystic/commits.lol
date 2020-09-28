@@ -24,4 +24,8 @@ install:  ## Install project dependencies
 test:  ## Run tests
 	@go clean -testcache; BASE_DIR=$(shell go env GOMOD) DATABASE_NAME="${APP}.test.sqlite" go test ./app/... -v -covermode=atomic -coverprofile coverage.out; go tool cover -func coverage.out
 
-.PHONY: help build clean dev install test
+watch:  ## Watch for file changes and run the server.
+	@bash -c "find . -type f \( -name '*.go' -o -name '*.html' \) | grep -v 'misc' | entr -r $(MAKE) dev"
+	# @bash -c "find . -name '*.go' | grep -v 'misc' | entr -r $(MAKE) dev"
+
+.PHONY: help build clean dev install test watch
