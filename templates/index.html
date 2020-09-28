@@ -6,22 +6,23 @@
 
 <br />
 
-<div class="max-w-screen-lg container mx-auto px-4">
-<div class="masonry">
+<div class="max-w-screen-lg container mx-auto xpx-4">
+<div class="flex flex-wrap">
 {{range .}}
-<div class="item w-full mb-3 inline-block"> <!-- commit -->
+<span class="item flex flex-col mr-3 mb-3"> <!-- commit -->
     <div class="bg-gray-200 p-2">
         <p class="">
             <a class="inline-block mr-1" target="_blank" href="{{.Author.URL}}">
                 <img class="rounded-full w-8 h-8 inline-block" alt="{{.Author.Username}}" src="{{.Author.AvatarURL}}">
             </a>
 
-            <a target="_blank" href="{{.URL}}">
-                {{.Message}}
+            <a class="app-message transition-all duration-200 ease-in-out" target="_blank" href="{{.URL}}">
+                <span class="app-repo text-purple-500 hidden inline-block w-0 transition-all duration-200 ease-in-out">{{.Author.Username}}</span>
+                <span class="app-commit inline-block">{{.Message}}</span>
             </a>
         </p>
     </div>
-</div>
+</span>
 {{end}}
 </div>
 </div>
