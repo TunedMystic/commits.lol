@@ -26,6 +26,9 @@ func NewServer(DB db.Database) *Server {
 // IndexHandler renders the index page.
 func (s *Server) IndexHandler(w http.ResponseWriter, r *http.Request) {
 	commits, err := s.DB.RecentCommits()
+	for _, commit := range commits {
+		commit.GetColorTheme()
+	}
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return

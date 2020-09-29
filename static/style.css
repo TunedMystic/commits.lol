@@ -10,7 +10,7 @@ html {
 }
 
 .app-message:hover .app-repo {
-    /* display: inline-block; */
+    /* display: inline-table; */
     /* width: 100%; */
     /* width: auto; */
 }
