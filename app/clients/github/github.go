@@ -34,7 +34,7 @@ func (g *Client) CommitSearch(options CommitSearchOptions) (*CommitSearchRespons
 	}
 
 	// Build request
-	url := fmt.Sprintf("%v/search/commits?%v&per_page=1", g.baseURL, options.Serialize())
+	url := fmt.Sprintf("%v/search/commits?%v", g.baseURL, options.Serialize())
 
 	req, _ := http.NewRequest(http.MethodGet, url, nil)
 
@@ -54,8 +54,6 @@ func (g *Client) CommitSearch(options CommitSearchOptions) (*CommitSearchRespons
 	if res.StatusCode != http.StatusOK {
 		return nil, NewAPIError(url, data, res.StatusCode)
 	}
-
-	fmt.Println(string(data))
 
 	// Unmarshal the JSON data.
 	response := CommitSearchResponse{}

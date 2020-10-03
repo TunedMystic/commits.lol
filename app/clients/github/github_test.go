@@ -1,6 +1,7 @@
 package github
 
 import (
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"reflect"
@@ -32,7 +33,7 @@ func Test_GithubClient_APIError(t *testing.T) {
 	g.baseURL = s.URL
 
 	options := CommitSearchOptions{QueryText: "fixed a bug"}
-	expected := "github error 422: Validation Failed | URL: http://127.0.0.1:59059/search/commits?q='fixed+a+bug'"
+	expected := fmt.Sprintf("github error 422: Validation Failed | URL: %v/search/commits?q='fixed+a+bug'", s.URL)
 
 	response, err := g.CommitSearch(options)
 
