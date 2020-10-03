@@ -10,15 +10,14 @@
 <div class="flex flex-wrap">
 {{range .}}
 <span class="item flex flex-col mr-3 mb-3"> <!-- commit -->
-    <div class="xbg-gray-200 p-2" style="background-color: {{.ColorBackground}}; color: {{.ColorForeground}}">
-        <p class="">
-            <a class="inline-block mr-1" target="_blank" href="{{.Author.URL}}">
+    <div class="" style="background-color: {{.ColorBackground}}; color: {{.ColorForeground}}">
+        <p class="flex items-center">
+            <a class="inline-block px-2" target="_blank" href="{{.Author.URL}}">
                 <img class="rounded-full w-8 h-8 inline-block" alt="{{.Author.Username}}" src="{{.Author.AvatarURL}}">
             </a>
 
-            <a class="app-message" target="_blank" href="{{.URL}}">
-                <span class="app-repo text-purple-500 hidden hover:text-blue-300 xinline-block w-0 transition-all duration-200 ease-in-out">{{.Author.Username}}</span>
-                <span class="app-commit inline-block">{{.Message}}</span>
+            <a class="app-message pr-2" target="_blank" href="{{.URL}}">
+                <span class="app-commit inline-block" style="line-height: 3rem;">{{.Message}}</span>
             </a>
         </p>
     </div>

@@ -26,6 +26,8 @@ test:  ## Run tests
 
 watch:  ## Watch for file changes and run the server.
 	@bash -c "find . -type f \( -name '*.go' -o -name '*.html' \) | grep -v 'misc' | entr -r $(MAKE) dev"
-	# @bash -c "find . -name '*.go' | grep -v 'misc' | entr -r $(MAKE) dev"
 
-.PHONY: help build clean dev install test watch
+watchtests:  ## Watch for file changes and run tests.
+	@bash -c "find . -name '*.go' | grep -v 'misc' | entr -r $(MAKE) test"
+
+.PHONY: help build clean dev install test watch watchtests
