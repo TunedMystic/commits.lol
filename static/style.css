@@ -1,0 +1,66 @@
+/* Box-sizing reset: //w3bits.com/?p=3225 */
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+.app-message:hover .app-repo {
+    /* display: inline-table; */
+    /* width: 100%; */
+    /* width: auto; */
+}
+
+.item {
+    xmax-width: 240px;
+}
+
+.masonry {
+    /* column-gap: 0.5rem; */
+    column-gap: 0.75rem;
+    column-count: 4;
+}
+
+
+/* Masonry on small screens */
+@media only screen and (min-width: 640px) {
+  .vmasonry {
+    column-count: 2;
+  }
+}
+
+/* Masonry on medium-sized screens */
+@media only screen and (min-width: 768px) {
+  .vmasonry {
+    column-count: 3;
+  }
+}
+
+/* Masonry on large screens */
+@media only screen and (min-width: 1024px) {
+  .vmasonry {
+    column-count: 4;
+  }
+}
+
+/* --------------------------------------------------------------- */
+
+.censored-black {
+    background-color: black;
+    color: white;
+}
+
+.censored-white {
+    background-color: white;
+    color: black;
+}
+
+.censored {
+    display: inline-block;
+    background-color: black;
+    color: white;
+}

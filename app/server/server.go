@@ -16,15 +16,19 @@ type Server struct {
 
 // NewServer creates a new Server type.
 func NewServer(DB db.Database) *Server {
-	s := Server{}
-	s.DB = DB
-	s.Templates = template.Must(template.New("").ParseGlob("templates/*.html"))
+	s := Server{
+		DB:        DB,
+		Templates: template.Must(template.New("").ParseGlob("templates/*.html")),
+	}
 	return &s
 }
 
 // IndexHandler renders the index page.
 func (s *Server) IndexHandler(w http.ResponseWriter, r *http.Request) {
 	commits, err := s.DB.RecentCommits()
+	for _, commit := range commits {
+		commit.GetColorTheme()
+	}
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return

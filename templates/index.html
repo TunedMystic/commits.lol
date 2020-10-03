@@ -6,23 +6,25 @@
 
 <br />
 
+<div class="max-w-screen-lg container mx-auto xpx-4">
+<div class="flex flex-wrap">
 {{range .}}
-    <div class="commit" style="border: 1px solid black;">
-        <div class="user" style="display: flex; align-items: center;">
-            <a target="_blank" href="{{.Author.URL}}" style="display: flex; align-items: center;">
-                <img alt="{{.Author.Username}}" src="{{.Author.AvatarURL}}" height="40" width="40" style="border-radius: 9999px;">
-                <span>{{.Author.Username}}</span>
+<span class="item flex flex-col mr-3 mb-3"> <!-- commit -->
+    <div class="" style="background-color: {{.ColorBackground}}; color: {{.ColorForeground}}">
+        <p class="flex items-center">
+            <a class="inline-block px-2" target="_blank" href="{{.Author.URL}}">
+                <img class="rounded-full w-8 h-8 inline-block" alt="{{.Author.Username}}" src="{{.Author.AvatarURL}}">
             </a>
-        </div>
-        <div class="commit-message" style="overflow: auto; background-color: #f5f5f5; padding: 0px 10px;">
-            <a target="_blank" href="{{.URL}}">
-                <p>{{.Message}}</p>
+
+            <a class="app-message pr-2" target="_blank" href="{{.URL}}">
+                <span class="app-commit inline-block" style="line-height: 3rem;">{{.Message}}</span>
             </a>
-        </div>
-        <span style="font-size: 14px; color: #808080; padding: 0px 10px;">{{.Date}}</span>
+        </p>
     </div>
-    <br />
+</span>
 {{end}}
+</div>
+</div>
 
 {{ template "footer" .}}
 {{end}}

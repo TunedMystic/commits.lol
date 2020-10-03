@@ -1,6 +1,9 @@
 package models
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 // GitSource is the model for the git_source table.
 type GitSource struct {
@@ -44,4 +47,51 @@ type GitCommit struct {
 	Source *GitSource `db:"source"`
 	Author *GitUser   `db:"author"`
 	Repo   *GitRepo   `db:"repo"`
+
+	ColorBackground string
+	ColorForeground string
+}
+
+// GetColorTheme ...
+func (c *GitCommit) GetColorTheme() {
+	// Colors ...
+	colors := [][]string{
+		// canada
+		// {"#1dd1a1", "#000000"}, // wild caribbean green
+		{"#ffc93c", "#000000"}, // wild caribbean green
+		// {"#ff6b6b", "#ffffff"}, // pastel red
+		// {"#222f3e", "#ffffff"}, // imperial primer
+		// {"#feca57", "#000000"}, // casandora yellow
+		// {"#ff9ff3", "#000000"}, // jigglypuff
+		// {"#ff9f43", "#000000"}, // double dragon skin
+		{"#0ca9f2", "#000000"}, // jade dust
+		{"#9a89f7", "#000000"}, // joust blue
+
+		// // spanish
+		// {"#ff793f", "#000000"}, // synthetic pumpkin
+		{"#2b5cb7", "#ffffff"}, // c64 purple
+		// {"#2c2c54", "#ffffff"}, // lucky point
+
+		// // india
+		// {"#2c3a47", "#ffffff"}, // ship's officer
+		// {"#b33771", "#ffffff"}, // fiery fuchsia
+		// {"#fd7272", "#000000"}, // georgia peach
+		// {"#1B9CFC", "#ffffff"}, // clear chill
+
+	}
+
+	commitLength := len(c.Message) + len(c.Author.Username)
+	colorIndex := commitLength % len(colors)
+	fmt.Printf("Got a colorIndex of %v\n", colorIndex)
+	color := colors[colorIndex]
+
+	c.ColorBackground = color[0]
+	c.ColorForeground = color[1]
+
+	// if len(c.Author.Username)%6 == 0 {
+	// 	c.ColorBackground = "#edf2f7"
+	// 	c.ColorForeground = "#000000"
+	// }
+	// c.ColorBackground = "#edf2f7"
+	// c.ColorForeground = "#000000"
 }
