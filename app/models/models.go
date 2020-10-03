@@ -58,24 +58,25 @@ func (c *GitCommit) GetColorTheme() {
 	colors := [][]string{
 		// canada
 		// {"#1dd1a1", "#000000"}, // wild caribbean green
-		{"#ff6b6b", "#ffffff"}, // pastel red
-		{"#222f3e", "#ffffff"}, // imperial primer
+		{"#ffc93c", "#000000"}, // wild caribbean green
+		// {"#ff6b6b", "#ffffff"}, // pastel red
+		// {"#222f3e", "#ffffff"}, // imperial primer
 		// {"#feca57", "#000000"}, // casandora yellow
 		// {"#ff9ff3", "#000000"}, // jigglypuff
 		// {"#ff9f43", "#000000"}, // double dragon skin
-		{"#00d2d3", "#000000"}, // jade dust
-		{"#54a0ff", "#000000"}, // joust blue
+		{"#0ca9f2", "#000000"}, // jade dust
+		{"#9a89f7", "#000000"}, // joust blue
 
 		// // spanish
 		// {"#ff793f", "#000000"}, // synthetic pumpkin
-		{"#706fd3", "#ffffff"}, // c64 purple
-		{"#2c2c54", "#ffffff"}, // lucky point
+		{"#2b5cb7", "#ffffff"}, // c64 purple
+		// {"#2c2c54", "#ffffff"}, // lucky point
 
 		// // india
-		{"#2c3a47", "#ffffff"}, // ship's officer
-		{"#b33771", "#ffffff"}, // fiery fuchsia
+		// {"#2c3a47", "#ffffff"}, // ship's officer
+		// {"#b33771", "#ffffff"}, // fiery fuchsia
 		// {"#fd7272", "#000000"}, // georgia peach
-		{"#1B9CFC", "#ffffff"}, // clear chill
+		// {"#1B9CFC", "#ffffff"}, // clear chill
 
 	}
 
@@ -91,4 +92,6 @@ func (c *GitCommit) GetColorTheme() {
 	// 	c.ColorBackground = "#edf2f7"
 	// 	c.ColorForeground = "#000000"
 	// }
+	// c.ColorBackground = "#edf2f7"
+	// c.ColorForeground = "#000000"
 }

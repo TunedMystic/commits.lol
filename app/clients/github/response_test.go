@@ -2,6 +2,7 @@ package github
 
 import (
 	"encoding/json"
+	"net/http"
 	"testing"
 	"time"
 
@@ -54,8 +55,29 @@ func Test_CommitSearch_Unmarshal_no_author(t *testing.T) {
 	u.AssertEqual(t, response.CommitItems[0].Author, Author{})
 }
 
+func Test_APIError(t *testing.T) {
+	data := []byte(`{
+		"message": "bad credentials",
+		"resource": "query"
+	}`)
+	expected := "github error 401: bad credentials | URL: api://some-url"
+
+	e := NewAPIError("api://some-url", data, http.StatusUnauthorized)
+
+	u.AssertEqual(t, e.Error(), expected)
+}
+
+func Test_APIError_unmarshal_fail(t *testing.T) {
+	data := []byte(`{"not valid json"}`)
+	expected := "github error 401: not able to unmarshal error response | URL: api://some-url"
+
+	e := NewAPIError("api://some-url", data, http.StatusUnauthorized)
+
+	u.AssertEqual(t, e.Error(), expected)
+}
+
 // ------------------------------------------------------------------
-// Test Data
+// Test JSON response data
 // ------------------------------------------------------------------
 
 const responseCommitSearch = `{
@@ -224,4 +246,16 @@ const responseCommitSearchNoAuthor = `{
             "score": 1.0
         }
     ]
+}`
+
+const responseValidationFailed = `{
+    "message": "Validation Failed",
+    "errors": [
+        {
+            "resource": "Search",
+            "field": "q",
+            "code": "missing"
+        }
+    ],
+    "documentation_url": "https://docs.github.com/v3/search"
 }`

@@ -1,6 +1,10 @@
 package github
 
-import "time"
+import (
+	"encoding/json"
+	"fmt"
+	"time"
+)
 
 // CommitSearchResponse ...
 type CommitSearchResponse struct {
@@ -46,4 +50,25 @@ type Repository struct {
 // RepositoryOwner ...
 type RepositoryOwner struct {
 	Login string `json:"login"`
+}
+
+// APIError ...
+type APIError struct {
+	URL        string `json:"-"`
+	StatusCode int    `json:"-"`
+	Message    string `json:"message"`
+}
+
+// NewAPIError ...
+func NewAPIError(url string, data []byte, statusCode int) *APIError {
+	e := APIError{URL: url, StatusCode: statusCode}
+	if err := json.Unmarshal(data, &e); err != nil {
+		e.Message = "not able to unmarshal error response"
+	}
+	return &e
+}
+
+// Error satisfies the error interface.
+func (e *APIError) Error() string {
+	return fmt.Sprintf("github error %v: %v | URL: %v", e.StatusCode, e.Message, e.URL)
 }
