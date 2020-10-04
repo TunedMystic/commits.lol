@@ -85,5 +85,42 @@ func (s *SqliteDB) GetOrCreateUser(user *models.GitUser) error {
 	return err
 }
 
+// GetRepoID retrieves a Repo ID, using the URL as the unique constraint.
+func (s *SqliteDB) GetRepoID(repo *models.GitRepo) error {
+	sql := `SELECT id FROM git_repo WHERE url = ?;`
+
+	return s.DB.QueryRow(sql, repo.URL).Scan(&repo.ID)
+}
+
+// CreateRepo inserts a new User row and returns the ID.
+func (s *SqliteDB) CreateRepo(repo *models.GitRepo) error {
+	sql := `
+		INSERT INTO git_repo ("source_id", "name", "description", "url")
+		VALUES (:source_id, :name, :description, :url);`
+
+	row, err := s.DB.NamedExec(sql, repo)
+
+	if err != nil {
+		return fmt.Errorf("error inserting repo: %v", err)
+	}
+
+	id, _ := row.LastInsertId()
+
+	repo.ID = int(id)
+	return nil
+}
+
+// GetOrCreateRepo is a convenience method to get the provided Repo,
+// or create it if it doesn't exist.
+func (s *SqliteDB) GetOrCreateRepo(repo *models.GitRepo) error {
+	err := s.GetRepoID(repo)
+
+	if err == sql.ErrNoRows {
+		return s.CreateRepo(repo)
+	}
+
+	return err
+}
+
 // Ensure the SqliteDB type satisfies the Database interface.
 var _ Database = &SqliteDB{}
