@@ -32,14 +32,10 @@ func (s *SqliteDB) RecentCommits() ([]*models.GitCommit, error) {
 			u.source_id AS "author.source_id",
 			u.username AS "author.username",
 			u.url AS "author.url",
-			u.avatar_url AS "author.avatar_url",
-
-			s.id AS "source.id",
-			s.name AS "source.name"
+			u.avatar_url AS "author.avatar_url"
 
 		FROM git_commit c
 		INNER JOIN git_user u on u.id = c.author_id
-		INNER JOIN git_source s on s.id = c.source_id
 		WHERE c.date > '2015-09-02';`
 
 	if err := s.DB.Select(&commits, sql); err != nil {
