@@ -17,7 +17,7 @@ type CommitItem struct {
 	URL    string     `json:"html_url"`
 	SHA    string     `json:"sha"`
 	Commit Commit     `json:"commit"`
-	Author Author     `json:"author"`
+	Author User       `json:"author"`
 	Repo   Repository `json:"repository"`
 	Score  float64    `json:"score"`
 }
@@ -25,16 +25,16 @@ type CommitItem struct {
 // Commit ...
 type Commit struct {
 	Message string     `json:"message"`
-	Author  AuthorDate `json:"author"`
+	Author  AuthorInfo `json:"author"`
 }
 
-// AuthorDate ...
-type AuthorDate struct {
+// AuthorInfo ...
+type AuthorInfo struct {
 	Date time.Time `json:"date"`
 }
 
-// Author ...
-type Author struct {
+// User ...
+type User struct {
 	Login     string `json:"login"`
 	AvatarURL string `json:"avatar_url"`
 	URL       string `json:"html_url"`
@@ -42,14 +42,9 @@ type Author struct {
 
 // Repository ...
 type Repository struct {
-	Name  string          `json:"name"`
-	URL   string          `json:"html_url"`
-	Owner RepositoryOwner `json:"owner"`
-}
-
-// RepositoryOwner ...
-type RepositoryOwner struct {
-	Login string `json:"login"`
+	Name  string `json:"name"`
+	URL   string `json:"html_url"`
+	Owner User   `json:"owner"`
 }
 
 // APIError ...

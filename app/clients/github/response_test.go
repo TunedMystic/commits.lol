@@ -52,7 +52,7 @@ func Test_CommitSearch_Unmarshal_no_author(t *testing.T) {
 	}
 
 	// Check Author
-	u.AssertEqual(t, response.CommitItems[0].Author, Author{})
+	u.AssertEqual(t, response.CommitItems[0].Author, User{})
 }
 
 func Test_APIError(t *testing.T) {
