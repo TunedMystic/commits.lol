@@ -27,7 +27,7 @@ func NewSqliteDB(name string) *SqliteDB {
 func (s *SqliteDB) RecentCommits() ([]*models.GitCommit, error) {
 	commits := []*models.GitCommit{}
 
-	sql := `
+	query := `
 		SELECT
 			c.*,
 
@@ -41,27 +41,20 @@ func (s *SqliteDB) RecentCommits() ([]*models.GitCommit, error) {
 		INNER JOIN git_user u on u.id = c.author_id
 		WHERE c.date > '2015-09-02';`
 
-	if err := s.DB.Select(&commits, sql); err != nil {
+	if err := s.DB.Select(&commits, query); err != nil {
 		return nil, err
 	}
 
 	return commits, nil
 }
 
-// GetUserID retrieves a User ID, using the URL as the unique constraint.
-func (s *SqliteDB) GetUserID(user *models.GitUser) error {
-	sql := `SELECT id FROM git_user WHERE url = ?;`
-
-	return s.DB.QueryRow(sql, user.URL).Scan(&user.ID)
-}
-
 // CreateUser inserts a new User row and returns the ID.
 func (s *SqliteDB) CreateUser(user *models.GitUser) error {
-	sql := `
+	query := `
 		INSERT INTO git_user ("source_id", "username", "url", "avatar_url")
 		VALUES (:source_id, :username, :url, :avatar_url);`
 
-	row, err := s.DB.NamedExec(sql, user)
+	row, err := s.DB.NamedExec(query, user)
 
 	if err != nil {
 		return fmt.Errorf("error inserting user: %v", err)
@@ -76,7 +69,8 @@ func (s *SqliteDB) CreateUser(user *models.GitUser) error {
 // GetOrCreateUser is a convenience method to get the provided User,
 // or create it if it doesn't exist.
 func (s *SqliteDB) GetOrCreateUser(user *models.GitUser) error {
-	err := s.GetUserID(user)
+	query := `SELECT id FROM git_user WHERE url = ?;`
+	err := s.DB.QueryRow(query, user.URL).Scan(&user.ID)
 
 	if err == sql.ErrNoRows {
 		return s.CreateUser(user)
@@ -88,20 +82,13 @@ func (s *SqliteDB) GetOrCreateUser(user *models.GitUser) error {
 // ------------------------------------------------------------------
 // Get or Create Repo.
 
-// GetRepoID retrieves a Repo ID, using the URL as the unique constraint.
-func (s *SqliteDB) GetRepoID(repo *models.GitRepo) error {
-	sql := `SELECT id FROM git_repo WHERE url = ?;`
-
-	return s.DB.QueryRow(sql, repo.URL).Scan(&repo.ID)
-}
-
 // CreateRepo inserts a new Repo row and returns the ID.
 func (s *SqliteDB) CreateRepo(repo *models.GitRepo) error {
-	sql := `
+	query := `
 		INSERT INTO git_repo ("source_id", "name", "description", "url")
 		VALUES (:source_id, :name, :description, :url);`
 
-	row, err := s.DB.NamedExec(sql, repo)
+	row, err := s.DB.NamedExec(query, repo)
 
 	if err != nil {
 		return fmt.Errorf("error inserting repo: %v", err)
@@ -116,7 +103,8 @@ func (s *SqliteDB) CreateRepo(repo *models.GitRepo) error {
 // GetOrCreateRepo is a convenience method to get the provided Repo,
 // or create it if it doesn't exist.
 func (s *SqliteDB) GetOrCreateRepo(repo *models.GitRepo) error {
-	err := s.GetRepoID(repo)
+	query := `SELECT id FROM git_repo WHERE url = ?;`
+	err := s.DB.QueryRow(query, repo.URL).Scan(&repo.ID)
 
 	if err == sql.ErrNoRows {
 		return s.CreateRepo(repo)
@@ -128,22 +116,15 @@ func (s *SqliteDB) GetOrCreateRepo(repo *models.GitRepo) error {
 // ------------------------------------------------------------------
 // Get or Create Commit.
 
-// GetCommitID retrieves a Commit ID, using the URL as the unique constraint.
-func (s *SqliteDB) GetCommitID(commit *models.GitCommit) error {
-	sql := `SELECT id FROM git_commit WHERE url = ?;`
-
-	return s.DB.QueryRow(sql, commit.URL).Scan(&commit.ID)
-}
-
 // CreateCommit inserts a new Commit row and returns the ID.
 func (s *SqliteDB) CreateCommit(commit *models.GitCommit) error {
-	sql := `
+	query := `
 		INSERT INTO git_commit (
 			"source_id", "author_id", "repo_id", "message", "sha", "url", "date"
 		)
 		VALUES (:source_id, :author_id, :repo_id, :message, :sha, :url, :date);`
 
-	row, err := s.DB.NamedExec(sql, commit)
+	row, err := s.DB.NamedExec(query, commit)
 
 	if err != nil {
 		return fmt.Errorf("error inserting commit: %v", err)
@@ -158,7 +139,8 @@ func (s *SqliteDB) CreateCommit(commit *models.GitCommit) error {
 // GetOrCreateCommit is a convenience method to get the provided Commit,
 // or create it if it doesn't exist.
 func (s *SqliteDB) GetOrCreateCommit(commit *models.GitCommit) error {
-	err := s.GetCommitID(commit)
+	query := `SELECT id FROM git_commit WHERE url = ?;`
+	err := s.DB.QueryRow(query, commit.URL).Scan(&commit.ID)
 
 	if err == sql.ErrNoRows {
 		return s.CreateCommit(commit)
