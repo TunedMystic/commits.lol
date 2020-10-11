@@ -5,3 +5,6 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/tunedmystic/commits.lol)](https://goreportcard.com/report/github.com/tunedmystic/commits.lol)
 
 An app that collects funny commit messages from projects across the web.
+
+## Status: 🛠 in development
+> will have it ready soon
