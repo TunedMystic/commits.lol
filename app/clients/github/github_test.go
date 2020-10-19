@@ -10,7 +10,7 @@ import (
 	u "github.com/tunedmystic/commits.lol/app/utils"
 )
 
-func Test_GithubClient_OK(t *testing.T) {
+func Test_CommitSearch_OK(t *testing.T) {
 	s := testServer(http.StatusOK, []byte(responseCommitSearch))
 	defer s.Close()
 
@@ -25,7 +25,7 @@ func Test_GithubClient_OK(t *testing.T) {
 	u.AssertEqual(t, err, nil)
 }
 
-func Test_GithubClient_APIError(t *testing.T) {
+func Test_CommitSearch_APIError(t *testing.T) {
 	s := testServer(http.StatusUnprocessableEntity, []byte(responseValidationFailed))
 	defer s.Close()
 
@@ -43,7 +43,7 @@ func Test_GithubClient_APIError(t *testing.T) {
 	u.AssertEqual(t, err.Error(), expected)
 }
 
-func Test_GithubClient_empty_search_options(t *testing.T) {
+func Test_CommitSearch_empty_search_options(t *testing.T) {
 	s := testServer(http.StatusOK, []byte(responseCommitSearch))
 	defer s.Close()
 
@@ -56,7 +56,7 @@ func Test_GithubClient_empty_search_options(t *testing.T) {
 	u.AssertEqual(t, err.Error(), "no search options provided")
 }
 
-func Test_GithubClient_invalid_url(t *testing.T) {
+func Test_CommitSearch_invalid_url(t *testing.T) {
 	g := NewClient("some-api-key")
 	g.baseURL = "1"
 
@@ -69,7 +69,7 @@ func Test_GithubClient_invalid_url(t *testing.T) {
 	u.AssertEqual(t, err.Error(), expected)
 }
 
-func Test_GithubClient_unmarshal_fail(t *testing.T) {
+func Test_CommitSearch_unmarshal_fail(t *testing.T) {
 	s := testServer(http.StatusOK, []byte(`{"bad json"}`))
 	defer s.Close()
 

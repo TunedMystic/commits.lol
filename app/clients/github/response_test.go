@@ -9,7 +9,7 @@ import (
 	u "github.com/tunedmystic/commits.lol/app/utils"
 )
 
-func Test_CommitSearch_Unmarshal(t *testing.T) {
+func Test_CommitSearchResponse_Unmarshal(t *testing.T) {
 	response := CommitSearchResponse{}
 
 	if err := json.Unmarshal([]byte(responseCommitSearch), &response); err != nil {
@@ -44,7 +44,7 @@ func Test_CommitSearch_Unmarshal(t *testing.T) {
 	u.AssertEqual(t, repo.Owner.Login, "TunedMystic")
 }
 
-func Test_CommitSearch_Unmarshal_no_author(t *testing.T) {
+func Test_CommitSearchResponse_Unmarshal_no_author(t *testing.T) {
 	response := CommitSearchResponse{}
 
 	if err := json.Unmarshal([]byte(responseCommitSearchNoAuthor), &response); err != nil {
