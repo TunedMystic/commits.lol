@@ -14,7 +14,7 @@ func Test_CommitSearch_OK(t *testing.T) {
 	s := testServer(http.StatusOK, []byte(responseCommitSearch))
 	defer s.Close()
 
-	g := NewClient("some-api-key")
+	g := NewClient()
 	g.baseURL = s.URL
 
 	options := CommitSearchOptions{QueryText: "fixed a bug"}
@@ -29,7 +29,7 @@ func Test_CommitSearch_APIError(t *testing.T) {
 	s := testServer(http.StatusUnprocessableEntity, []byte(responseValidationFailed))
 	defer s.Close()
 
-	g := NewClient("some-api-key")
+	g := NewClient()
 	g.baseURL = s.URL
 
 	options := CommitSearchOptions{QueryText: "fixed a bug"}
@@ -47,7 +47,7 @@ func Test_CommitSearch_empty_search_options(t *testing.T) {
 	s := testServer(http.StatusOK, []byte(responseCommitSearch))
 	defer s.Close()
 
-	g := NewClient("some-api-key")
+	g := NewClient()
 	g.baseURL = s.URL
 
 	response, err := g.CommitSearch(CommitSearchOptions{})
@@ -57,7 +57,7 @@ func Test_CommitSearch_empty_search_options(t *testing.T) {
 }
 
 func Test_CommitSearch_invalid_url(t *testing.T) {
-	g := NewClient("some-api-key")
+	g := NewClient()
 	g.baseURL = "1"
 
 	options := CommitSearchOptions{QueryText: "fixed a bug"}
@@ -73,7 +73,7 @@ func Test_CommitSearch_unmarshal_fail(t *testing.T) {
 	s := testServer(http.StatusOK, []byte(`{"bad json"}`))
 	defer s.Close()
 
-	g := NewClient("some-api-key")
+	g := NewClient()
 	g.baseURL = s.URL
 
 	options := CommitSearchOptions{QueryText: "fixed a bug"}

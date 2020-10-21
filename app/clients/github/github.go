@@ -9,21 +9,27 @@ import (
 	"time"
 
 	"github.com/beefsack/go-rate"
+	"github.com/tunedmystic/commits.lol/app/config"
 )
 
 // Client for Github
 type Client struct {
-	apiKey        string
 	baseURL       string
+	apiKey        string
 	searchLimiter *rate.RateLimiter
+	maxFetch      int
+	commitLength  int
 }
 
 // NewClient ...
-func NewClient(apiKey string) *Client {
+func NewClient() *Client {
+	conf := config.GetConfig()
 	g := Client{
-		apiKey:        apiKey,
 		baseURL:       "https://api.github.com",
+		apiKey:        conf.GithubAPIKey,
 		searchLimiter: rate.New(30, time.Minute), // 30 times per minutes
+		maxFetch:      conf.GithubMaxFetch,       // Max amount of items to fetch when paginating
+		commitLength:  conf.GithubCommitLength,   // Max length of commit message
 	}
 	return &g
 }
@@ -77,7 +83,6 @@ func (g *Client) CommitSearch(options CommitSearchOptions) (*CommitSearchRespons
 // CommitSearchPaginated ...
 func (g *Client) CommitSearchPaginated(options CommitSearchOptions) ([]CommitItem, error) {
 	commitItems := []CommitItem{} // stores commit objects across the fetched pages
-	MaxItems := 100
 
 	for {
 		fmt.Printf("Fetching page %v\n", options.Page)
@@ -98,8 +103,8 @@ func (g *Client) CommitSearchPaginated(options CommitSearchOptions) ([]CommitIte
 		}
 
 		// Check max item threshold.
-		if len(commitItems) >= MaxItems {
-			fmt.Printf("  - reached max items limit of %v\n", MaxItems)
+		if len(commitItems) >= g.maxFetch {
+			fmt.Printf("  - reached max items limit of %v\n", g.maxFetch)
 			break
 		}
 

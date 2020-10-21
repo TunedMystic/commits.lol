@@ -13,6 +13,7 @@
 .DS_Store
 .vscode
 .misc
+.env
 tmp
 
 # Misc files
