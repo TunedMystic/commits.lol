@@ -13,8 +13,7 @@ import (
 )
 
 func main() {
-	config := config.GetConfig()
-	db := db.NewSqliteDB(config.DatabaseName)
+	db := db.NewSqliteDB(config.App.DatabaseName)
 	s := server.NewServer(db)
 
 	addr := "localhost:8000"

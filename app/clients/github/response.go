@@ -2,8 +2,12 @@ package github
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
+	"strings"
 	"time"
+
+	"github.com/tunedmystic/commits.lol/app/config"
 )
 
 // CommitSearchResponse ...
@@ -52,6 +56,23 @@ type APIError struct {
 	URL        string `json:"-"`
 	StatusCode int    `json:"-"`
 	Message    string `json:"message"`
+}
+
+// Validate ...
+func (c CommitItem) Validate() error {
+	if c.Author == (User{}) {
+		return errors.New("CommitItem: no author")
+	}
+
+	if len(c.Commit.Message) > config.App.GithubCommitLength {
+		return errors.New("CommitItem: commit message too long")
+	}
+
+	if strings.ContainsAny(c.Commit.Message, "\n") {
+		return errors.New("CommitItem: newline in commit message")
+	}
+
+	return nil
 }
 
 // NewAPIError ...
