@@ -4,7 +4,10 @@ go:
   - "1.14.x"
 
 env:
-  - GO111MODULE=on
+  global:
+    - GO111MODULE=on
+    - DATABASE_NAME=commits.lol.test.sqlite
+    - GITHUB_TOKEN=test-gh-token
 
 branches:
   only:
