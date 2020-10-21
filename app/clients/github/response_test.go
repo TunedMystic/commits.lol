@@ -9,7 +9,7 @@ import (
 	u "github.com/tunedmystic/commits.lol/app/utils"
 )
 
-func Test_CommitSearch_Unmarshal(t *testing.T) {
+func Test_CommitSearchResponse_Unmarshal(t *testing.T) {
 	response := CommitSearchResponse{}
 
 	if err := json.Unmarshal([]byte(responseCommitSearch), &response); err != nil {
@@ -44,7 +44,7 @@ func Test_CommitSearch_Unmarshal(t *testing.T) {
 	u.AssertEqual(t, repo.Owner.Login, "TunedMystic")
 }
 
-func Test_CommitSearch_Unmarshal_no_author(t *testing.T) {
+func Test_CommitSearchResponse_Unmarshal_no_author(t *testing.T) {
 	response := CommitSearchResponse{}
 
 	if err := json.Unmarshal([]byte(responseCommitSearchNoAuthor), &response); err != nil {
@@ -235,6 +235,69 @@ const responseCommitSearchNoAuthor = `{
                 "message": "Initial commit"
             },
             "author": null,
+            "repository": {
+                "name": "commits.lol",
+                "owner": {
+                    "login": "TunedMystic"
+                },
+                "html_url": "https://github.com/TunedMystic/commits.lol",
+                "description": "Spicy commits from across the web"
+            },
+            "score": 1.0
+        }
+    ]
+}`
+
+const responseCommitSearchMany = `{
+    "total_count": 3,
+    "incomplete_results": false,
+    "items": [
+        {
+            "sha": "7f388fd42ab7d8342fbd0e0ece76a8505d228f1d",
+            "html_url": "https://github.com/TunedMystic/commits.lol/commit/7f388fd42ab7d8342fbd0e0ece76a8505d228f1d",
+            "commit": {
+                "url": "https://api.github.com/repos/TunedMystic/commits.lol/git/commits/7f388fd42ab7d8342fbd0e0ece76a8505d228f1d",
+                "author": {
+                    "date": "2020-09-04T17:41:34.000-04:00",
+                    "name": "Sandeep Jadoonanan",
+                    "email": "someperson@gmail.com"
+                },
+                "message": "Initial commit"
+            },
+            "author": {
+                "login": "TunedMystic",
+                "id": 6523726,
+                "node_id": "MDQ6VXNlcjY1MjM3MjY=",
+                "avatar_url": "https://avatars0.githubusercontent.com/u/6523726?v=4"
+			},
+            "repository": {
+                "name": "commits.lol",
+                "owner": {
+                    "login": "TunedMystic"
+                },
+                "html_url": "https://github.com/TunedMystic/commits.lol",
+                "description": "Spicy commits from across the web"
+            },
+            "score": 1.0
+        },
+        {
+            "sha": "e09739dcab56367944afce89f45340ee066b731f",
+            "html_url": "https://github.com/TunedMystic/commits.lol/commit/e09739dcab56367944afce89f45340ee066b731f",
+            "commit": {
+                "url": "https://api.github.com/repos/TunedMystic/commits.lol/git/commits/e09739dcab56367944afce89f45340ee066b731f",
+                "author": {
+                    "date": "2020-09-04T17:43:52.000-04:00",
+                    "name": "Sandeep Jadoonanan",
+                    "email": "someperson@gmail.com"
+                },
+                "message": "Another commit"
+            },
+            "author": {
+                "login": "TunedMystic",
+                "id": 6523726,
+                "node_id": "MDQ6VXNlcjY1MjM3MjY=",
+                "avatar_url": "https://avatars0.githubusercontent.com/u/6523726?v=4"
+			},
             "repository": {
                 "name": "commits.lol",
                 "owner": {

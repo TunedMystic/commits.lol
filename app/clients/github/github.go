@@ -6,19 +6,30 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"time"
+
+	"github.com/beefsack/go-rate"
+	"github.com/tunedmystic/commits.lol/app/config"
 )
 
 // Client for Github
 type Client struct {
-	apiKey  string
-	baseURL string
+	baseURL       string
+	apiKey        string
+	searchLimiter *rate.RateLimiter
+	maxFetch      int
+	commitLength  int
 }
 
 // NewClient ...
-func NewClient(apiKey string) *Client {
+func NewClient() *Client {
+	conf := config.GetConfig()
 	g := Client{
-		apiKey:  apiKey,
-		baseURL: "https://api.github.com",
+		baseURL:       "https://api.github.com",
+		apiKey:        conf.GithubAPIKey,
+		searchLimiter: rate.New(30, time.Minute), // 30 times per minutes
+		maxFetch:      conf.GithubMaxFetch,       // Max amount of items to fetch when paginating
+		commitLength:  conf.GithubCommitLength,   // Max length of commit message
 	}
 	return &g
 }
@@ -29,6 +40,9 @@ func NewClient(apiKey string) *Client {
 //    https://api.github.com/search/commits?q='monkey'+author-date:2020-01-01..2020-01-13+sort:author-date-asc&page=1
 //
 func (g *Client) CommitSearch(options CommitSearchOptions) (*CommitSearchResponse, error) {
+	// Check the rate limit, and block until the rate limit has lifted.
+	g.searchLimiter.Wait()
+
 	if options.Empty() {
 		return nil, errors.New("no search options provided")
 	}
@@ -38,6 +52,7 @@ func (g *Client) CommitSearch(options CommitSearchOptions) (*CommitSearchRespons
 
 	req, _ := http.NewRequest(http.MethodGet, url, nil)
 
+	req.Header.Add("User-Agent", "commits.lol")
 	req.Header.Add("Accept", "application/vnd.github.cloak-preview+json")
 	req.Header.Add("Authorization", "token "+g.apiKey)
 
@@ -63,4 +78,39 @@ func (g *Client) CommitSearch(options CommitSearchOptions) (*CommitSearchRespons
 	}
 
 	return &response, nil
+}
+
+// CommitSearchPaginated ...
+func (g *Client) CommitSearchPaginated(options CommitSearchOptions) ([]CommitItem, error) {
+	commitItems := []CommitItem{} // stores commit objects across the fetched pages
+
+	for {
+		fmt.Printf("Fetching page %v\n", options.Page)
+
+		// Perform search.
+		response, err := g.CommitSearch(options)
+		if err != nil {
+			return nil, err
+		}
+
+		commitItems = append(commitItems, response.CommitItems...)
+		fmt.Printf("  - Page %v, got %v items\n", options.Page, len(response.CommitItems))
+
+		// Check if last page.
+		if len(commitItems) == response.TotalCount {
+			fmt.Println("  - reached last page")
+			break
+		}
+
+		// Check max item threshold.
+		if len(commitItems) >= g.maxFetch {
+			fmt.Printf("  - reached max items limit of %v\n", g.maxFetch)
+			break
+		}
+
+		options.Page++
+	}
+
+	fmt.Printf("\nFetched a total of %v results\n", len(commitItems))
+	return commitItems, nil
 }

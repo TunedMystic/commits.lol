@@ -10,11 +10,11 @@ import (
 	u "github.com/tunedmystic/commits.lol/app/utils"
 )
 
-func Test_GithubClient_OK(t *testing.T) {
+func Test_CommitSearch_OK(t *testing.T) {
 	s := testServer(http.StatusOK, []byte(responseCommitSearch))
 	defer s.Close()
 
-	g := NewClient("some-api-key")
+	g := NewClient()
 	g.baseURL = s.URL
 
 	options := CommitSearchOptions{QueryText: "fixed a bug"}
@@ -25,11 +25,11 @@ func Test_GithubClient_OK(t *testing.T) {
 	u.AssertEqual(t, err, nil)
 }
 
-func Test_GithubClient_APIError(t *testing.T) {
+func Test_CommitSearch_APIError(t *testing.T) {
 	s := testServer(http.StatusUnprocessableEntity, []byte(responseValidationFailed))
 	defer s.Close()
 
-	g := NewClient("some-api-key")
+	g := NewClient()
 	g.baseURL = s.URL
 
 	options := CommitSearchOptions{QueryText: "fixed a bug"}
@@ -43,11 +43,11 @@ func Test_GithubClient_APIError(t *testing.T) {
 	u.AssertEqual(t, err.Error(), expected)
 }
 
-func Test_GithubClient_empty_search_options(t *testing.T) {
+func Test_CommitSearch_empty_search_options(t *testing.T) {
 	s := testServer(http.StatusOK, []byte(responseCommitSearch))
 	defer s.Close()
 
-	g := NewClient("some-api-key")
+	g := NewClient()
 	g.baseURL = s.URL
 
 	response, err := g.CommitSearch(CommitSearchOptions{})
@@ -56,8 +56,8 @@ func Test_GithubClient_empty_search_options(t *testing.T) {
 	u.AssertEqual(t, err.Error(), "no search options provided")
 }
 
-func Test_GithubClient_invalid_url(t *testing.T) {
-	g := NewClient("some-api-key")
+func Test_CommitSearch_invalid_url(t *testing.T) {
+	g := NewClient()
 	g.baseURL = "1"
 
 	options := CommitSearchOptions{QueryText: "fixed a bug"}
@@ -69,11 +69,11 @@ func Test_GithubClient_invalid_url(t *testing.T) {
 	u.AssertEqual(t, err.Error(), expected)
 }
 
-func Test_GithubClient_unmarshal_fail(t *testing.T) {
+func Test_CommitSearch_unmarshal_fail(t *testing.T) {
 	s := testServer(http.StatusOK, []byte(`{"bad json"}`))
 	defer s.Close()
 
-	g := NewClient("some-api-key")
+	g := NewClient()
 	g.baseURL = s.URL
 
 	options := CommitSearchOptions{QueryText: "fixed a bug"}
@@ -83,6 +83,20 @@ func Test_GithubClient_unmarshal_fail(t *testing.T) {
 
 	u.AssertEqual(t, reflect.ValueOf(response).IsNil(), true)
 	u.AssertEqual(t, err.Error(), expected)
+}
+
+func Test_CommitSearchPaginated(t *testing.T) {
+	s := testServer(http.StatusOK, []byte(responseCommitSearchMany))
+	defer s.Close()
+
+	g := NewClient()
+	g.baseURL = s.URL
+	g.maxFetch = 10
+
+	commitItems, err := g.CommitSearchPaginated(CommitSearchOptions{QueryText: "fixed a bug"})
+
+	u.AssertEqual(t, len(commitItems), 10)
+	u.AssertEqual(t, err, nil)
 }
 
 // ------------------------------------------------------------------

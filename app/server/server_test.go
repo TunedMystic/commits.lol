@@ -3,11 +3,10 @@ package server
 import (
 	"testing"
 
-	"github.com/matryer/is"
+	u "github.com/tunedmystic/commits.lol/app/utils"
 )
 
 func Test_SomeHandler(t *testing.T) {
-	is := is.New(t)
 	t.Log("Testing SomeHandler...")
-	is.Equal(1+1, 2)
+	u.AssertEqual(t, 1+1, 2)
 }

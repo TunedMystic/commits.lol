@@ -12,7 +12,8 @@
 *.conf
 .DS_Store
 .vscode
-misc
+.misc
+.env
 tmp
 
 # Misc files
