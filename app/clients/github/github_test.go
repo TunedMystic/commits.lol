@@ -85,6 +85,20 @@ func Test_CommitSearch_unmarshal_fail(t *testing.T) {
 	u.AssertEqual(t, err.Error(), expected)
 }
 
+func Test_CommitSearchPaginated(t *testing.T) {
+	s := testServer(http.StatusOK, []byte(responseCommitSearchMany))
+	defer s.Close()
+
+	g := NewClient()
+	g.baseURL = s.URL
+	g.maxFetch = 10
+
+	commitItems, err := g.CommitSearchPaginated(CommitSearchOptions{QueryText: "fixed a bug"})
+
+	u.AssertEqual(t, len(commitItems), 10)
+	u.AssertEqual(t, err, nil)
+}
+
 // ------------------------------------------------------------------
 // Helpers
 // ------------------------------------------------------------------
