@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"time"
 )
 
@@ -19,7 +18,7 @@ type GitUser struct {
 	URL       string `db:"url"`
 	AvatarURL string `db:"avatar_url"`
 
-	Source GitSource `db:"source"`
+	Source *GitSource `db:"source"`
 }
 
 // GitRepo is the model for the git_repo table.
@@ -82,7 +81,7 @@ func (c *GitCommit) GetColorTheme() {
 
 	commitLength := len(c.Message) + len(c.Author.Username)
 	colorIndex := commitLength % len(colors)
-	fmt.Printf("Got a colorIndex of %v\n", colorIndex)
+	// fmt.Printf("Got a colorIndex of %v\n", colorIndex)
 	color := colors[colorIndex]
 
 	c.ColorBackground = color[0]

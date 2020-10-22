@@ -46,9 +46,10 @@ type User struct {
 
 // Repository ...
 type Repository struct {
-	Name  string `json:"name"`
-	URL   string `json:"html_url"`
-	Owner User   `json:"owner"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	URL         string `json:"html_url"`
+	Owner       User   `json:"owner"`
 }
 
 // APIError ...
