@@ -107,6 +107,9 @@ func (g *Client) CommitSearchPaginated(options CommitSearchOptions) ([]CommitIte
 			break
 		}
 
+		// Sleep for a small duration between pages.
+		time.Sleep(time.Second * 1)
+
 		options.Page++
 	}
 
