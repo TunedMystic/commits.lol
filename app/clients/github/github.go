@@ -26,7 +26,7 @@ func NewClient() *Client {
 	g := Client{
 		baseURL:       "https://api.github.com",
 		apiKey:        config.App.GithubAPIKey,
-		searchLimiter: rate.New(30-1, time.Minute),   // 30 times per minute
+		searchLimiter: rate.New(30, time.Second*70),  // 30 times per 70 seconds
 		maxFetch:      config.App.GithubMaxFetch,     // Max amount of items to fetch when paginating
 		commitLength:  config.App.GithubCommitLength, // Max length of commit message
 	}

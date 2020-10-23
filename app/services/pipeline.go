@@ -126,7 +126,7 @@ func (c *CommitPipeline) save(commitItems []github.CommitItem) {
 			continue
 		}
 
-		fmt.Printf(">> %v | %v | %v\n\n", commit.Message, commit.ID, commit.URL)
+		// fmt.Printf(">> %v | %v | %v\n\n", commit.Message, commit.ID, commit.URL)
 
 		// fmt.Printf("%+v\n", author)
 		// fmt.Printf("%+v\n", repo)
