@@ -62,15 +62,15 @@ type APIError struct {
 // Validate ...
 func (c CommitItem) Validate() error {
 	if c.Author == (User{}) {
-		return errors.New("CommitItem: no author")
+		return errors.New("validate CommitItem: no author")
 	}
 
 	if len(c.Commit.Message) > config.App.GithubCommitLength {
-		return errors.New("CommitItem: commit message too long")
+		return errors.New("validate CommitItem: commit message too long")
 	}
 
 	if strings.ContainsAny(c.Commit.Message, "\n") {
-		return errors.New("CommitItem: newline in commit message")
+		return errors.New("validate CommitItem: newline in commit message")
 	}
 
 	return nil

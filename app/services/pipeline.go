@@ -19,13 +19,21 @@ type CommitPipeline struct {
 	source  *models.GitSource
 }
 
-// Commits creates and returns a commitPipeline type.
+// Commits creates and returns a CommitPipeline type.
 func Commits(db db.Database) *CommitPipeline {
 	c := CommitPipeline{
 		db:     db,
 		client: github.NewClient(),
 		done:   make(chan bool),
 	}
+
+	var err error
+	c.source, err = c.db.GetSource("github")
+
+	if err != nil {
+		panic(err)
+	}
+
 	return &c
 }
 
@@ -44,17 +52,8 @@ func (c *CommitPipeline) WithOptions(options github.CommitSearchOptions) *Commit
 }
 
 // Run ...
-func (c *CommitPipeline) Run() error {
+func (c *CommitPipeline) Run() {
 	fmt.Println("pipeline.Run")
-	source, err := c.db.GetSource("github")
-
-	if err != nil {
-		fmt.Println(err)
-		return err
-	}
-
-	fmt.Println("ok ...")
-	c.source = source
 
 	// Create goroutines for each term that we want to search for.
 	for i, term := range c.terms {
@@ -69,8 +68,6 @@ func (c *CommitPipeline) Run() error {
 	}
 
 	close(c.done)
-
-	return nil
 }
 
 func (c *CommitPipeline) fetch(i int, term string) {
@@ -85,73 +82,67 @@ func (c *CommitPipeline) fetch(i int, term string) {
 		return
 	}
 
-	c.save(commitItems)
+	for _, commitItem := range commitItems {
+		c.save(commitItem)
+	}
+
 	c.done <- true
 }
 
-func (c *CommitPipeline) save(commitItems []github.CommitItem) {
-	for _, commitItem := range commitItems {
-
-		// Skip if commitItem is not valid.
-		if err := commitItem.Validate(); err != nil {
-			continue
-		}
-
-		// Transfer data from response struct into model struct.
-		author := c.toAuthor(&commitItem)
-		repo := c.toRepo(&commitItem)
-		commit := c.toCommit(&commitItem)
-
-		author.SourceID = c.source.ID
-		repo.SourceID = c.source.ID
-		commit.SourceID = c.source.ID
-
-		// GetOrCreate Author
-		if err := c.db.GetOrCreateUser(author); err != nil {
-			fmt.Printf("pipeline.save:GetOrCreateUser: %v\n", err)
-			continue
-		}
-
-		// GetOrCreate Repo
-		if err := c.db.GetOrCreateRepo(repo); err != nil {
-			fmt.Printf("pipeline.save:GetOrCreateRepo: %v\n", err)
-			continue
-		}
-
-		// Create Commit with Author and Repo
-		commit.AuthorID = author.ID
-		commit.RepoID = repo.ID
-		if err := c.db.GetOrCreateCommit(commit); err != nil {
-			fmt.Printf("pipeline.save:GetOrCreateCommit: %v\n", err)
-			continue
-		}
-
-		// fmt.Printf(">> %v | %v | %v\n\n", commit.Message, commit.ID, commit.URL)
-
-		// fmt.Printf("%+v\n", author)
-		// fmt.Printf("%+v\n", repo)
-		// fmt.Printf("%+v\n", commit)
+func (c *CommitPipeline) save(commitItem github.CommitItem) error {
+	// Skip if commitItem is not valid.
+	if err := commitItem.Validate(); err != nil {
+		return err
 	}
+
+	// Transfer data from response struct into model struct.
+	author := c.toAuthor(commitItem)
+	repo := c.toRepo(commitItem)
+	commit := c.toCommit(commitItem)
+
+	author.SourceID = c.source.ID
+	repo.SourceID = c.source.ID
+	commit.SourceID = c.source.ID
+
+	// GetOrCreate Author
+	if err := c.db.GetOrCreateUser(&author); err != nil {
+		return fmt.Errorf("pipeline.save:GetOrCreateUser: %v", err)
+	}
+
+	// GetOrCreate Repo
+	if err := c.db.GetOrCreateRepo(&repo); err != nil {
+		return fmt.Errorf("pipeline.save:GetOrCreateRepo: %v", err)
+	}
+
+	// Create Commit with Author and Repo
+	commit.AuthorID = author.ID
+	commit.RepoID = repo.ID
+	if err := c.db.GetOrCreateCommit(&commit); err != nil {
+		return fmt.Errorf("pipeline.save:GetOrCreateCommit: %v", err)
+	}
+
+	// fmt.Printf(">> %v | %v | %v\n\n", commit.Message, commit.ID, commit.URL)
+	return nil
 }
 
-func (c *CommitPipeline) toAuthor(item *github.CommitItem) *models.GitUser {
-	return &models.GitUser{
+func (c *CommitPipeline) toAuthor(item github.CommitItem) models.GitUser {
+	return models.GitUser{
 		Username:  item.Author.Login,
 		URL:       item.Author.URL,
 		AvatarURL: item.Author.AvatarURL,
 	}
 }
 
-func (c *CommitPipeline) toRepo(item *github.CommitItem) *models.GitRepo {
-	return &models.GitRepo{
+func (c *CommitPipeline) toRepo(item github.CommitItem) models.GitRepo {
+	return models.GitRepo{
 		Name:        item.Repo.Name,
 		Description: item.Repo.Description,
 		URL:         item.Repo.URL,
 	}
 }
 
-func (c *CommitPipeline) toCommit(item *github.CommitItem) *models.GitCommit {
-	return &models.GitCommit{
+func (c *CommitPipeline) toCommit(item github.CommitItem) models.GitCommit {
+	return models.GitCommit{
 		Message: item.Commit.Message,
 		SHA:     item.SHA,
 		URL:     item.URL,
@@ -165,5 +156,6 @@ Usage:
 db := db.NewSqliteDB()
 options := github.CommitSearchOptions{}
 err := Commits(db).WithOptions(options).WithTerms("hello").Run()
+ -- or maybe `err := Commits(db, options, terms).Run()`?
 
 */
