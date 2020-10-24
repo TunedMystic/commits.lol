@@ -1,8 +1,8 @@
 package server
 
 import (
+	"html/template"
 	"net/http"
-	"text/template"
 
 	"github.com/gorilla/mux"
 	"github.com/tunedmystic/commits.lol/app/db"
