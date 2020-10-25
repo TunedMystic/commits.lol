@@ -99,7 +99,7 @@ func Test_Validate_Message(t *testing.T) {
 		{"fixed a\nbug", ErrMessageFormat},
 		{"fixed a\tbug", ErrMessageFormat},
 		{"fixed [a] bug", ErrMessageFormat},
-		{"fixed [a] bug", ErrMessageFormat},
+		{"fixed {a} bug", ErrMessageFormat},
 		{"fixed a bug fixed a bug fixed a bug", ErrMessageLength},
 	}
 
