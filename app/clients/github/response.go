@@ -1,10 +1,18 @@
 package github
 
 import (
-	"encoding/json"
-	"fmt"
+	"regexp"
 	"time"
+
+	"github.com/tunedmystic/commits.lol/app/config"
 )
+
+// CommitMessagePattern is used to validate a commit message.
+var CommitMessagePattern *regexp.Regexp
+
+func init() {
+	CommitMessagePattern = regexp.MustCompile(`^[a-zA-Z][\w '#%\.\!\:\-\)\(]+$`)
+}
 
 // CommitSearchResponse ...
 type CommitSearchResponse struct {
@@ -42,28 +50,26 @@ type User struct {
 
 // Repository ...
 type Repository struct {
-	Name  string `json:"name"`
-	URL   string `json:"html_url"`
-	Owner User   `json:"owner"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	URL         string `json:"html_url"`
+	Owner       User   `json:"owner"`
 }
 
-// APIError ...
-type APIError struct {
-	URL        string `json:"-"`
-	StatusCode int    `json:"-"`
-	Message    string `json:"message"`
-}
+// Validate ...
+func (c CommitItem) Validate() error {
 
-// NewAPIError ...
-func NewAPIError(url string, data []byte, statusCode int) *APIError {
-	e := APIError{URL: url, StatusCode: statusCode}
-	if err := json.Unmarshal(data, &e); err != nil {
-		e.Message = "not able to unmarshal error response"
+	if c.Author == (User{}) {
+		return ErrNoAuthor
 	}
-	return &e
-}
 
-// Error satisfies the error interface.
-func (e *APIError) Error() string {
-	return fmt.Sprintf("github error %v: %v | URL: %v", e.StatusCode, e.Message, e.URL)
+	if len(c.Commit.Message) > config.App.GithubCommitLength {
+		return ErrMessageLength
+	}
+
+	if match := CommitMessagePattern.MatchString(c.Commit.Message); !match {
+		return ErrMessageFormat
+	}
+
+	return nil
 }

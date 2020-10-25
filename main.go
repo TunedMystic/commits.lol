@@ -13,11 +13,10 @@ import (
 )
 
 func main() {
-	config := config.GetConfig()
-	db := db.NewSqliteDB(config.DatabaseName)
+	db := db.NewSqliteDB(config.App.DatabaseName)
 	s := server.NewServer(db)
 
-	addr := "localhost:8000"
+	addr := "0.0.0.0:8000"
 	fmt.Printf("Running server on %v ...\n", addr)
 	log.Fatal(http.ListenAndServe(addr, s.Routes()))
 }

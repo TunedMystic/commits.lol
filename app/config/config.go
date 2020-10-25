@@ -5,6 +5,13 @@ import (
 	"strconv"
 )
 
+// App ...
+var App Config
+
+func init() {
+	App = GetConfig()
+}
+
 // Config contains all settings for the application.
 type Config struct {
 	DatabaseName       string
@@ -14,7 +21,7 @@ type Config struct {
 }
 
 // GetConfig creates a Config type with settings from the environment.
-func GetConfig() *Config {
+func GetConfig() Config {
 	var err error
 	c := Config{}
 
@@ -46,5 +53,5 @@ func GetConfig() *Config {
 		panic("config: GithubCommitLength error when parsing")
 	}
 
-	return &c
+	return c
 }

@@ -7,13 +7,19 @@
 <br />
 
 <div class="max-w-screen-lg container mx-auto xpx-4">
+
+<div class="flex justify-center mb-4">
+    <a class="text-4xl border-2 border-red-700 bg-red-500 rounded-lg px-3 py-1 text-white font-bold" href="/">LOL</a>
+</div>
+
+
 <div class="flex flex-wrap justify-center">
 {{range .}}
 <span class="item flex flex-col mr-3 mb-3"> <!-- commit -->
     <div class="" style="background-color: {{.ColorBackground}}; color: {{.ColorForeground}}">
         <p class="flex items-center">
             <a class="inline-block px-2" target="_blank" href="{{.Author.URL}}">
-                <img class="rounded-full w-8 h-8 inline-block" alt="{{.Author.Username}}" src="{{.Author.AvatarURL}}">
+                <img loading="lazy" class="rounded-full w-8 h-8 inline-block" alt="{{.Author.Username}}" src="{{.Author.AvatarURL}}">
             </a>
 
             <a class="app-message pr-2" target="_blank" href="{{.URL}}">

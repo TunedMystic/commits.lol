@@ -6,8 +6,6 @@ go:
 env:
   global:
     - GO111MODULE=on
-    - DATABASE_NAME=commits.lol.test.sqlite
-    - GITHUB_TOKEN=test-gh-token
 
 branches:
   only:

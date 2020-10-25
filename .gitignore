@@ -14,6 +14,7 @@
 .vscode
 .misc
 .env
+!.env.test
 tmp
 
 # Misc files

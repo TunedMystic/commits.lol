@@ -23,9 +23,22 @@ func NewSqliteDB(name string) *SqliteDB {
 	return &sdb
 }
 
+// GetSource retrieves the Source by name.
+func (s *SqliteDB) GetSource(name string) (*models.GitSource, error) {
+	fmt.Println("db.GetSource")
+	source := &models.GitSource{}
+	query := `SELECT * FROM git_source WHERE name = ?;`
+	err := s.DB.Get(source, query, name)
+	if err != nil {
+		return nil, fmt.Errorf("GetSource error: %v", err)
+	}
+	return source, err
+}
+
 // RecentCommits returns the most recent commits.
 func (s *SqliteDB) RecentCommits() ([]*models.GitCommit, error) {
 	commits := []*models.GitCommit{}
+	daysBack := "-150 days"
 
 	query := `
 		SELECT
@@ -39,9 +52,11 @@ func (s *SqliteDB) RecentCommits() ([]*models.GitCommit, error) {
 
 		FROM git_commit c
 		INNER JOIN git_user u on u.id = c.author_id
-		WHERE c.date > '2015-09-02';`
+		WHERE c.date > datetime('now', ?)
+		ORDER BY random()
+		LIMIT 30;`
 
-	if err := s.DB.Select(&commits, query); err != nil {
+	if err := s.DB.Select(&commits, query, daysBack); err != nil {
 		return nil, err
 	}
 
@@ -139,8 +154,8 @@ func (s *SqliteDB) CreateCommit(commit *models.GitCommit) error {
 // GetOrCreateCommit is a convenience method to get the provided Commit,
 // or create it if it doesn't exist.
 func (s *SqliteDB) GetOrCreateCommit(commit *models.GitCommit) error {
-	query := `SELECT id FROM git_commit WHERE url = ?;`
-	err := s.DB.QueryRow(query, commit.URL).Scan(&commit.ID)
+	query := `SELECT id FROM git_commit WHERE author_id = ? AND message = ?;`
+	err := s.DB.QueryRow(query, commit.AuthorID, commit.Message).Scan(&commit.ID)
 
 	if err == sql.ErrNoRows {
 		return s.CreateCommit(commit)

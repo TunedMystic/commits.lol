@@ -13,6 +13,7 @@ build: clean  ## Build the binary
 clean:  ## Clean workspace
 	@rm -f ${APP}
 	@rm -rf coverage.out
+	@go clean -testcache
 
 dev:  ## Run the program in dev mode.
 	@go run main.go
@@ -20,8 +21,10 @@ dev:  ## Run the program in dev mode.
 install:  ## Install project dependencies
 	@go mod download
 
-test:  ## Run tests
-	@go clean -testcache; go test ./app/... -v -covermode=atomic -coverprofile coverage.out; echo ""; go tool cover -func coverage.out
+test: clean  ## Run tests
+	@eval $$(egrep -v '^#' .env.test | xargs) go test ./... -covermode=atomic -coverprofile coverage.out
+	@go tool cover -func coverage.out
+	@eval $$(egrep -v '^#' .env.test | xargs) bash scripts/coverage-threshold.sh
 
 watch:  ## Watch for file changes and run the server.
 	@bash -c "find . -type f \( -name '*.go' -o -name '*.html' \) | grep -v 'misc' | entr -r $(MAKE) dev"

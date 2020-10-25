@@ -23,13 +23,12 @@ type Client struct {
 
 // NewClient ...
 func NewClient() *Client {
-	conf := config.GetConfig()
 	g := Client{
 		baseURL:       "https://api.github.com",
-		apiKey:        conf.GithubAPIKey,
-		searchLimiter: rate.New(30, time.Minute), // 30 times per minutes
-		maxFetch:      conf.GithubMaxFetch,       // Max amount of items to fetch when paginating
-		commitLength:  conf.GithubCommitLength,   // Max length of commit message
+		apiKey:        config.App.GithubAPIKey,
+		searchLimiter: rate.New(30, time.Second*70),  // 30 times per 70 seconds
+		maxFetch:      config.App.GithubMaxFetch,     // Max amount of items to fetch when paginating
+		commitLength:  config.App.GithubCommitLength, // Max length of commit message
 	}
 	return &g
 }
