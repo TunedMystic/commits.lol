@@ -2,10 +2,12 @@ package github
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"testing"
 	"time"
 
+	"github.com/tunedmystic/commits.lol/app/config"
 	u "github.com/tunedmystic/commits.lol/app/utils"
 )
 
@@ -74,6 +76,52 @@ func Test_APIError_unmarshal_fail(t *testing.T) {
 	e := NewAPIError("api://some-url", data, http.StatusUnauthorized)
 
 	u.AssertEqual(t, e.Error(), expected)
+}
+
+func Test_Validate_Message(t *testing.T) {
+	type test struct {
+		message  string
+		expected error
+	}
+
+	fmt.Printf("config.App.GithubCommitLength: %v\n", config.App.GithubCommitLength)
+
+	tests := []test{
+		{"fixed a bug", nil},
+		{"fixed a bug!", nil},
+		{"fixed-a-bug", nil},
+		{"FIXED A BUG", nil},
+		{"FiXeD a BuG", nil},
+		{"fixed a 'bug'", nil},
+		{"fixed a bug #devlife", nil},
+		{"!fixed a bug", ErrMessageFormat},
+		{"1fixed a bug", ErrMessageFormat},
+		{"fixed a\nbug", ErrMessageFormat},
+		{"fixed a\tbug", ErrMessageFormat},
+		{"fixed [a] bug", ErrMessageFormat},
+		{"fixed [a] bug", ErrMessageFormat},
+		{"fixed a bug fixed a bug fixed a bug", ErrMessageLength},
+	}
+
+	for _, testItem := range tests {
+		t.Run(testItem.message, func(t *testing.T) {
+
+			commit := CommitItem{
+				Author: User{Login: "alice_codes"},
+				Commit: Commit{Message: testItem.message},
+			}
+
+			u.AssertEqual(t, commit.Validate(), testItem.expected)
+		})
+	}
+}
+
+func Test_Validate_fail_because_no_author(t *testing.T) {
+	commit := CommitItem{
+		Commit: Commit{Message: "fixed a bug"},
+	}
+
+	u.AssertEqual(t, commit.Validate(), ErrNoAuthor)
 }
 
 // ------------------------------------------------------------------

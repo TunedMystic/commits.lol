@@ -21,7 +21,7 @@ install:  ## Install project dependencies
 	@go mod download
 
 test:  ## Run tests
-	@go clean -testcache; go test ./app/... -v -covermode=atomic -coverprofile coverage.out; echo ""; go tool cover -func coverage.out
+	@go clean -testcache; eval $$(egrep -v '^#' .env.test | xargs) go test ./app/... -covermode=atomic -coverprofile coverage.out; echo ""; go tool cover -func coverage.out
 
 watch:  ## Watch for file changes and run the server.
 	@bash -c "find . -type f \( -name '*.go' -o -name '*.html' \) | grep -v 'misc' | entr -r $(MAKE) dev"
