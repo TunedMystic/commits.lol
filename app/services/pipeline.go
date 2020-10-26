@@ -11,20 +11,24 @@ import (
 // CommitPipeline is responsible for fetching commits
 // concurrently and saving them to the database.
 type CommitPipeline struct {
-	db      db.Database
-	client  *github.Client
-	options github.CommitSearchOptions
-	terms   []string
-	done    chan bool
-	source  *models.GitSource
+	db         db.Database
+	client     *github.Client
+	options    github.CommitSearchOptions
+	terms      []string
+	jobs       chan string
+	done       chan bool
+	source     *models.GitSource
+	workerSize int
 }
 
 // Commits creates and returns a CommitPipeline type.
 func Commits(db db.Database) *CommitPipeline {
 	c := CommitPipeline{
-		db:     db,
-		client: github.NewClient(),
-		done:   make(chan bool),
+		db:         db,
+		client:     github.NewClient(),
+		jobs:       make(chan string),
+		done:       make(chan bool),
+		workerSize: 4,
 	}
 
 	var err error
@@ -55,11 +59,13 @@ func (c *CommitPipeline) WithOptions(options github.CommitSearchOptions) *Commit
 func (c *CommitPipeline) Run() {
 	fmt.Println("pipeline.Run")
 
-	// Create goroutines for each term that we want to search for.
-	for i, term := range c.terms {
-		go c.fetch(i, term)
-		fmt.Println("goroutine started")
+	// Start the workers.
+	for i := 0; i < c.workerSize; i++ {
+		go c.worker(i)
 	}
+
+	// Write jobs to the jobs channel.
+	go c.writeJobs()
 
 	// Wait for all goroutines to finish.
 	for i := 0; i < len(c.terms); i++ {
@@ -70,23 +76,38 @@ func (c *CommitPipeline) Run() {
 	close(c.done)
 }
 
-func (c *CommitPipeline) fetch(i int, term string) {
-	fmt.Printf("[%v] searching for [%v]\n", i, term)
-	options := c.options
-	options.QueryText = term
-	commitItems, err := c.client.CommitSearchPaginated(options)
+// writeJobs sends jobs to the jobs channel and then closes the channel.
+func (c *CommitPipeline) writeJobs() {
+	for _, term := range c.terms {
+		c.jobs <- term
+	}
+	close(c.jobs)
+}
 
-	if err != nil {
-		fmt.Printf("pipeline.fetch: %v\n", err)
+// worker consumes jobs from the jobs channel, and executes the work.
+func (c *CommitPipeline) worker(ID int) {
+	fmt.Printf("worker [%v] started \n", ID)
+	for term := range c.jobs {
+		options := c.options
+		options.QueryText = term
+
+		// Perform the commit search.
+		commitItems, err := c.client.CommitSearchPaginated(options)
+
+		if err != nil {
+			fmt.Printf("pipeline.fetch: %v\n", err)
+			c.done <- true
+			continue
+		}
+
+		// Save commitItems to the database.
+		for _, commitItem := range commitItems {
+			c.save(commitItem)
+		}
+
 		c.done <- true
-		return
 	}
-
-	for _, commitItem := range commitItems {
-		c.save(commitItem)
-	}
-
-	c.done <- true
+	fmt.Printf("worker [%v] done\n", ID)
 }
 
 func (c *CommitPipeline) save(commitItem github.CommitItem) error {
