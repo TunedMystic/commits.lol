@@ -6,6 +6,7 @@ import "github.com/tunedmystic/commits.lol/app/models"
 // Used for testing.
 type MockDB struct {
 	GetSourceMock         func(name string) (*models.GitSource, error)
+	RandomTermsMock       func(size, rank int) (models.Terms, error)
 	RecentCommitsMock     func() ([]*models.GitCommit, error)
 	GetOrCreateUserMock   func(user *models.GitUser) error
 	GetOrCreateRepoMock   func(repo *models.GitRepo) error
@@ -15,6 +16,11 @@ type MockDB struct {
 // GetSource ...
 func (m *MockDB) GetSource(name string) (*models.GitSource, error) {
 	return m.GetSourceMock(name)
+}
+
+// RandomTerms ...
+func (m *MockDB) RandomTerms(size, rank int) (models.Terms, error) {
+	return m.RandomTermsMock(size, rank)
 }
 
 // RecentCommits ...

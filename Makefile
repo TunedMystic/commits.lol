@@ -26,6 +26,9 @@ test: clean  ## Run tests
 	@go tool cover -func coverage.out
 	@eval $$(egrep -v '^#' .env.test | xargs) bash scripts/coverage-threshold.sh
 
+cover:  ## View HTML coverage reports
+	@go tool cover -html coverage.out
+
 watch:  ## Watch for file changes and run the server.
 	@bash -c "find . -type f \( -name '*.go' -o -name '*.html' \) | grep -v 'misc' | entr -r $(MAKE) dev"
 

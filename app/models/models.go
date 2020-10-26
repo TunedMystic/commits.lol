@@ -51,6 +51,25 @@ type GitCommit struct {
 	ColorForeground string
 }
 
+// Term is the model for the term table.
+type Term struct {
+	ID   int    `db:"id"`
+	Text string `db:"text"`
+	Rank int    `db:"rank"`
+}
+
+// Terms is a slice of Term values.
+type Terms []*Term
+
+// Strings converts the Terms slice into a slice of strings.
+func (t Terms) Strings() []string {
+	values := []string{}
+	for _, term := range t {
+		values = append(values, term.Text)
+	}
+	return values
+}
+
 // GetColorTheme ...
 func (c *GitCommit) GetColorTheme() {
 	// Colors ...
