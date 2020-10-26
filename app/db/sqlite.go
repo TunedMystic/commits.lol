@@ -38,7 +38,9 @@ func (s *SqliteDB) GetSource(name string) (*models.GitSource, error) {
 // RandomTerms returns a list of randomly selected terms of a given rank.
 func (s *SqliteDB) RandomTerms(size, rank int) (models.Terms, error) {
 	terms := []*models.Term{}
+
 	query := `SELECT * FROM term WHERE rank = ? ORDER BY random() LIMIT ?;`
+
 	if err := s.DB.Select(&terms, query, rank, size); err != nil {
 		return nil, err
 	}
