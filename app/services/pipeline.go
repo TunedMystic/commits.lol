@@ -41,8 +41,30 @@ func Commits(db db.Database) *CommitPipeline {
 	return &c
 }
 
-// WithTerms ...
+// WithRandomTerms adds random terms to the pipeline.
+func (c *CommitPipeline) WithRandomTerms() *CommitPipeline {
+	var err error
+
+	rank1Terms, err := c.db.RandomTerms(10, 1)
+	if err != nil {
+		fmt.Printf("pipeline.randomterms: %v\n", err)
+	}
+
+	rank2Terms, err := c.db.RandomTerms(4, 2)
+	if err != nil {
+		fmt.Printf("pipeline.randomterms: %v\n", err)
+	}
+
+	c.terms = []string{}
+	c.terms = append(c.terms, rank1Terms.Strings()...)
+	c.terms = append(c.terms, rank2Terms.Strings()...)
+
+	return c
+}
+
+// WithTerms adds the provided terms to the pipeline.
 func (c *CommitPipeline) WithTerms(terms ...string) *CommitPipeline {
+	c.terms = []string{}
 	c.terms = append(c.terms, terms...)
 	return c
 }
@@ -58,6 +80,12 @@ func (c *CommitPipeline) WithOptions(options github.CommitSearchOptions) *Commit
 // Run ...
 func (c *CommitPipeline) Run() {
 	fmt.Println("pipeline.Run")
+
+	// Exit if there are no terms.
+	if len(c.terms) == 0 {
+		fmt.Println("no terms in pipeline. exiting.")
+		return
+	}
 
 	// Start the workers.
 	for i := 0; i < c.workerSize; i++ {
