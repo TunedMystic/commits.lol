@@ -23,7 +23,7 @@ func NewSqliteDB(name string) *SqliteDB {
 	return &sdb
 }
 
-// RandomTerms returns a list of randomly selected terms of a given rank.
+// RandomTerms returns a list of randomly selected terms of a specified rank.
 func (s *SqliteDB) RandomTerms(size, rank int) (models.Terms, error) {
 	terms := []*models.Term{}
 
@@ -52,7 +52,10 @@ func (s *SqliteDB) RecentCommits() ([]*models.GitCommit, error) {
 
 		FROM git_commit c
 		INNER JOIN git_user u on u.id = c.author_id
-		WHERE c.date > datetime('now', ?)
+		WHERE (
+			c.date > datetime('now', ?) AND
+			c.valid = TRUE
+		)
 		ORDER BY random()
 		LIMIT 30;`
 
@@ -135,9 +138,13 @@ func (s *SqliteDB) GetOrCreateRepo(repo *models.GitRepo) error {
 func (s *SqliteDB) CreateCommit(commit *models.GitCommit) error {
 	query := `
 		INSERT INTO git_commit (
-			"source", "author_id", "repo_id", "message", "sha", "url", "date"
+			"source", "author_id", "repo_id", "message", "message_censored",
+			"sha", "url", "date", "created_at", "valid"
 		)
-		VALUES (:source, :author_id, :repo_id, :message, :sha, :url, :date);`
+		VALUES (
+			:source, :author_id, :repo_id, :message, :message_censored,
+			:sha, :url, :date, :created_at, :valid
+		);`
 
 	row, err := s.DB.NamedExec(query, commit)
 

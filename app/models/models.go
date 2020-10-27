@@ -24,14 +24,17 @@ type GitRepo struct {
 
 // GitCommit is the model for the git_commit table.
 type GitCommit struct {
-	ID       int       `db:"id"`
-	Source   int       `db:"source"`
-	AuthorID int       `db:"author_id"`
-	RepoID   int       `db:"repo_id"`
-	Message  string    `db:"message"`
-	SHA      string    `db:"sha"`
-	URL      string    `db:"url"`
-	Date     time.Time `db:"date"`
+	ID              int       `db:"id"`
+	Source          int       `db:"source"`
+	AuthorID        int       `db:"author_id"`
+	RepoID          int       `db:"repo_id"`
+	Message         string    `db:"message"`
+	MessageCensored string    `db:"message_censored"`
+	SHA             string    `db:"sha"`
+	URL             string    `db:"url"`
+	Date            time.Time `db:"date"`
+	CreatedAt       time.Time `db:"created_at"`
+	Valid           bool      `db:"valid"`
 
 	Author *GitUser `db:"author"`
 	Repo   *GitRepo `db:"repo"`

@@ -26,9 +26,12 @@ CREATE TABLE IF NOT EXISTS git_commit (
     author_id INTEGER NOT NULL,
     repo_id INTEGER NOT NULL,
     message VARCHAR(500) NOT NULL,
+    message_censored VARCHAR(500) NOT NULL DEFAULT '',
     sha VARCHAR(40) NOT NULL,
     url VARCHAR(200) UNIQUE NOT NULL,
     date DATETIME NOT NULL,
+    created_at DATETIME NOT NULL,
+    valid BOOL NOT NULL DEFAULT TRUE,
     FOREIGN KEY(repo_id) REFERENCES git_repo(id),
     FOREIGN KEY(author_id) REFERENCES git_user(id)
 );
