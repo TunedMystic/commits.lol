@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/tunedmystic/commits.lol/app/clients/github"
 	"github.com/tunedmystic/commits.lol/app/config"
@@ -18,6 +19,7 @@ type CommitPipeline struct {
 	terms   []string
 	jobs    chan string
 	done    chan bool
+	now     time.Time
 }
 
 // Commits creates and returns a CommitPipeline type.
@@ -27,6 +29,7 @@ func Commits(db db.Database) *CommitPipeline {
 		client: github.NewClient(),
 		jobs:   make(chan string),
 		done:   make(chan bool),
+		now:    time.Now().UTC(),
 	}
 
 	return &c
@@ -182,10 +185,12 @@ func (c *CommitPipeline) toRepo(item github.CommitItem) models.GitRepo {
 
 func (c *CommitPipeline) toCommit(item github.CommitItem) models.GitCommit {
 	return models.GitCommit{
-		Source:  config.SourceGithub,
-		Message: item.Commit.Message,
-		SHA:     item.SHA,
-		URL:     item.URL,
-		Date:    item.Commit.Author.Date,
+		Source:    config.SourceGithub,
+		Message:   item.Commit.Message,
+		SHA:       item.SHA,
+		URL:       item.URL,
+		Date:      item.Commit.Author.Date,
+		CreatedAt: c.now,
+		Valid:     true,
 	}
 }
