@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/tunedmystic/commits.lol/app/clients/github"
+	"github.com/tunedmystic/commits.lol/app/config"
 	"github.com/tunedmystic/commits.lol/app/db"
 	"github.com/tunedmystic/commits.lol/app/models"
 )
@@ -11,31 +12,21 @@ import (
 // CommitPipeline is responsible for fetching commits
 // concurrently and saving them to the database.
 type CommitPipeline struct {
-	db         db.Database
-	client     *github.Client
-	options    github.CommitSearchOptions
-	terms      []string
-	jobs       chan string
-	done       chan bool
-	source     *models.GitSource
-	workerSize int
+	db      db.Database
+	client  *github.Client
+	options github.CommitSearchOptions
+	terms   []string
+	jobs    chan string
+	done    chan bool
 }
 
 // Commits creates and returns a CommitPipeline type.
 func Commits(db db.Database) *CommitPipeline {
 	c := CommitPipeline{
-		db:         db,
-		client:     github.NewClient(),
-		jobs:       make(chan string),
-		done:       make(chan bool),
-		workerSize: 4,
-	}
-
-	var err error
-	c.source, err = c.db.GetSource("github")
-
-	if err != nil {
-		panic(err)
+		db:     db,
+		client: github.NewClient(),
+		jobs:   make(chan string),
+		done:   make(chan bool),
 	}
 
 	return &c
@@ -88,7 +79,7 @@ func (c *CommitPipeline) Run() {
 	}
 
 	// Start the workers.
-	for i := 0; i < c.workerSize; i++ {
+	for i := 0; i < config.WorkerSize; i++ {
 		go c.worker(i)
 	}
 
@@ -116,6 +107,7 @@ func (c *CommitPipeline) writeJobs() {
 func (c *CommitPipeline) worker(ID int) {
 	fmt.Printf("worker [%v] started \n", ID)
 	for term := range c.jobs {
+		// Copy the options, and add the term.
 		options := c.options
 		options.QueryText = term
 
@@ -149,10 +141,6 @@ func (c *CommitPipeline) save(commitItem github.CommitItem) error {
 	repo := c.toRepo(commitItem)
 	commit := c.toCommit(commitItem)
 
-	author.SourceID = c.source.ID
-	repo.SourceID = c.source.ID
-	commit.SourceID = c.source.ID
-
 	// GetOrCreate Author
 	if err := c.db.GetOrCreateUser(&author); err != nil {
 		return fmt.Errorf("pipeline.save:GetOrCreateUser: %v", err)
@@ -176,6 +164,7 @@ func (c *CommitPipeline) save(commitItem github.CommitItem) error {
 
 func (c *CommitPipeline) toAuthor(item github.CommitItem) models.GitUser {
 	return models.GitUser{
+		Source:    config.SourceGithub,
 		Username:  item.Author.Login,
 		URL:       item.Author.URL,
 		AvatarURL: item.Author.AvatarURL,
@@ -184,6 +173,7 @@ func (c *CommitPipeline) toAuthor(item github.CommitItem) models.GitUser {
 
 func (c *CommitPipeline) toRepo(item github.CommitItem) models.GitRepo {
 	return models.GitRepo{
+		Source:      config.SourceGithub,
 		Name:        item.Repo.Name,
 		Description: item.Repo.Description,
 		URL:         item.Repo.URL,
@@ -192,19 +182,10 @@ func (c *CommitPipeline) toRepo(item github.CommitItem) models.GitRepo {
 
 func (c *CommitPipeline) toCommit(item github.CommitItem) models.GitCommit {
 	return models.GitCommit{
+		Source:  config.SourceGithub,
 		Message: item.Commit.Message,
 		SHA:     item.SHA,
 		URL:     item.URL,
 		Date:    item.Commit.Author.Date,
 	}
 }
-
-/*
-Usage:
-
-db := db.NewSqliteDB()
-options := github.CommitSearchOptions{}
-err := Commits(db).WithOptions(options).WithTerms("hello").Run()
- -- or maybe `err := Commits(db, options, terms).Run()`?
-
-*/
