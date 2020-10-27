@@ -23,18 +23,6 @@ func NewSqliteDB(name string) *SqliteDB {
 	return &sdb
 }
 
-// GetSource retrieves the Source by name.
-func (s *SqliteDB) GetSource(name string) (*models.GitSource, error) {
-	fmt.Println("db.GetSource")
-	source := &models.GitSource{}
-	query := `SELECT * FROM git_source WHERE name = ?;`
-	err := s.DB.Get(source, query, name)
-	if err != nil {
-		return nil, fmt.Errorf("GetSource error: %v", err)
-	}
-	return source, err
-}
-
 // RandomTerms returns a list of randomly selected terms of a given rank.
 func (s *SqliteDB) RandomTerms(size, rank int) (models.Terms, error) {
 	terms := []*models.Term{}
@@ -57,7 +45,7 @@ func (s *SqliteDB) RecentCommits() ([]*models.GitCommit, error) {
 			c.*,
 
 			u.id AS "author.id",
-			u.source_id AS "author.source_id",
+			u.source AS "author.source",
 			u.username AS "author.username",
 			u.url AS "author.url",
 			u.avatar_url AS "author.avatar_url"
@@ -78,8 +66,8 @@ func (s *SqliteDB) RecentCommits() ([]*models.GitCommit, error) {
 // CreateUser inserts a new User row and returns the ID.
 func (s *SqliteDB) CreateUser(user *models.GitUser) error {
 	query := `
-		INSERT INTO git_user ("source_id", "username", "url", "avatar_url")
-		VALUES (:source_id, :username, :url, :avatar_url);`
+		INSERT INTO git_user ("source", "username", "url", "avatar_url")
+		VALUES (:source, :username, :url, :avatar_url);`
 
 	row, err := s.DB.NamedExec(query, user)
 
@@ -112,8 +100,8 @@ func (s *SqliteDB) GetOrCreateUser(user *models.GitUser) error {
 // CreateRepo inserts a new Repo row and returns the ID.
 func (s *SqliteDB) CreateRepo(repo *models.GitRepo) error {
 	query := `
-		INSERT INTO git_repo ("source_id", "name", "description", "url")
-		VALUES (:source_id, :name, :description, :url);`
+		INSERT INTO git_repo ("source", "name", "description", "url")
+		VALUES (:source, :name, :description, :url);`
 
 	row, err := s.DB.NamedExec(query, repo)
 
@@ -147,9 +135,9 @@ func (s *SqliteDB) GetOrCreateRepo(repo *models.GitRepo) error {
 func (s *SqliteDB) CreateCommit(commit *models.GitCommit) error {
 	query := `
 		INSERT INTO git_commit (
-			"source_id", "author_id", "repo_id", "message", "sha", "url", "date"
+			"source", "author_id", "repo_id", "message", "sha", "url", "date"
 		)
-		VALUES (:source_id, :author_id, :repo_id, :message, :sha, :url, :date);`
+		VALUES (:source, :author_id, :repo_id, :message, :sha, :url, :date);`
 
 	row, err := s.DB.NamedExec(query, commit)
 

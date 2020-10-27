@@ -5,7 +5,13 @@ import (
 	"strconv"
 )
 
-// App ...
+// SourceGithub is an enum for the Github source.
+const SourceGithub int = 1
+
+// WorkerSize defines the amount of goroutines to spawn when running background tasks.
+const WorkerSize int = 4
+
+// App stores the configuration for the application.
 var App Config
 
 func init() {
