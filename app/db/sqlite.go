@@ -23,16 +23,37 @@ func NewSqliteDB(name string) *SqliteDB {
 	return &sdb
 }
 
-// RandomTerms returns a list of randomly selected terms of a specified rank.
-func (s *SqliteDB) RandomTerms(size, rank int) (models.Terms, error) {
-	terms := []*models.Term{}
+// RandomTermsByRank returns a list of randomly selected terms of a specified rank.
+func (s *SqliteDB) RandomTermsByRank(amount, rank int) (models.Terms, error) {
+	terms := []models.Term{}
 
 	query := `SELECT * FROM term WHERE rank = ? ORDER BY random() LIMIT ?;`
 
-	if err := s.DB.Select(&terms, query, rank, size); err != nil {
+	if err := s.DB.Select(&terms, query, rank, amount); err != nil {
 		return nil, err
 	}
 	return models.Terms(terms), nil
+}
+
+// RandomTerms returns a list of randomly selected terms of predetermined rank.
+func (s *SqliteDB) RandomTerms() models.Terms {
+	values := []models.Term{}
+
+	// Get terms of Rank 1.
+	t1, err := s.RandomTermsByRank(10, 1)
+	if err != nil {
+		fmt.Println(err)
+	}
+	values = append(values, t1...)
+
+	// Get terms of Rank 2.
+	t2, err := s.RandomTermsByRank(4, 2)
+	if err != nil {
+		fmt.Println(err)
+	}
+	values = append(values, t2...)
+
+	return models.Terms(values)
 }
 
 // RecentCommits returns the most recent commits.

@@ -30,8 +30,8 @@ type CommitSearchOptions struct {
 	Page      int
 }
 
-// Empty ...
-func (opts CommitSearchOptions) Empty() bool {
+// IsEmpty checks if the options are empty.
+func (opts CommitSearchOptions) IsEmpty() bool {
 	return opts == (CommitSearchOptions{})
 }
 

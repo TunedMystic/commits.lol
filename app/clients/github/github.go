@@ -42,7 +42,7 @@ func (g *Client) CommitSearch(options CommitSearchOptions) (*CommitSearchRespons
 	// Check the rate limit, and block until the rate limit has lifted.
 	g.searchLimiter.Wait()
 
-	if options.Empty() {
+	if options.IsEmpty() {
 		return nil, errors.New("no search options provided")
 	}
 

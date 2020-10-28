@@ -5,16 +5,22 @@ import "github.com/tunedmystic/commits.lol/app/models"
 // MockDB is an fake DB type that implements the Database interface.
 // Used for testing.
 type MockDB struct {
-	RandomTermsMock       func(size, rank int) (models.Terms, error)
+	RandomTermsByRankMock func(amount, rank int) (models.Terms, error)
+	RandomTermsMock       func() models.Terms
 	RecentCommitsMock     func() ([]*models.GitCommit, error)
 	GetOrCreateUserMock   func(user *models.GitUser) error
 	GetOrCreateRepoMock   func(repo *models.GitRepo) error
 	GetOrCreateCommitMock func(commit *models.GitCommit) error
 }
 
+// RandomTermsByRank ...
+func (m *MockDB) RandomTermsByRank(amount, rank int) (models.Terms, error) {
+	return m.RandomTermsByRankMock(amount, rank)
+}
+
 // RandomTerms ...
-func (m *MockDB) RandomTerms(size, rank int) (models.Terms, error) {
-	return m.RandomTermsMock(size, rank)
+func (m *MockDB) RandomTerms() models.Terms {
+	return m.RandomTermsMock()
 }
 
 // RecentCommits ...
