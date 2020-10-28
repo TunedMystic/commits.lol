@@ -44,7 +44,7 @@ type GitCommit struct {
 }
 
 // GitCommits is a slice of GitCommits.
-type GitCommits []GitCommit
+type GitCommits []*GitCommit
 
 // Term is the model for the term table.
 type Term struct {

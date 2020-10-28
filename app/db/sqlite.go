@@ -57,8 +57,8 @@ func (s *SqliteDB) RandomTerms() models.Terms {
 }
 
 // RecentCommits returns the most recent commits.
-func (s *SqliteDB) RecentCommits() ([]*models.GitCommit, error) {
-	commits := []*models.GitCommit{}
+func (s *SqliteDB) RecentCommits() (models.GitCommits, error) {
+	values := []*models.GitCommit{}
 	daysBack := "-150 days"
 
 	query := `
@@ -80,11 +80,11 @@ func (s *SqliteDB) RecentCommits() ([]*models.GitCommit, error) {
 		ORDER BY random()
 		LIMIT 30;`
 
-	if err := s.DB.Select(&commits, query, daysBack); err != nil {
+	if err := s.DB.Select(&values, query, daysBack); err != nil {
 		return nil, err
 	}
 
-	return commits, nil
+	return models.GitCommits(values), nil
 }
 
 // CreateUser inserts a new User row and returns the ID.

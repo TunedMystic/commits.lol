@@ -7,7 +7,7 @@ import "github.com/tunedmystic/commits.lol/app/models"
 type MockDB struct {
 	RandomTermsByRankMock func(amount, rank int) (models.Terms, error)
 	RandomTermsMock       func() models.Terms
-	RecentCommitsMock     func() ([]*models.GitCommit, error)
+	RecentCommitsMock     func() (models.GitCommits, error)
 	GetOrCreateUserMock   func(user *models.GitUser) error
 	GetOrCreateRepoMock   func(repo *models.GitRepo) error
 	GetOrCreateCommitMock func(commit *models.GitCommit) error
@@ -24,7 +24,7 @@ func (m *MockDB) RandomTerms() models.Terms {
 }
 
 // RecentCommits ...
-func (m *MockDB) RecentCommits() ([]*models.GitCommit, error) {
+func (m *MockDB) RecentCommits() (models.GitCommits, error) {
 	return m.RecentCommitsMock()
 }
 
