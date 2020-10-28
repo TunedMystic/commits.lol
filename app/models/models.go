@@ -36,12 +36,15 @@ type GitCommit struct {
 	CreatedAt       time.Time `db:"created_at"`
 	Valid           bool      `db:"valid"`
 
-	Author *GitUser `db:"author"`
-	Repo   *GitRepo `db:"repo"`
+	Author GitUser `db:"author"`
+	Repo   GitRepo `db:"repo"`
 
 	ColorBackground string
 	ColorForeground string
 }
+
+// GitCommits is a slice of GitCommits.
+type GitCommits []*GitCommit
 
 // Term is the model for the term table.
 type Term struct {
@@ -51,7 +54,7 @@ type Term struct {
 }
 
 // Terms is a slice of Term values.
-type Terms []*Term
+type Terms []Term
 
 // Strings converts the Terms slice into a slice of strings.
 func (t Terms) Strings() []string {

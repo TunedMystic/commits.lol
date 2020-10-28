@@ -8,10 +8,10 @@ import (
 
 func Test_Options_Empty(t *testing.T) {
 	options := CommitSearchOptions{}
-	u.AssertEqual(t, options.Empty(), true)
+	u.AssertEqual(t, options.IsEmpty(), true)
 
 	options.QueryText = "lol"
-	u.AssertEqual(t, options.Empty(), false)
+	u.AssertEqual(t, options.IsEmpty(), false)
 }
 
 func Test_Option_Serialize(t *testing.T) {
