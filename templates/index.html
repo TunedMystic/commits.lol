@@ -13,10 +13,10 @@
 </div>
 
 
-<div class="flex flex-wrap justify-center">
+<div class="flex flex-wrap justify-center" style="font-size: 1.4rem;">
 {{range .}}
 <span class="item flex flex-col mr-3 mb-3"> <!-- commit -->
-    <div class="" style="background-color: {{.ColorBackground}}; color: {{.ColorForeground}}">
+    <div class="rounded-md" style="background-color: {{.ColorBackground}}; color: {{.ColorForeground}}">
         <p class="flex items-center">
             <a class="inline-block px-2" target="_blank" href="{{.Author.URL}}">
                 <img loading="lazy" class="rounded-full w-8 h-8 inline-block" alt="{{.Author.Username}}" src="{{.Author.AvatarURL}}">

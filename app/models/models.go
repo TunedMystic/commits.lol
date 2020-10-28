@@ -70,12 +70,12 @@ func (c *GitCommit) GetColorTheme() {
 	// Colors ...
 	colors := [][]string{
 		// canada
-		// {"#1dd1a1", "#000000"}, // wild caribbean green
+		{"	#1dd1a1", "#000000"}, // wild caribbean green
 		{"#ffc93c", "#000000"}, // wild caribbean green
 		// {"#ff6b6b", "#ffffff"}, // pastel red
-		// {"#222f3e", "#ffffff"}, // imperial primer
+		{"#222f3e", "#ffffff"}, // imperial primer
 		// {"#feca57", "#000000"}, // casandora yellow
-		// {"#ff9ff3", "#000000"}, // jigglypuff
+		{"#ff9ff3", "#000000"}, // jigglypuff
 		// {"#ff9f43", "#000000"}, // double dragon skin
 		{"#0ca9f2", "#000000"}, // jade dust
 		{"#9a89f7", "#000000"}, // joust blue
@@ -83,11 +83,11 @@ func (c *GitCommit) GetColorTheme() {
 		// // spanish
 		// {"#ff793f", "#000000"}, // synthetic pumpkin
 		{"#2b5cb7", "#ffffff"}, // c64 purple
-		// {"#2c2c54", "#ffffff"}, // lucky point
+		{"#2c2c54", "#ffffff"}, // lucky point
 
 		// // india
 		// {"#2c3a47", "#ffffff"}, // ship's officer
-		// {"#b33771", "#ffffff"}, // fiery fuchsia
+		{"#b33771", "#ffffff"}, // fiery fuchsia
 		// {"#fd7272", "#000000"}, // georgia peach
 		// {"#1B9CFC", "#ffffff"}, // clear chill
 
