@@ -1,6 +1,7 @@
 package models
 
 import (
+	"html/template"
 	"time"
 )
 
@@ -63,6 +64,11 @@ func (t Terms) Strings() []string {
 		values = append(values, term.Text)
 	}
 	return values
+}
+
+// MessageCensoredHTML ...
+func (c *GitCommit) MessageCensoredHTML() template.HTML {
+	return template.HTML(c.MessageCensored)
 }
 
 // GetColorTheme ...
