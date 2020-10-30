@@ -7,34 +7,33 @@ import (
 
 // TextCleaner ...
 type TextCleaner struct {
-	BadWords []string
-	Token    []string
+	BadWords     []string
+	CensorTokens []string
 }
 
 // NewTextCleaner ...
 func NewTextCleaner() *TextCleaner {
 	return &TextCleaner{
 		// TODO: Put bad words here...
-		BadWords: []string{},
-		// Token: "x",
-		Token: []string{"#", "%", "@", "$", "!"},
+		BadWords:     []string{},
+		CensorTokens: []string{"#", "%", "@", "$", "!"},
 	}
 }
 
 func (t *TextCleaner) makeReplacement(word string) string {
 	/*
 		shitty
-		<span class="censored">sh<span>xxxx</span></span>
+		<span class="censored">s<span>xxxxx</span></span>
 	*/
-	if len(word) <= 2 {
-		return `<span class="censored"><span class="word">XX</span></span>`
+	if len(word) <= 1 {
+		return word
 	}
 
 	fragment := ""
-	for i := 0; i < len(word[2:]); i++ {
-		fragment += t.Token[i%len(t.Token)]
+	for i := 0; i < len(word[1:]); i++ {
+		fragment += t.CensorTokens[i%len(t.CensorTokens)]
 	}
-	return fmt.Sprintf(`<span class="censored">%v<span class="word">%v</span></span>`, word[:2], fragment)
+	return fmt.Sprintf(`<span class="censored">%v<span class="word">%v</span></span>`, word[:1], fragment)
 }
 
 // CensorText ...
