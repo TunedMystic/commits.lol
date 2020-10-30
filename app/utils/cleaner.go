@@ -12,19 +12,16 @@ type TextCleaner struct {
 }
 
 // NewTextCleaner ...
-func NewTextCleaner() *TextCleaner {
+func NewTextCleaner(badWords []string) *TextCleaner {
 	return &TextCleaner{
-		// TODO: Put bad words here...
-		BadWords:     []string{},
+		BadWords:     badWords,
 		CensorTokens: []string{"#", "%", "@", "$", "!"},
 	}
 }
 
+// makeReplacement masks the given word with censor tokens.
+// Example:  badword  ->  b#%@$!#
 func (t *TextCleaner) makeReplacement(word string) string {
-	/*
-		shitty
-		<span class="censored">s<span>xxxxx</span></span>
-	*/
 	if len(word) <= 1 {
 		return word
 	}

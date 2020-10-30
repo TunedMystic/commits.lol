@@ -8,7 +8,6 @@
 
 <br />
 
-<div class="max-w-screen-lg container mx-auto xpx-4">
 
 <div class="flex justify-center mb-4">
     <a class="flex items-center text-4xl border-2 border-red-700 bg-red-500 rounded-lg px-3 py-1 text-white font-bold" href="/">LOL</a>
@@ -21,9 +20,12 @@
 </div>
 
 
-<div class="flex flex-wrap justify-center font-mono" style="font-size: 1rem;">
+<div class="w-full background-pattern">
+
+
+<div id="commits" class="max-w-screen-lg container mx-auto flex flex-wrap justify-center font-mono" style="font-size: 1rem;">
 {{range .}}
-<span class="item flex flex-col mr-3 mb-3"> <!-- commit -->
+<span class="commit-item flex flex-col mr-3 mb-3"> <!-- commit -->
     <div class="rounded-md" style="background-color: {{.ColorBackground}}; color: {{.ColorForeground}}">
         <p class="flex items-center py-2">
             <a class="inline-block px-2" target="_blank" href="{{.Author.URL}}">
