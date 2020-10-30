@@ -1,29 +1,40 @@
 {{define "index"}}
 {{template "header" .}}
 
-<h1>(ノಠ益ಠ)ノ</h1>
-<h3>Devs say the darndest things</h3>
+<div>
+    <h1>(ノಠ益ಠ)ノ</h1>
+    <h3>Devs say the darndest things</h3>
+</div>
 
 <br />
 
-<div class="max-w-screen-lg container mx-auto xpx-4">
 
 <div class="flex justify-center mb-4">
-    <a class="text-4xl border-2 border-red-700 bg-red-500 rounded-lg px-3 py-1 text-white font-bold" href="/">LOL</a>
+    <a class="flex items-center text-4xl border-2 border-red-700 bg-red-500 rounded-lg px-3 py-1 text-white font-bold" href="/">LOL</a>
+
+    &nbsp;&nbsp;&nbsp;
+
+    <div class="hover:bg-gray-200 rounded-full">
+        <img id="toggle-message" class="w-16 h-16 m-2 cursor-pointer" src="/static/curse-face.png" alt="toggle-message">
+    </div>
 </div>
 
 
-<div class="flex flex-wrap justify-center" style="font-size: 1.4rem;">
+<div class="w-full background-pattern">
+
+
+<div id="commits" class="max-w-screen-lg container mx-auto flex flex-wrap justify-center font-mono" style="font-size: 1rem;">
 {{range .}}
-<span class="item flex flex-col mr-3 mb-3"> <!-- commit -->
+<span class="commit-item flex flex-col mr-3 mb-3"> <!-- commit -->
     <div class="rounded-md" style="background-color: {{.ColorBackground}}; color: {{.ColorForeground}}">
-        <p class="flex items-center">
+        <p class="flex items-center py-2">
             <a class="inline-block px-2" target="_blank" href="{{.Author.URL}}">
                 <img loading="lazy" class="rounded-full w-8 h-8 inline-block" alt="{{.Author.Username}}" src="{{.Author.AvatarURL}}">
             </a>
 
             <a class="app-message pr-2" target="_blank" href="{{.URL}}">
-                <span class="app-commit inline-block" style="line-height: 3rem;">{{.Message}}</span>
+                <span class="app-commit commit-message-censored inline-block" xstyle="line-height: 3rem;">{{.MessageCensoredHTML}}</span>
+                <span class="app-commit commit-message-raw inline-block hidden" xstyle="line-height: 3rem;">{{.Message}}</span>
             </a>
         </p>
     </div>
@@ -31,6 +42,40 @@
 {{end}}
 </div>
 </div>
+
+<script type="text/javascript">
+
+document.addEventListener('DOMContentLoaded', (e) => {
+    console.log('hi');
+
+    const curseFace = '/static/curse-face.png';
+    const flushedFace = '/static/flushed-face.png';
+
+    document.getElementById('toggle-message').addEventListener('click', e => {
+        const img = e.target;
+        if (img.getAttribute("src") === curseFace) {
+            img.setAttribute("src", flushedFace);
+            showRawCommits();
+            return;
+        }
+        if (img.getAttribute("src") === flushedFace) {
+            img.setAttribute("src", curseFace);
+            showCensoredCommits();
+            return;
+        }
+    });
+});
+
+function showRawCommits() {
+    document.querySelectorAll('.commit-message-censored').forEach(item => {item.classList.add('hidden'); });
+    document.querySelectorAll('.commit-message-raw').forEach(item => {item.classList.remove('hidden'); });
+}
+
+function showCensoredCommits() {
+    document.querySelectorAll('.commit-message-censored').forEach(item => {item.classList.remove('hidden'); });
+    document.querySelectorAll('.commit-message-raw').forEach(item => {item.classList.add('hidden'); });
+}
+</script>
 
 {{ template "footer" .}}
 {{end}}

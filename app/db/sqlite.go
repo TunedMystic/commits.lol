@@ -56,6 +56,39 @@ func (s *SqliteDB) RandomTerms() models.Terms {
 	return models.Terms(values)
 }
 
+// AllCommits ...
+func (s *SqliteDB) AllCommits() ([]*models.GitCommit, error) {
+	values := []*models.GitCommit{}
+
+	query := `SELECT * FROM git_commit;`
+
+	if err := s.DB.Select(&values, query); err != nil {
+		return nil, err
+	}
+
+	return values, nil
+}
+
+// UpdateCommit ...
+func (s *SqliteDB) UpdateCommit(commit *models.GitCommit) error {
+	query := `
+		UPDATE git_commit
+		SET
+			source = :source, author_id = :author_id, repo_id = :repo_id,
+			message = :message, message_censored = :message_censored,
+			sha = :sha, url = :url, date = :date, created_at = :created_at,
+			valid = :valid
+		WHERE id = :id;`
+
+	_, err := s.DB.NamedExec(query, commit)
+
+	if err != nil {
+		return fmt.Errorf("error inserting commit: %v", err)
+	}
+
+	return nil
+}
+
 // RecentCommits returns the most recent commits.
 func (s *SqliteDB) RecentCommits() (models.GitCommits, error) {
 	values := []*models.GitCommit{}
