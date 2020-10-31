@@ -1,40 +1,101 @@
 {{define "index"}}
 {{template "header" .}}
 
-<div>
-    <h1>(ノಠ益ಠ)ノ</h1>
-    <h3>Devs say the darndest things</h3>
-</div>
 
-<br />
+<div class="w-full h-32 relative">
 
+    {{/* <div class="app-heading xabsolute">
+        <h2 class="font-bold text-2xl">
+            <span class="text-black" xstyle="color: #ffd300;">COMMITS.</span>
+            <span class="bg-black text-white">LOL</span>
+        </h2>
+        <h3 class="text-gray-600">where devs say the darndest things</h3>
+    </div> */}}
 
-<div class="flex justify-center mb-4">
-    <a class="flex items-center text-4xl border-2 border-red-700 bg-red-500 rounded-lg px-3 py-1 text-white font-bold" href="/">LOL</a>
+    {{/* <div class="flex xjustify-center">
+        <div class="relative ml-4 mt-4">
+            <div class="absolute bg-teal-400 inset-0 mx-auto" style="transform: rotate(1.7deg); width: 90%"></div>
+            <div class="px-2 py-2 bg-black inline-block" style="transform: rotate(-2.5deg);">
+                <div class="px-3 py-2 bg-white" style="z-index: 10;">
+                    <div class="text-3xl font-black text-center">Real commits • Real lolz</div>
+                    <h2 class="font-black text-2xl">
+                        <span class="text-black" xstyle="color: #ffd300;">COMMITS.</span>
+                        <span class="bg-black text-white px-1">LOL</span>
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div> */}}
 
-    &nbsp;&nbsp;&nbsp;
+    <div class="absolute text-center">
+        <div class="relative ml-4 mt-4" style="transform: rotate(-2.5deg);">
+            <div class="xpx-2 xpy-2 bg-white border-4 border-black inline-block">
+                <div class="px-3 py-2 xbg-white grit" xstyle="z-index: 10;">
+                    <h2 class="font-black text-2xl">
+                        <span class="text-black" xstyle="color: #ffd300;">COMMITS.</span>
+                        <span class="bg-black text-white px-1">LOL</span>
+                    </h2>
+                </div>
+            </div>
 
-    <div class="hover:bg-gray-200 rounded-full">
-        <img id="toggle-message" class="w-16 h-16 m-2 cursor-pointer" src="/static/curse-face.png" alt="toggle-message">
+            <p class="pl-1 text-gray-600 bg-white font-mono">Devs say the darndest things</p>
+        </div>
     </div>
+
+    {{/* <div class="w-full h-10" style="background-color: #0099ff;"></div> */}}
+
+    {{/* <svg class="absolute "xmlns="http://www.w3.org/2000/svg" viewBox="0 60 1440 320">
+        <defs>
+            <pattern id="bgpattern" patternUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
+                <path fill="#b2b2b2" fill-opacity="0.4" xopacity=".5" d="M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z"></path>
+            </pattern>
+        </defs>
+
+        <path
+            fill="url(#bgpattern)"
+            d="M0,64L60,90.7C120,117,240,171,360,165.3C480,160,600,96,720,90.7C840,85,960,139,1080,149.3C1200,160,1320,128,1380,112L1440,96L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
+    </svg> */}}
+
+    {{/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 40 1440 320"><path fill="#0c94f3" fill-opacity="1" d="M0,64L60,90.7C120,117,240,171,360,165.3C480,160,600,96,720,90.7C840,85,960,139,1080,149.3C1200,160,1320,128,1380,112L1440,96L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path></svg> */}}
+
+
+    {{/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#0099ff" fill-opacity="1" d="M0,192L10,208C20,224,40,256,60,250.7C80,245,100,203,120,186.7C140,171,160,181,180,181.3C200,181,220,171,240,176C260,181,280,203,300,202.7C320,203,340,181,360,165.3C380,149,400,139,420,160C440,181,460,235,480,266.7C500,299,520,309,540,288C560,267,580,213,600,197.3C620,181,640,203,660,197.3C680,192,700,160,720,144C740,128,760,128,780,160C800,192,820,256,840,266.7C860,277,880,235,900,218.7C920,203,940,213,960,229.3C980,245,1000,267,1020,266.7C1040,267,1060,245,1080,224C1100,203,1120,181,1140,186.7C1160,192,1180,224,1200,208C1220,192,1240,128,1260,128C1280,128,1300,192,1320,197.3C1340,203,1360,149,1380,149.3C1400,149,1420,203,1430,229.3L1440,256L1440,0L1430,0C1420,0,1400,0,1380,0C1360,0,1340,0,1320,0C1300,0,1280,0,1260,0C1240,0,1220,0,1200,0C1180,0,1160,0,1140,0C1120,0,1100,0,1080,0C1060,0,1040,0,1020,0C1000,0,980,0,960,0C940,0,920,0,900,0C880,0,860,0,840,0C820,0,800,0,780,0C760,0,740,0,720,0C700,0,680,0,660,0C640,0,620,0,600,0C580,0,560,0,540,0C520,0,500,0,480,0C460,0,440,0,420,0C400,0,380,0,360,0C340,0,320,0,300,0C280,0,260,0,240,0C220,0,200,0,180,0C160,0,140,0,120,0C100,0,80,0,60,0C40,0,20,0,10,0L0,0Z"></path></svg> */}}
+    {{/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 80 1440 320"><path fill="#0099ff" fill-opacity="1" d="M0,128L40,144C80,160,160,192,240,192C320,192,400,160,480,138.7C560,117,640,107,720,106.7C800,107,880,117,960,149.3C1040,181,1120,235,1200,240C1280,245,1360,203,1400,181.3L1440,160L1440,0L1400,0C1360,0,1280,0,1200,0C1120,0,1040,0,960,0C880,0,800,0,720,0C640,0,560,0,480,0C400,0,320,0,240,0C160,0,80,0,40,0L0,0Z"></path></svg> */}}
+    {{/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#d40782" fill-opacity="1" d="M0,224L34.3,234.7C68.6,245,137,267,206,256C274.3,245,343,203,411,176C480,149,549,139,617,128C685.7,117,754,107,823,128C891.4,149,960,203,1029,218.7C1097.1,235,1166,213,1234,202.7C1302.9,192,1371,192,1406,192L1440,192L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"></path></svg> */}}
+    {{/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#0099ff" fill-opacity="1" d="M0,96L34.3,101.3C68.6,107,137,117,206,138.7C274.3,160,343,192,411,197.3C480,203,549,181,617,186.7C685.7,192,754,224,823,234.7C891.4,245,960,235,1029,245.3C1097.1,256,1166,288,1234,293.3C1302.9,299,1371,277,1406,266.7L1440,256L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"></path></svg> */}}
+
+
+    {{/* <div class="flex justify-center">
+        <div class="relative">
+            <div class="absolute bg-teal-400 inset-0 mx-auto" style="transform: rotate(1deg); width: 90%"></div>
+            <div class="px-2 py-2 bg-black inline-block" style="transform: rotate(-1.7deg);">
+                <div class="px-3 py-2 bg-white" style="z-index: 10;">
+                    <div class="text-3xl font-black text-center">Real commits • Real lolz</div>
+                </div>
+            </div>
+        </div>
+    </div> */}}
+
 </div>
 
 
-<div class="w-full background-pattern">
 
 
-<div id="commits" class="max-w-screen-lg container mx-auto flex flex-wrap justify-center font-mono" style="font-size: 1rem;">
+<div class="w-full xbackground-pattern">
+
+
+<div id="commits" class="max-w-screen-xl container mx-auto flex flex-wrap justify-center" style="font-size: 1rem;">
 {{range .}}
-<span class="commit-item flex flex-col mr-3 mb-3"> <!-- commit -->
-    <div class="rounded-md" style="background-color: {{.ColorBackground}}; color: {{.ColorForeground}}">
+<span class="commit-item flex flex-col mx-375 mb-3 font-mono soft-edge"> <!-- commit -->
+    <div class="rounded-sm xshadow grit" style="background-color: {{.ColorBackground}}; color: {{.ColorForeground}}">
         <p class="flex items-center py-2">
             <a class="inline-block px-2" target="_blank" href="{{.Author.URL}}">
-                <img loading="lazy" class="rounded-full w-8 h-8 inline-block" alt="{{.Author.Username}}" src="{{.Author.AvatarURL}}">
+                <img loading="lazy" class="hidden sm:inline-block rounded-full w-8 h-8 xinline-block" alt="{{.Author.Username}}" src="{{.Author.AvatarURL}}">
             </a>
 
-            <a class="app-message pr-2" target="_blank" href="{{.URL}}">
-                <span class="app-commit commit-message-censored inline-block" xstyle="line-height: 3rem;">{{.MessageCensoredHTML}}</span>
-                <span class="app-commit commit-message-raw inline-block hidden" xstyle="line-height: 3rem;">{{.Message}}</span>
+            <a class="app-message relative pr-2" target="_blank" href="{{.URL}}">
+                <span class="app-commit commit-message-censored inline-block absolute">{{.MessageCensoredHTML}}</span>
+                <span class="app-commit commit-message-raw inline-block">{{.Message}}</span>
             </a>
         </p>
     </div>
@@ -43,7 +104,7 @@
 </div>
 </div>
 
-<script type="text/javascript">
+{{/* <script type="text/javascript">
 
 document.addEventListener('DOMContentLoaded', (e) => {
     console.log('hi');
@@ -67,15 +128,13 @@ document.addEventListener('DOMContentLoaded', (e) => {
 });
 
 function showRawCommits() {
-    document.querySelectorAll('.commit-message-censored').forEach(item => {item.classList.add('hidden'); });
-    document.querySelectorAll('.commit-message-raw').forEach(item => {item.classList.remove('hidden'); });
+    document.querySelectorAll('.commit-message-censored').forEach(item => {item.classList.add('opacity-0'); });
 }
 
 function showCensoredCommits() {
-    document.querySelectorAll('.commit-message-censored').forEach(item => {item.classList.remove('hidden'); });
-    document.querySelectorAll('.commit-message-raw').forEach(item => {item.classList.add('hidden'); });
+    document.querySelectorAll('.commit-message-censored').forEach(item => {item.classList.remove('opacity-0'); });
 }
-</script>
+</script> */}}
 
 {{ template "footer" .}}
 {{end}}

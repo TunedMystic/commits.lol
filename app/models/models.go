@@ -87,18 +87,20 @@ func (c *GitCommit) GetColorTheme() {
 		{"#f8d373", "#000000"}, // mellow
 
 		// Ref: https://www.eggradients.com/shades-of-green-color
-		{"#76ff7a", "#000000"}, // screamin green
-		{"#00ff7f", "#000000"}, // spring green
-		{"#1fcecb", "#000000"}, // robin egg
+		// {"#76ff7a", "#000000"}, // screamin green
+		// {"#96ff36", "#000000"}, // spring green*
+		{"#a7ff57", "#000000"}, // spring green*
+		// {"#1fcecb", "#000000"}, // robin egg
 		{"#0bda51", "#000000"}, // malachite
-		{"#24e860", "#000000"}, // lime green*
+		// {"#24e860", "#000000"}, // lime green*
 
 		// Ref: https://graf1x.com/shades-of-blue-color-palette/
 		{"#73c2fb", "#000000"}, // maya
 		{"#6593f5", "#000000"}, // cornflower
-		{"#074fbd", "#ffffff"}, // sapphire*
+		// {"#074fbd", "#ffffff"}, // sapphire*
+		{"#1f63ca", "#ffffff"}, // sapphire*
 		{"#6cbff9", "#000000"}, // carolina*
-		{"#72cbf5", "#000000"}, // baby blue*
+		// {"#72cbf5", "#000000"}, // baby blue*
 
 		// Ref: https://graf1x.com/24-shades-of-pink-color-palette/
 		{"#fe7f9c", "#000000"}, // watermelon
@@ -106,10 +108,10 @@ func (c *GitCommit) GetColorTheme() {
 		{"#fb607f", "#000000"}, // brick
 
 		// Ref: https://www.eggradients.com/shades-of-purple
-		{"#6147f1", "#ffffff"}, // electric indigo*
+		// {"#6147f1", "#ffffff"}, // electric indigo*
 		{"#8a2be2", "#ffffff"}, // blue violet
-		{"#c71585", "#ffffff"}, // red violet
-		{"#6a5acd", "#ffffff"}, // slate blue
+		// {"#c71585", "#ffffff"}, // red violet
+		// {"#6a5acd", "#ffffff"}, // slate blue
 	}
 
 	commitLength := len(c.Message) + len(c.Author.Username)
