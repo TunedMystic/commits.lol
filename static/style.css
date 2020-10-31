@@ -165,13 +165,15 @@ html {
 
 
 #home-icon {
-    margin-top: 1.25rem;
+    /* margin-top: 1.25rem; */
+    margin-top: 2rem;
     transform: rotate(0deg);
 }
 
 @media only screen and (min-width: 768px) {
     #home-icon {
-        margin-top: 1.25rem;
+        /* margin-top: 1.25rem; */
+        margin-top: 2rem;
         transform: rotate(-2.5deg);
     }
 }
