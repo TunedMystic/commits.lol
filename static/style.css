@@ -59,7 +59,7 @@ html {
 }
 
 .censored {
-    display: inline;
+    display: inline-block;
     line-height: 1.1rem;
     background-color: black;
     color: white;
