@@ -3,34 +3,12 @@
 
 <div class="w-full h-32 relative">
 
-    {{/* <div class="app-heading xabsolute">
-        <h2 class="font-bold text-2xl">
-            <span class="text-black" xstyle="color: #ffd300;">COMMITS.</span>
-            <span class="bg-black text-white">LOL</span>
-        </h2>
-        <h3 class="text-gray-600">where devs say the darndest things</h3>
-    </div> */}}
-
-    {{/* <div class="flex xjustify-center">
-        <div class="relative ml-4 mt-4">
-            <div class="absolute bg-teal-400 inset-0 mx-auto" style="transform: rotate(1.7deg); width: 90%"></div>
-            <div class="px-2 py-2 bg-black inline-block" style="transform: rotate(-2.5deg);">
-                <div class="px-3 py-2 bg-white" style="z-index: 10;">
-                    <div class="text-3xl font-black text-center">Real commits • Real lolz</div>
-                    <h2 class="font-black text-2xl">
-                        <span class="text-black" xstyle="color: #ffd300;">COMMITS.</span>
-                        <span class="bg-black text-white px-1">LOL</span>
-                    </h2>
-                </div>
-            </div>
-        </div>
-    </div> */}}
-
-    <div class="absolute text-center z-10">
-        <div id="home-icon" class="relative text-left ml-6 xmt-6">
+    <!-- main logo -->
+    <div class="absolute flex justify-start md:justify-center w-full z-10">
+        <div id="home-icon" class="ml-3 md:ml-0 mt-4 md:mt-8 flex flex-col justify-center text-left md:text-center">
             <a href="/">
             <div class="inline-block bg-white border-4 border-black">
-                <div class="px-3 py-2 xgrit">
+                <div class="px-3 py-2 grit">
                     <h2 class="font-black text-lg md:text-2xl">
                         <span class="px-1 text-black" style="background-color: #ffd642;">COMMITS</span>.
                         <span class="px-1 text-white bg-black">LOL</span>
@@ -39,12 +17,27 @@
             </div>
             </a>
 
-            <p class="pl-1 py-1 text-sm md:text-md text-gray-700 bg-white font-mono">Devs say the darndest things</p>
+            <p style="background-color: #629dff;">
+                <span class="p-1 text-sm md:text-md bg-white md:bg-transparent text-gray-700 md:text-white font-mono font-normal md:font-semibold">Devs say the darndest things</span>
+                <div class="block md:hidden">
+                    <span class="p-1 text-sm bg-white text-gray-700 font-mono font-normal">Made by <a class="underline" href="https://github.com/TunedMystic" target="_blank">@TunedMystic</a></span>
+                </div>
+            </p>
+        </div>
+    </div>
+
+    <div class="absolute z-10 hidden md:block">
+        <div class="ml-3 mt-10">
+            <p style="background-color: #2561c3;" class="inline-block rounded-sm p-1 text-sm md:text-md text-white font-mono font-semibold">
+                Made by <a class="text-white underline" href="https://github.com/TunedMystic" target="_blank">@TunedMystic</a>
+            </p>
         </div>
     </div>
 
 
-    <div class="relative flex justify-center z-10">
+
+
+    {{/* <div class="relative flex justify-center z-10">
         <div class="absolute mt-8">
             <div xid="home-icon" class="relative text-left xml-4 xmt-6">
                 <div class="inline-block bg-white border-4 border-black" style="border-radius: 0.8rem; border-color: #508df3;">
@@ -58,96 +51,63 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    {{/* <div class="w-full h-10" style="background-color: #0099ff;"></div> */}}
-
-    {{/* <svg class="absolute "xmlns="http://www.w3.org/2000/svg" viewBox="0 60 1440 320">
-        <defs>
-            <pattern id="bgpattern" patternUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
-                <path fill="#b2b2b2" fill-opacity="0.4" xopacity=".5" d="M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z"></path>
-            </pattern>
-        </defs>
-
-        <path
-            fill="url(#bgpattern)"
-            d="M0,64L60,90.7C120,117,240,171,360,165.3C480,160,600,96,720,90.7C840,85,960,139,1080,149.3C1200,160,1320,128,1380,112L1440,96L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
-    </svg> */}}
+    </div> */}}
 
     {{/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#629dff" fill-opacity="1" d="M0,64L60,90.7C120,117,240,171,360,165.3C480,160,600,96,720,90.7C840,85,960,139,1080,149.3C1200,160,1320,128,1380,112L1440,96L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path></svg> */}}
-
-
     {{/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#629dff" fill-opacity="1" d="M0,192L10,208C20,224,40,256,60,250.7C80,245,100,203,120,186.7C140,171,160,181,180,181.3C200,181,220,171,240,176C260,181,280,203,300,202.7C320,203,340,181,360,165.3C380,149,400,139,420,160C440,181,460,235,480,266.7C500,299,520,309,540,288C560,267,580,213,600,197.3C620,181,640,203,660,197.3C680,192,700,160,720,144C740,128,760,128,780,160C800,192,820,256,840,266.7C860,277,880,235,900,218.7C920,203,940,213,960,229.3C980,245,1000,267,1020,266.7C1040,267,1060,245,1080,224C1100,203,1120,181,1140,186.7C1160,192,1180,224,1200,208C1220,192,1240,128,1260,128C1280,128,1300,192,1320,197.3C1340,203,1360,149,1380,149.3C1400,149,1420,203,1430,229.3L1440,256L1440,0L1430,0C1420,0,1400,0,1380,0C1360,0,1340,0,1320,0C1300,0,1280,0,1260,0C1240,0,1220,0,1200,0C1180,0,1160,0,1140,0C1120,0,1100,0,1080,0C1060,0,1040,0,1020,0C1000,0,980,0,960,0C940,0,920,0,900,0C880,0,860,0,840,0C820,0,800,0,780,0C760,0,740,0,720,0C700,0,680,0,660,0C640,0,620,0,600,0C580,0,560,0,540,0C520,0,500,0,480,0C460,0,440,0,420,0C400,0,380,0,360,0C340,0,320,0,300,0C280,0,260,0,240,0C220,0,200,0,180,0C160,0,140,0,120,0C100,0,80,0,60,0C40,0,20,0,10,0L0,0Z"></path></svg> */}}
     {{/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 80 1440 320"><path fill="#629dff" fill-opacity="1" d="M0,128L40,144C80,160,160,192,240,192C320,192,400,160,480,138.7C560,117,640,107,720,106.7C800,107,880,117,960,149.3C1040,181,1120,235,1200,240C1280,245,1360,203,1400,181.3L1440,160L1440,0L1400,0C1360,0,1280,0,1200,0C1120,0,1040,0,960,0C880,0,800,0,720,0C640,0,560,0,480,0C400,0,320,0,240,0C160,0,80,0,40,0L0,0Z"></path></svg> */}}
     {{/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 40 1440 320"><path fill="#d40782" fill-opacity="1" d="M0,224L34.3,234.7C68.6,245,137,267,206,256C274.3,245,343,203,411,176C480,149,549,139,617,128C685.7,117,754,107,823,128C891.4,149,960,203,1029,218.7C1097.1,235,1166,213,1234,202.7C1302.9,192,1371,192,1406,192L1440,192L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"></path></svg> */}}
 
-    <svg class="absolute" xmlns="http://www.w3.org/2000/svg" viewBox="0 88 1440 320"><path fill="#508df3" fill-opacity="1" d="M0,96L34.3,101.3C68.6,107,137,117,206,138.7C274.3,160,343,192,411,197.3C480,203,549,181,617,186.7C685.7,192,754,224,823,234.7C891.4,245,960,235,1029,245.3C1097.1,256,1166,288,1234,293.3C1302.9,299,1371,277,1406,266.7L1440,256L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"></path></svg>
-    <svg class="absolute" xmlns="http://www.w3.org/2000/svg" viewBox="0 100 1440 320"><path fill="#629dff" fill-opacity="1" d="M0,96L34.3,101.3C68.6,107,137,117,206,138.7C274.3,160,343,192,411,197.3C480,203,549,181,617,186.7C685.7,192,754,224,823,234.7C891.4,245,960,235,1029,245.3C1097.1,256,1166,288,1234,293.3C1302.9,299,1371,277,1406,266.7L1440,256L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"></path></svg>
+    {{/* <svg class="absolute" xmlns="http://www.w3.org/2000/svg" viewBox="0 88 1440 320"><path fill="#508df3" fill-opacity="1" d="M0,96L34.3,101.3C68.6,107,137,117,206,138.7C274.3,160,343,192,411,197.3C480,203,549,181,617,186.7C685.7,192,754,224,823,234.7C891.4,245,960,235,1029,245.3C1097.1,256,1166,288,1234,293.3C1302.9,299,1371,277,1406,266.7L1440,256L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"></path></svg> */}}
+    {{/* <svg class="absolute" xmlns="http://www.w3.org/2000/svg" viewBox="0 100 1440 320"><path fill="#629dff" fill-opacity="1" d="M0,96L34.3,101.3C68.6,107,137,117,206,138.7C274.3,160,343,192,411,197.3C480,203,549,181,617,186.7C685.7,192,754,224,823,234.7C891.4,245,960,235,1029,245.3C1097.1,256,1166,288,1234,293.3C1302.9,299,1371,277,1406,266.7L1440,256L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"></path></svg> */}}
 
-
-    {{/* <div class="flex justify-center">
-        <div class="relative">
-            <div class="absolute bg-teal-400 inset-0 mx-auto" style="transform: rotate(1deg); width: 90%"></div>
-            <div class="px-2 py-2 bg-black inline-block" style="transform: rotate(-1.7deg);">
-                <div class="px-3 py-2 bg-white" style="z-index: 10;">
-                    <div class="text-3xl font-black text-center">Real commits • Real lolz</div>
-                </div>
-            </div>
-        </div>
-    </div> */}}
-
+    <div class="absolute w-full h-10" style="background-color: #629dff;"></div>
+    {{/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#629dff" fill-opacity="1" d="M0,288L7.1,250.7C14.1,213,28,139,42,138.7C56.5,139,71,213,85,234.7C98.8,256,113,224,127,181.3C141.2,139,155,85,169,101.3C183.5,117,198,203,212,245.3C225.9,288,240,288,254,261.3C268.2,235,282,181,296,165.3C310.6,149,325,171,339,176C352.9,181,367,171,381,154.7C395.3,139,409,117,424,128C437.6,139,452,181,466,213.3C480,245,494,267,508,256C522.4,245,536,203,551,165.3C564.7,128,579,96,593,106.7C607.1,117,621,171,635,176C649.4,181,664,139,678,101.3C691.8,64,706,32,720,64C734.1,96,748,192,762,240C776.5,288,791,288,805,240C818.8,192,833,96,847,96C861.2,96,875,192,889,229.3C903.5,267,918,245,932,208C945.9,171,960,117,974,112C988.2,107,1002,149,1016,186.7C1030.6,224,1045,256,1059,240C1072.9,224,1087,160,1101,165.3C1115.3,171,1129,245,1144,250.7C1157.6,256,1172,192,1186,154.7C1200,117,1214,107,1228,106.7C1242.4,107,1256,117,1271,133.3C1284.7,149,1299,171,1313,197.3C1327.1,224,1341,256,1355,245.3C1369.4,235,1384,181,1398,165.3C1411.8,149,1426,171,1433,181.3L1440,192L1440,0L1432.9,0C1425.9,0,1412,0,1398,0C1383.5,0,1369,0,1355,0C1341.2,0,1327,0,1313,0C1298.8,0,1285,0,1271,0C1256.5,0,1242,0,1228,0C1214.1,0,1200,0,1186,0C1171.8,0,1158,0,1144,0C1129.4,0,1115,0,1101,0C1087.1,0,1073,0,1059,0C1044.7,0,1031,0,1016,0C1002.4,0,988,0,974,0C960,0,946,0,932,0C917.6,0,904,0,889,0C875.3,0,861,0,847,0C832.9,0,819,0,805,0C790.6,0,776,0,762,0C748.2,0,734,0,720,0C705.9,0,692,0,678,0C663.5,0,649,0,635,0C621.2,0,607,0,593,0C578.8,0,565,0,551,0C536.5,0,522,0,508,0C494.1,0,480,0,466,0C451.8,0,438,0,424,0C409.4,0,395,0,381,0C367.1,0,353,0,339,0C324.7,0,311,0,296,0C282.4,0,268,0,254,0C240,0,226,0,212,0C197.6,0,184,0,169,0C155.3,0,141,0,127,0C112.9,0,99,0,85,0C70.6,0,56,0,42,0C28.2,0,14,0,7,0L0,0Z"></path></svg> */}}
+    <!-- viewbox="0 0 1440 320" -->
+    <svg class="absolute" xmlns="http://www.w3.org/2000/svg" viewBox="0 10 1000 320"><path fill="#508df3" fill-opacity="1" d="M0,96L34.3,90.7C68.6,85,137,75,206,85.3C274.3,96,343,128,411,133.3C480,139,549,117,617,128C685.7,139,754,181,823,186.7C891.4,192,960,160,1029,165.3C1097.1,171,1166,213,1234,224C1302.9,235,1371,213,1406,202.7L1440,192L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"></path></svg>
+    <svg class="absolute" xmlns="http://www.w3.org/2000/svg" viewBox="0 18 1000 320"><path fill="#629dff" fill-opacity="1" d="M0,96L34.3,90.7C68.6,85,137,75,206,85.3C274.3,96,343,128,411,133.3C480,139,549,117,617,128C685.7,139,754,181,823,186.7C891.4,192,960,160,1029,165.3C1097.1,171,1166,213,1234,224C1302.9,235,1371,213,1406,202.7L1440,192L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"></path></svg>
 </div>
 
 
-<div class="fixed top-0 right-0 z-30 mr-3 mt-8 md:mt-8">
+<!-- left nav -->
+<div class="fixed top-0 right-0 z-30 mr-3 mt-3 md:mt-8">
     <div class="flex">
-        <div class="flex justify-center mx-1"> <!-- button to load more commits -->
+        <div class="hidden md:flex justify-center"> <!-- button to load more commits -->
             <div id="more-commits" class="cursor-pointer bg-gray-100 border-4 border-gray-300" style="border-radius: 1.2rem; border-color: #508df3;">
                 <img class="w-10 h-10 md:w-12 md:h-12 m-2 cursor-pointer transition-transform duration-200" src="/static/cyclone.png" alt="toggle-message">
             </div>
         </div>
 
-        <div class="flex justify-center mx-1"> <!-- button to uncensor commit messages -->
+        <div class="flex justify-center ml-2"> <!-- button to uncensor commit messages -->
             <div id="censor-toggle" class="cursor-pointer bg-gray-100 border-4 border-gray-300" style="border-radius: 1.2rem; border-color: #508df3;">
-                <img class="w-10 h-10 md:w-12 md:h-12 m-2 cursor-pointer" src="/static/curse-face.png" alt="toggle-message">
+                <img class="w-10 h-10 md:w-12 md:h-12 m-2 cursor-pointer transition-transform duration-200" src="/static/curse-face.png" alt="toggle-message">
             </div>
         </div>  
     </div>
 </div>
 
 
-{{/* <div class="relative flex justify-center mb-16" xstyle="margin-top: -3rem;">
-    <h2 class="absolute flex justify-center text-3xl font-black bg-white px-3 py-2 xborder-4 xborder-black">The brightest minds of our generation</h2>
-</div> */}}
 
+<div class="w-full pt-6 md:pt-16">
+    <div id="commits" class="max-w-screen-xl container mx-auto flex flex-wrap justify-center" style="font-size: 1rem;">
+        {{range .}}
+        <span class="commit-item flex flex-col mx-375 mb-3 font-mono soft-edge"> <!-- commit -->
+            <div class="rounded-sm xshadow xgrit relative" style="background-color: {{.ColorBackground}}; color: {{.ColorForeground}}">
+                <div class="flex items-center p-2">
+                    <a class="hidden md:inline pr-2" target="_blank" href="{{.Author.URL}}">
+                        <img loading="lazy" class="rounded-full w-8 h-8" alt="{{.Author.Username}}" src="{{.Author.AvatarURL}}">
+                    </a>
 
-
-
-
-<div class="w-full py-16">
-
-
-<div id="commits" class="max-w-screen-xl container mx-auto flex flex-wrap justify-center" style="font-size: 1rem;">
-{{range .}}
-<span class="commit-item flex flex-col mx-375 mb-3 font-mono soft-edge"> <!-- commit -->
-    <div class="rounded-sm xshadow grit" style="background-color: {{.ColorBackground}}; color: {{.ColorForeground}}">
-        <div class="flex items-center p-2">
-            <a class="hidden md:inline pr-2" target="_blank" href="{{.Author.URL}}">
-                <img loading="lazy" class="rounded-full w-8 h-8" alt="{{.Author.Username}}" src="{{.Author.AvatarURL}}">
-            </a>
-
-            <a class="app-message relative xpr-2" target="_blank" href="{{.URL}}">
-                <span class="app-commit commit-message-censored inline">{{.MessageCensoredHTML}}</span>
-                <span class="app-commit commit-message-raw inline hidden">{{.Message}}</span>
-            </a>
-        </div>
-    </div>
-</span>
-{{end}}
-
-<h1>(ノಠ益ಠ)ノ</h1>
-
-</div>
+                    <a class="app-message relative xpr-2" target="_blank" href="{{.URL}}">
+                        <span class="app-commit commit-message-censored inline">{{.MessageCensoredHTML}}</span>
+                        <span class="app-commit commit-message-raw inline hidden">{{.Message}}</span>
+                    </a>
+                </div>
+            </div>
+        </span>
+        {{end}}
+    </div> <!-- #commits -->
+    <h3>(ノಠ益ಠ)ノ</h3>
 </div>
 
 <script type="text/javascript">
@@ -178,6 +138,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
     document.getElementById('more-commits').addEventListener('click', e => {
         e.preventDefault();
         e.stopPropagation();
+        // This is a placeholder for now.
+        // We'll have to setup ajax fetching soon.
         window.location = '/';
     });
 });
@@ -186,10 +148,6 @@ function toggleCommitMessages() {
     document.querySelectorAll('.commit-message-censored').forEach(item => {item.classList.toggle('censor'); });
     document.querySelectorAll('.commit-message-raw').forEach(item => {item.classList.toggle('censor'); });
 }
-
-/*function showCensoredCommits() {
-    document.querySelectorAll('.commit-message-censored').forEach(item => {item.classList.remove('opacity-0'); });
-}*/
 </script>
 
 {{ template "footer" .}}

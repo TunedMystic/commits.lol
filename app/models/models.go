@@ -95,11 +95,11 @@ func (c *GitCommit) GetColorTheme() {
 		// {"#24e860", "#000000"}, // lime green*
 
 		// Ref: https://graf1x.com/shades-of-blue-color-palette/
-		{"#73c2fb", "#000000"}, // maya
-		{"#6593f5", "#000000"}, // cornflower
+		// {"#73c2fb", "#000000"}, // maya
+		// {"#6593f5", "#000000"}, // cornflower
 		// {"#074fbd", "#ffffff"}, // sapphire*
-		{"#1f63ca", "#ffffff"}, // sapphire*
-		{"#6cbff9", "#000000"}, // carolina*
+		// {"#1f63ca", "#ffffff"}, // sapphire*
+		// {"#6cbff9", "#000000"}, // carolina*
 		// {"#72cbf5", "#000000"}, // baby blue*
 
 		// Ref: https://graf1x.com/24-shades-of-pink-color-palette/
@@ -109,9 +109,11 @@ func (c *GitCommit) GetColorTheme() {
 
 		// Ref: https://www.eggradients.com/shades-of-purple
 		// {"#6147f1", "#ffffff"}, // electric indigo*
-		{"#8a2be2", "#ffffff"}, // blue violet
+		// {"#8a2be2", "#ffffff"}, // blue violet
 		// {"#c71585", "#ffffff"}, // red violet
 		// {"#6a5acd", "#ffffff"}, // slate blue
+		// {"#d4449a", "#ffffff"}, // slate pink*
+		{"#d44480", "#ffffff"}, // slate pink*
 	}
 
 	commitLength := len(c.Message) + len(c.Author.Username)
