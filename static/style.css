@@ -187,7 +187,7 @@ html {
 
 
 #home-icon {
-    transform: rotate(0deg);
+    transform: rotate(-2deg);
 }
 
 @media only screen and (min-width: 768px) {
