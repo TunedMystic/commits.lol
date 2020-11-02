@@ -185,6 +185,15 @@ html {
 }
 
 
+.twitter-share {
+    background-color: #4e8bf1;
+}
+
+.twitter-share:hover {
+    /* background-color: #679cf5; */
+    background-color: #6aa1ff;
+}
+
 
 #home-icon {
     transform: rotate(-2deg);
