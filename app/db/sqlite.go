@@ -111,7 +111,7 @@ func (s *SqliteDB) RecentCommits() (models.GitCommits, error) {
 			c.valid = TRUE
 		)
 		ORDER BY random()
-		LIMIT 15;`
+		LIMIT 18;`
 
 	if err := s.DB.Select(&values, query, daysBack); err != nil {
 		return nil, err

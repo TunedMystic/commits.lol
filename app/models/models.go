@@ -103,7 +103,7 @@ func (c *GitCommit) GetColorTheme() {
 		// {"#72cbf5", "#000000"}, // baby blue*
 
 		// Ref: https://graf1x.com/24-shades-of-pink-color-palette/
-		{"#fe7f9c", "#000000"}, // watermelon
+		// {"#fe7f9c", "#000000"}, // watermelon
 		{"#ff66cc", "#000000"}, // rose pink
 		{"#fb607f", "#000000"}, // brick
 
@@ -113,7 +113,7 @@ func (c *GitCommit) GetColorTheme() {
 		// {"#c71585", "#ffffff"}, // red violet
 		// {"#6a5acd", "#ffffff"}, // slate blue
 		// {"#d4449a", "#ffffff"}, // slate pink*
-		{"#d44480", "#ffffff"}, // slate pink*
+		{"#ce3876", "#ffffff"}, // slate pink*
 
 		// canada
 		// {"	#1dd1a1", "#000000"}, // wild caribbean green
@@ -121,7 +121,7 @@ func (c *GitCommit) GetColorTheme() {
 		// {"#ff6b6b", "#ffffff"}, // pastel red
 		// {"#222f3e", "#ffffff"}, // imperial primer
 		// {"#feca57", "#000000"}, // casandora yellow
-		// {"#ff9ff3", "#000000"}, // jigglypuff
+		{"#ff9ff3", "#000000"}, // jigglypuff
 		// {"#ff9f43", "#000000"}, // double dragon skin
 		// {"#0ca9f2", "#000000"}, // jade dust
 		// {"#9a89f7", "#000000"}, // joust blue

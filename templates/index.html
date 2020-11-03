@@ -2,12 +2,12 @@
 {{template "header" .}}
 
 <div class="flex w-full z-30">
-    <div style="background-color: #1cb9d2;" class="h-1 w-1/12"></div>
-    <div style="background-color: #0ca9f2;" class="h-1 w-2/12"></div>
-    <div style="background-color: #1B9CFC;" class="h-1 w-2/12"></div>
-    <div style="background-color: #1c80fc;" class="h-1 w-3/12"></div>
-    <div style="background-color: #476cf3;" class="h-1 w-2/12"></div>
-    <div style="background-color: #6563f5;" class="h-1 w-2/12"></div>
+    <div style="height: 0.3rem; background-color: #1cb9d2;" class="xh-1 w-1/12"></div>
+    <div style="height: 0.3rem; background-color: #0ca9f2;" class="xh-1 w-2/12"></div>
+    <div style="height: 0.3rem; background-color: #1B9CFC;" class="xh-1 w-2/12"></div>
+    <div style="height: 0.3rem; background-color: #1c80fc;" class="xh-1 w-3/12"></div>
+    <div style="height: 0.3rem; background-color: #476cf3;" class="xh-1 w-2/12"></div>
+    <div style="height: 0.3rem; background-color: #6563f5;" class="xh-1 w-2/12"></div>
 </div>
 
 <div class="w-full h-32 relative">
@@ -20,7 +20,7 @@
             <div id="home-icon" class="flex flex-col justify-center text-left md:text-center">
                 <a href="/">
                     <div class="inline-block bg-white xborder-4 border-black">
-                        <div class="px-3 py-2 grit">
+                        <div class="px-0 md:px-3 py-0 md:py-1 grit">
                             <h2 class="font-black text-lg md:text-2xl">
                                 <span class="px-1 text-black" style="background-color: #ffd642;">COMMITS</span>.
                                 <span class="px-1 text-white bg-black">LOL</span>
@@ -30,24 +30,40 @@
                 </a>
 
                 <p>
-                    <span class="p-1 text-xs md:text-sm xbg-white md:bg-transparent text-white font-mono xfont-normal font-semibold">Devs say the darndest things</span>
+                    <span class="font-mono text-gray-600 text-xs md:text-sm">Devs say the darndest things</span>
                 </p>
             </div>
         </div> <!-- /main logo -->
 
-        <a href="https://twitter.com" class="twitter-share transition-colors duration-300 flex items-center rounded-md py-1 px-3 text-base md:text-lg text-white font-sans font-bold">
-            <span class="hidden sm:block mr-2 md:mr-3">Share</span>
-            <svg class="fill-current w-8 h-8 py-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <path fill="#ffffff" d="M17.316,6.246c0.008,0.162,0.011,0.326,0.011,0.488c0,4.99-3.797,10.742-10.74,10.742  c-2.133,0-4.116-0.625-5.787-1.697c0.296,0.035,0.596,0.053,0.9,0.053c1.77,0,3.397-0.604,4.688-1.615  c-1.651-0.031-3.046-1.121-3.526-2.621c0.23,0.043,0.467,0.066,0.71,0.066c0.345,0,0.679-0.045,0.995-0.131  C2.84,11.183,1.539,9.658,1.539,7.828c0-0.016,0-0.031,0-0.047c0.509,0.283,1.092,0.453,1.71,0.473  c-1.013-0.678-1.68-1.832-1.68-3.143c0-0.691,0.186-1.34,0.512-1.898C3.942,5.498,6.725,7,9.862,7.158  C9.798,6.881,9.765,6.594,9.765,6.297c0-2.084,1.689-3.773,3.774-3.773c1.086,0,2.067,0.457,2.756,1.191  c0.859-0.17,1.667-0.484,2.397-0.916c-0.282,0.881-0.881,1.621-1.66,2.088c0.764-0.092,1.49-0.293,2.168-0.594  C18.694,5.051,18.054,5.715,17.316,6.246z"/>
-            </svg>
+
+        {{/* <div class="flex flex-col-reverse md:flex-row items-center">
+            <p class="font-mono text-gray-600 text-xs md:text-sm mr-0 md:mr-3 xmt-1 xmd:mt-0">v0.0.1</p>
+            <div class="hidden md:block bg-white inline-block rounded-full xtext-gray-400"> <!-- github -->
+                <a href="https://github.com/TunedMystic/commits.lol" target="_blank">
+                    <svg style="color: #24292e" class="fill-current w-8 h-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path>
+                    </svg>
+                </a>
+            </div>
+        </div> */}}
+
+        <a class="flex items-center px-2 py-1 rounded-md hover:bg-gray-200 transition-colors duration-300" href="https://github.com/TunedMystic/commits.lol" target="_blank">
+            <p class="hidden md:block font-semibold text-gray-600 text-sm md:text-md mr-0 md:mr-2">Share</p>
+            <div class="rounded-full text-gray-500 xbg-gray-400"> <!-- github -->
+                    <svg class="fill-current w-8 h-8 p-1 rounded-full" xstyle="background-color: #1da1f2;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path d="M17.316,6.246c0.008,0.162,0.011,0.326,0.011,0.488c0,4.99-3.797,10.742-10.74,10.742  c-2.133,0-4.116-0.625-5.787-1.697c0.296,0.035,0.596,0.053,0.9,0.053c1.77,0,3.397-0.604,4.688-1.615  c-1.651-0.031-3.046-1.121-3.526-2.621c0.23,0.043,0.467,0.066,0.71,0.066c0.345,0,0.679-0.045,0.995-0.131  C2.84,11.183,1.539,9.658,1.539,7.828c0-0.016,0-0.031,0-0.047c0.509,0.283,1.092,0.453,1.71,0.473  c-1.013-0.678-1.68-1.832-1.68-3.143c0-0.691,0.186-1.34,0.512-1.898C3.942,5.498,6.725,7,9.862,7.158  C9.798,6.881,9.765,6.594,9.765,6.297c0-2.084,1.689-3.773,3.774-3.773c1.086,0,2.067,0.457,2.756,1.191  c0.859-0.17,1.667-0.484,2.397-0.916c-0.282,0.881-0.881,1.621-1.66,2.088c0.764-0.092,1.49-0.293,2.168-0.594  C18.694,5.051,18.054,5.715,17.316,6.246z"/>
+                    </svg>
+            </div>
         </a>
 
     </div> <!-- /top nav -->
     </div>
 
 
-    <div class="w-full" style="background-color: #4e8bf1; height: 250px;"></div>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 18 1000 320"><path fill="#4e8bf1" fill-opacity="1" d="M0,96L34.3,90.7C68.6,85,137,75,206,85.3C274.3,96,343,128,411,133.3C480,139,549,117,617,128C685.7,139,754,181,823,186.7C891.4,192,960,160,1029,165.3C1097.1,171,1166,213,1234,224C1302.9,235,1371,213,1406,202.7L1440,192L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"></path></svg>
+    {{/* <div class="w-full" style="background-color: #4e8bf1; height: 250px;"></div> */}}
+    {{/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 18 1000 320"><path fill="#4e8bf1" fill-opacity="1" d="M0,96L34.3,90.7C68.6,85,137,75,206,85.3C274.3,96,343,128,411,133.3C480,139,549,117,617,128C685.7,139,754,181,823,186.7C891.4,192,960,160,1029,165.3C1097.1,171,1166,213,1234,224C1302.9,235,1371,213,1406,202.7L1440,192L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"></path></svg> */}}
+    <div class="w-full" style="background-color: #fff; height: 250px;"></div>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 18 1000 320"><path fill="#fff" fill-opacity="1" d="M0,96L34.3,90.7C68.6,85,137,75,206,85.3C274.3,96,343,128,411,133.3C480,139,549,117,617,128C685.7,139,754,181,823,186.7C891.4,192,960,160,1029,165.3C1097.1,171,1166,213,1234,224C1302.9,235,1371,213,1406,202.7L1440,192L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"></path></svg>
 </div>
 
 
@@ -70,31 +86,31 @@
 
 
 <div class="w-full px-4 md:px-8 lg:px-8 pt-24 xmd:pt-16">
-    <div id="commits" class="xborder-4 border-black relative xrounded-md shadow-lg bg-white p-2 md:p-6 text-md md:text-lg      max-w-screen-md lg:max-w-screen-lg container mx-auto flex flex-wrap justify-center" style="xfont-size: 1rem; border-radius: 0.8rem; border-radius: 0.8rem;">
+    <div id="commits" class="border-4 border-gray-200 md:border-gray-100 relative xrounded-md shadow-md bg-white p-2 md:p-6 text-md md:text-lg      max-w-screen-md lg:max-w-screen-lg container mx-auto flex flex-wrap justify-center" style="xfont-size: 1rem; border-radius: 0.8rem; border-radius: 0.5rem; xbox-shadow: 0px 1px 15px -3px rgba(0,0,0,.1), 0 4px 6px -2px rgba(0,0,0,.05);">
 
-        <div class="xborder-4 border-black shadow absolute flex z-10 py-3 px-2 bg-white" style="border-radius: 1.2rem; border-radius: 0.8rem; xtop: -55px; top: -85px;"> <!-- navs -->
+        <div class="border-4 border-gray-100 shadow absolute flex z-10 py-3 px-2 bg-white" style="border-radius: 1.2rem; border-radius: 0.5rem; xtop: -55px; top: -95px;"> <!-- navs -->
 
             <div class="flex justify-center"> <!-- button to load more commits -->
                 <div id="more-commits" class="cursor-pointer xpy-1 xbg-gray-100 xborder-4 border-gray-300" style="border-radius: 1.2rem; border-color: #508df3;">
-                    <img class="w-10 h-10 md:w-12 md:h-12 mx-1 cursor-pointer transition-transform duration-200" src="/static/face-with-tears-of-joy.png" alt="toggle-message">
+                    <img class="w-10 h-10 mx-2 cursor-pointer transition-transform duration-200" src="/static/face-with-tears-of-joy.png" alt="toggle-message">
                 </div>
             </div>
 
             <div class="flex justify-center ml-2"> <!-- button to load more commits -->
                 <div id="poop-commits" class="cursor-pointer xpy-1 xbg-gray-100 xborder-4 border-gray-300" style="border-radius: 1.2rem; border-color: #508df3;">
-                    <img class="w-10 h-10 md:w-12 md:h-12 mx-1 cursor-pointer transition-transform duration-200" src="/static/pile-of-poo.png" alt="toggle-message">
+                    <img class="w-10 h-10 mx-2 cursor-pointer transition-transform duration-200" src="/static/pile-of-poo.png" alt="toggle-message">
                 </div>
             </div>
 
             <div class="flex justify-center ml-2"> <!-- button to load more commits -->
                 <div id="holy-commits" class="cursor-pointer xpy-1 xbg-gray-100 xborder-4 border-gray-300" style="border-radius: 1.2rem; border-color: #508df3;">
-                    <img class="w-10 h-10 md:w-12 md:h-12 mx-1 cursor-pointer transition-transform duration-200" src="/static/smiling-face-with-halo.png" alt="toggle-message">
+                    <img class="w-10 h-10 mx-2 cursor-pointer transition-transform duration-200" src="/static/smiling-face-with-halo.png" alt="toggle-message">
                 </div>
             </div>
 
-            <div class="flex justify-center border-l-2 ml-2 pl-2"> <!-- button to uncensor commit messages -->
+            <div class="flex justify-center border-l-2 border-gray-300 ml-2 pl-2"> <!-- button to uncensor commit messages -->
                 <div id="censor-toggle" class="cursor-pointer xpy-1 xbg-yellow-200 rounded-full xborder-4 border-gray-300" style="xborder-radius: 1.2rem; border-color: #508df3;">
-                    <img class="w-10 h-10 md:w-12 md:h-12 mx-1 cursor-pointer transition-transform duration-200" src="/static/curse-face.png" alt="toggle-message">
+                    <img class="w-10 h-10 mx-2 cursor-pointer transition-transform duration-200" src="/static/curse-face.png" alt="toggle-message">
                 </div>
             </div>
         </div> <!-- /navs -->
@@ -105,7 +121,7 @@
             <div class="rounded xshadow xgrit relative" style="background-color: {{.ColorBackground}}; color: {{.ColorForeground}}">
                 <div class="flex items-center text-sm md:text-base px-2 py-1 lg:py-2">
                     <a class="hidden md:inline pr-2" target="_blank" href="{{.Author.URL}}">
-                        <img loading="lazy" class="rounded-full w-8 h-8" alt="{{.Author.Username}}" src="{{.Author.AvatarURL}}">
+                        <img loading="lazy" class="rounded-full w-6 h-6" alt="{{.Author.Username}}" src="{{.Author.AvatarURL}}">
                     </a>
 
                     <a class="app-message relative" target="_blank" href="{{.URL}}">
@@ -158,6 +174,8 @@
             <p class="mt-12">Commits.lol collects funny commit messages from <a class="underline text-indigo-500" target="_blank" href="https://docs.github.com/en/free-pro-team@latest/rest">GitHub</a>.</p>
             <p>Made mostly for fun and lolz. Updated every hour.</p>
             {{/* <p>Commits are collected every hour via <a class="underline text-indigo-500" target="_blank" href="https://docs.github.com/en/free-pro-team@latest/rest">GitHub's API</a>.</p> */}}
+
+            {{/* <img src="/static/lol.gif"/> */}}
 
             <p class="mt-12 font-bold">Tech stack?</p>
             {{/* <p>
