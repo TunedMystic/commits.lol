@@ -27,7 +27,7 @@ func NewServer(DB db.Database) *Server {
 func (s *Server) IndexHandler(w http.ResponseWriter, r *http.Request) {
 	commits, err := s.DB.RecentCommits()
 	if err != nil {
-		http.Error(w, err.Error(), 500)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	for _, commit := range commits {
@@ -36,10 +36,25 @@ func (s *Server) IndexHandler(w http.ResponseWriter, r *http.Request) {
 	s.Templates.ExecuteTemplate(w, "index", commits)
 }
 
+// CommitsHandler renders the commits template fragment.
+func (s *Server) CommitsHandler(w http.ResponseWriter, r *http.Request) {
+	commits, err := s.DB.RecentCommits()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	for _, commit := range commits {
+		commit.GetColorTheme()
+	}
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	s.Templates.ExecuteTemplate(w, "commits", commits)
+}
+
 // Routes returns the routes for the application.
 func (s *Server) Routes() *mux.Router {
 	router := mux.NewRouter()
 	router.HandleFunc("/", s.IndexHandler).Methods("GET")
+	router.HandleFunc("/commits", s.CommitsHandler).Methods("GET")
 	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	return router
 }

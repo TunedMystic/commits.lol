@@ -1,0 +1,146 @@
+{{define "css"}}
+<style>
+.font-mono {
+    font-family: 'Source Code Pro', monospace;
+}
+
+.font-sans {
+    font-family: 'Inter', sans-serif;
+}
+
+.m-375 {
+    margin: .375rem;
+}
+
+/* --------------------------------------------------------------- */
+
+.censored {
+    display: inline-block;
+    line-height: 1.1rem;
+    background-color: black;
+    color: white;
+}
+
+.word {
+    color: #cacaca;
+    font-weight: 600;
+    display: inline;
+}
+
+/* --------------------------------------------------------------- */
+
+.commit-item .commit-message-censored {
+    display: inline;
+}
+
+.commit-item .commit-message-raw {
+    display: none;
+}
+
+.commit-item:hover .commit-message-censored {
+    display: none;
+}
+
+.commit-item:hover .commit-message-raw {
+    display: inline;
+}
+
+.commit-item .commit-message-censored.censor {
+    display: none;
+}
+
+.commit-item .commit-message-raw.censor {
+    display: inline;
+}
+
+/* --------------------------------------------------------------- */
+/* Using :nth child to create fake random rotation. */
+/* Ref: http://jsfiddle.net/jeAsd/7 */
+
+#commits .commit-item:nth-child(1n) .censored {
+    transform: rotate(-2.2deg);
+}
+
+#commits .commit-item:nth-child(2n) .censored {
+    transform: rotate(-1.5deg);
+}
+
+#commits .commit-item:nth-child(3n) .censored {
+    transform: rotate(2.2deg);
+}
+
+#commits .commit-item:nth-child(4n) .censored {
+    transform: rotate(1.5deg);
+}
+
+/* --------------------------------------------------------------- */
+/* Custom rotation for the emoji buttons */
+
+#more-commits:hover>img {
+    transform: rotate(60deg);
+}
+
+#poop-commits:hover>img {
+    transform: rotate(-70deg);
+}
+
+#holy-commits:hover>img {
+    transform: rotate(30deg);
+}
+
+#censor-toggle:hover>img {
+    transform: rotate(-20deg);
+}
+
+/* --------------------------------------------------------------- */
+
+.bg-light-gray {
+    background-color: #f3f7fb;
+}
+
+.grit {
+    position: relative;
+    background: url(/static/img/blackgrit.png) 0% -48% / 115px;
+}
+
+@media only screen and (min-width: 768px) {
+    #home-icon {
+        transform: rotate(-4deg);
+    }
+}
+
+/* --------------------------------------------------------------- */
+/* Social buttons in the footer */
+
+.social-twitter {
+    top: -32px;
+    right: 127px;
+    transform: rotate(-17deg);
+}
+
+.social-twitter:hover {
+    transform: rotate(7deg);
+}
+
+.social-github {
+    top: -72px;
+    right: 79px;
+    transform: rotate(31deg);
+}
+
+.social-github:hover {
+    transform: rotate(55deg);
+}
+
+.social-website {
+    top: -58px;
+    right: 20px;
+    transform: rotate(19deg);
+}
+
+.social-website:hover {
+    transform: rotate(-5deg);
+}
+
+</style>
+{{end}}
