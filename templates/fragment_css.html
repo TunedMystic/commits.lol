@@ -1,3 +1,5 @@
+{{define "css"}}
+<style>
 .font-mono {
     font-family: 'Source Code Pro', monospace;
 }
@@ -10,9 +12,7 @@
     margin: .375rem;
 }
 
-
 /* --------------------------------------------------------------- */
-
 
 .censored {
     display: inline-block;
@@ -27,9 +27,7 @@
     display: inline;
 }
 
-
 /* --------------------------------------------------------------- */
-
 
 .commit-item .commit-message-censored {
     display: inline;
@@ -55,27 +53,25 @@
     display: inline;
 }
 
-
 /* --------------------------------------------------------------- */
 /* Using :nth child to create fake random rotation. */
 /* Ref: http://jsfiddle.net/jeAsd/7 */
 
 #commits .commit-item:nth-child(1n) .censored {
-    transform: rotate(-2deg);
+    transform: rotate(-2.2deg);
 }
 
 #commits .commit-item:nth-child(2n) .censored {
-    transform: rotate(-1deg);
+    transform: rotate(-1.5deg);
 }
 
 #commits .commit-item:nth-child(3n) .censored {
-    transform: rotate(2deg);
+    transform: rotate(2.2deg);
 }
 
 #commits .commit-item:nth-child(4n) .censored {
-    transform: rotate(1deg);
+    transform: rotate(1.5deg);
 }
-
 
 /* --------------------------------------------------------------- */
 /* Custom rotation for the emoji buttons */
@@ -96,20 +92,15 @@
     transform: rotate(-20deg);
 }
 
-
 /* --------------------------------------------------------------- */
 
-
-.background-pattern {
+.bg-light-gray {
     background-color: #f3f7fb;
-    /* background-color: #f7fafc; */
-    /* background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23dfe4e6' fill-opacity='0.4'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); */
-    /* background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23cccccc' fill-opacity='0.4'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); */
 }
 
 .grit {
     position: relative;
-    background: url(blackgrit.png) 0% -48% / 115px;
+    background: url(/static/img/blackgrit.png) 0% -48% / 115px;
 }
 
 @media only screen and (min-width: 768px) {
@@ -117,7 +108,6 @@
         transform: rotate(-4deg);
     }
 }
-
 
 /* --------------------------------------------------------------- */
 /* Social buttons in the footer */
@@ -151,3 +141,6 @@
 .social-website:hover {
     transform: rotate(-5deg);
 }
+
+</style>
+{{end}}

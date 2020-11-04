@@ -1,0 +1,40 @@
+{{define "js"}}
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', (e) => {
+    console.log('hi');
+
+    const curseFace = '/static/img/curse-face.png';
+    const flushedFace = '/static/img/flushed-face.png';
+
+    document.getElementById('censor-toggle').addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const img = document.querySelector('#censor-toggle > img');
+        if (img.getAttribute("src") === curseFace) {
+            img.setAttribute("src", flushedFace);
+            toggleCommitMessages();
+            return;
+        }
+        if (img.getAttribute("src") === flushedFace) {
+            img.setAttribute("src", curseFace);
+            toggleCommitMessages();
+            return;
+        }
+    });
+
+    document.getElementById('more-commits').addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        // This is a placeholder for now.
+        // We'll have to setup ajax fetching soon.
+        window.location = '/';
+    });
+});
+
+function toggleCommitMessages() {
+    document.querySelectorAll('.commit-message-censored').forEach(item => {item.classList.toggle('censor'); });
+    document.querySelectorAll('.commit-message-raw').forEach(item => {item.classList.toggle('censor'); });
+}
+</script>
+{{end}}
