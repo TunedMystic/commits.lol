@@ -1,0 +1,19 @@
+{{define "commits"}}
+    {{range .}}
+        <!-- single commit -->
+        <span class="commit-item flex flex-col m-375 font-mono">
+            <div class="relative rounded" style="background-color: {{.ColorBackground}}; color: {{.ColorForeground}}">
+                <div class="flex items-center text-sm md:text-base px-2 py-1 lg:py-2">
+                    <a class="hidden md:inline pr-2" target="_blank" href="{{.Author.URL}}">
+                        <img loading="lazy" class="rounded-full w-6 h-6" alt="{{.Author.Username}}" src="{{.Author.AvatarURL}}">
+                    </a>
+
+                    <a class="relative" target="_blank" href="{{.URL}}">
+                        <span class="commit-message-censored inline">{{.MessageCensoredHTML}}</span>
+                        <span class="commit-message-raw inline hidden">{{.Message}}</span>
+                    </a>
+                </div>
+            </div>
+        </span> <!-- /single commit -->
+    {{end}}
+{{end}}
