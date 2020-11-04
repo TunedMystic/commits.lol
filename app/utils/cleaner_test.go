@@ -7,9 +7,18 @@ import (
 func Test_Cleaner(t *testing.T) {
 	cleaner := NewTextCleaner([]string{"crappy", "bad"})
 	text := "fixed a crappy bug"
-	censored := cleaner.CensorText(text)
+	censoredText, censoredWords := cleaner.CensorText(text)
 	expected := `fixed a <span class="censored">c<span class="word">#%@$!</span></span> bug`
-	AssertEqual(t, censored, expected)
+	AssertEqual(t, censoredText, expected)
+	AssertEqual(t, censoredWords, 1)
+}
+
+func Test_Cleaner_no_censored_words(t *testing.T) {
+	cleaner := NewTextCleaner([]string{"crappy", "bad"})
+	text := "fixed a bug"
+	censoredText, censoredWords := cleaner.CensorText(text)
+	AssertEqual(t, censoredText, text)
+	AssertEqual(t, censoredWords, 0)
 }
 
 func Test_Cleaner_make_replacement(t *testing.T) {

@@ -9,7 +9,7 @@
                     </a>
 
                     <a class="relative" target="_blank" href="{{.URL}}">
-                        <span class="commit-message-censored inline">{{.MessageCensoredHTML}}</span>
+                        <span class="commit-message-censored inline">{{if .MessageCensored}}{{.MessageCensoredHTML}}{{else}}{{.Message}}{{end}}</span>
                         <span class="commit-message-raw inline hidden">{{.Message}}</span>
                     </a>
                 </div>

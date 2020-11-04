@@ -34,14 +34,16 @@ func (t *TextCleaner) makeReplacement(word string) string {
 }
 
 // CensorText ...
-func (t *TextCleaner) CensorText(text string) string {
+func (t *TextCleaner) CensorText(text string) (string, int) {
 	newText := []string{}
+	censoredWords := 0
 	for _, word := range strings.Fields(text) {
 		replacement := ""
 
 		for _, badWord := range t.BadWords {
 			if strings.Contains(strings.ToLower(word), badWord) {
 				replacement = t.makeReplacement(word)
+				censoredWords++
 			}
 		}
 		if replacement == "" {
@@ -49,5 +51,5 @@ func (t *TextCleaner) CensorText(text string) string {
 		}
 		newText = append(newText, replacement)
 	}
-	return strings.Join(newText, " ")
+	return strings.Join(newText, " "), censoredWords
 }
