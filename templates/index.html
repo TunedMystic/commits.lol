@@ -2,26 +2,24 @@
 {{template "header" .}}
 
 <div class="flex w-full z-30">
-    <div style="height: 0.3rem; background-color: #1cb9d2;" class="xh-1 w-1/12"></div>
-    <div style="height: 0.3rem; background-color: #0ca9f2;" class="xh-1 w-2/12"></div>
-    <div style="height: 0.3rem; background-color: #1B9CFC;" class="xh-1 w-2/12"></div>
-    <div style="height: 0.3rem; background-color: #1c80fc;" class="xh-1 w-3/12"></div>
-    <div style="height: 0.3rem; background-color: #476cf3;" class="xh-1 w-2/12"></div>
-    <div style="height: 0.3rem; background-color: #6563f5;" class="xh-1 w-2/12"></div>
+    <div style="height: 0.3rem; background-color: #1cb9d2;" class="w-1/12"></div>
+    <div style="height: 0.3rem; background-color: #0ca9f2;" class="w-2/12"></div>
+    <div style="height: 0.3rem; background-color: #1B9CFC;" class="w-2/12"></div>
+    <div style="height: 0.3rem; background-color: #1c80fc;" class="w-3/12"></div>
+    <div style="height: 0.3rem; background-color: #476cf3;" class="w-2/12"></div>
+    <div style="height: 0.3rem; background-color: #6563f5;" class="w-2/12"></div>
 </div>
 
 <div class="w-full h-32 relative">
-
-
     <div class="absolute z-10 w-full">
-    <div id="top-nav" class="max-w-screen-lg mx-auto flex justify-between items-center mt-6 md:mt-8 px-4 lg:px-0"> <!-- top nav -->
+        <div id="top-nav" class="max-w-screen-lg mx-auto flex justify-between items-center mt-6 md:mt-8 px-4 lg:px-0"> <!-- top nav -->
 
-        <div class="flex justify-start"> <!-- main logo -->
-            <div id="home-icon" class="flex flex-col justify-center text-left md:text-center">
+            <!-- main logo -->
+            <div id="home-icon" class="flex flex-col">
                 <a href="/">
-                    <div class="inline-block bg-white xborder-4 border-black">
+                    <div class="inline-block bg-white">
                         <div class="px-0 md:px-3 py-0 md:py-1 grit">
-                            <h2 class="font-black text-lg md:text-2xl">
+                            <h2 class="font-sans font-black text-lg md:text-2xl">
                                 <span class="px-1 text-black" style="background-color: #ffd642;">COMMITS</span>.
                                 <span class="px-1 text-white bg-black">LOL</span>
                             </h2>
@@ -32,220 +30,123 @@
                 <p>
                     <span class="font-mono text-gray-600 text-xs md:text-sm">Devs say the darndest things</span>
                 </p>
-            </div>
-        </div> <!-- /main logo -->
+            </div> <!-- /main logo -->
 
 
-        {{/* <div class="flex flex-col-reverse md:flex-row items-center">
-            <p class="font-mono text-gray-600 text-xs md:text-sm mr-0 md:mr-3 xmt-1 xmd:mt-0">v0.0.1</p>
-            <div class="hidden md:block bg-white inline-block rounded-full xtext-gray-400"> <!-- github -->
-                <a href="https://github.com/TunedMystic/commits.lol" target="_blank">
-                    <svg style="color: #24292e" class="fill-current w-8 h-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path>
-                    </svg>
-                </a>
-            </div>
-        </div> */}}
+            {{/* <div class="flex flex-col-reverse md:flex-row items-center">
+                <p class="font-mono text-gray-600 text-xs md:text-sm mr-0 md:mr-30">v0.0.1</p>
+                <div class="hidden md:block bg-white inline-block rounded-full"> <!-- github -->
+                    <a href="https://github.com/TunedMystic/commits.lol" target="_blank">
+                        <svg style="color: #24292e" class="fill-current w-8 h-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div> */}}
 
-        <a class="flex items-center px-2 py-1 rounded-md hover:bg-gray-200 transition-colors duration-300" href="https://github.com/TunedMystic/commits.lol" target="_blank">
-            <p class="hidden md:block font-semibold text-gray-600 text-sm md:text-md mr-0 md:mr-2">Share</p>
-            <div class="rounded-full text-gray-500 xbg-gray-400"> <!-- github -->
-                    <svg class="fill-current w-8 h-8 p-1 rounded-full" xstyle="background-color: #1da1f2;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+            <a class="flex items-center px-2 py-1 rounded-md hover:bg-gray-200 transition-colors duration-300" href="https://github.com/TunedMystic/commits.lol" target="_blank">
+                <p class="hidden md:block font-semibold text-gray-600 text-sm md:text-md mr-0 md:mr-2">Share</p>
+                <div class="rounded-full text-gray-500"> <!-- twitter -->
+                    <svg class="fill-current w-8 h-8 p-1 rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                         <path d="M17.316,6.246c0.008,0.162,0.011,0.326,0.011,0.488c0,4.99-3.797,10.742-10.74,10.742  c-2.133,0-4.116-0.625-5.787-1.697c0.296,0.035,0.596,0.053,0.9,0.053c1.77,0,3.397-0.604,4.688-1.615  c-1.651-0.031-3.046-1.121-3.526-2.621c0.23,0.043,0.467,0.066,0.71,0.066c0.345,0,0.679-0.045,0.995-0.131  C2.84,11.183,1.539,9.658,1.539,7.828c0-0.016,0-0.031,0-0.047c0.509,0.283,1.092,0.453,1.71,0.473  c-1.013-0.678-1.68-1.832-1.68-3.143c0-0.691,0.186-1.34,0.512-1.898C3.942,5.498,6.725,7,9.862,7.158  C9.798,6.881,9.765,6.594,9.765,6.297c0-2.084,1.689-3.773,3.774-3.773c1.086,0,2.067,0.457,2.756,1.191  c0.859-0.17,1.667-0.484,2.397-0.916c-0.282,0.881-0.881,1.621-1.66,2.088c0.764-0.092,1.49-0.293,2.168-0.594  C18.694,5.051,18.054,5.715,17.316,6.246z"/>
                     </svg>
-            </div>
-        </a>
+                </div>
+            </a>
 
-    </div> <!-- /top nav -->
+        </div> <!-- /top nav -->
     </div>
 
-
-    {{/* <div class="w-full" style="background-color: #4e8bf1; height: 250px;"></div> */}}
-    {{/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 18 1000 320"><path fill="#4e8bf1" fill-opacity="1" d="M0,96L34.3,90.7C68.6,85,137,75,206,85.3C274.3,96,343,128,411,133.3C480,139,549,117,617,128C685.7,139,754,181,823,186.7C891.4,192,960,160,1029,165.3C1097.1,171,1166,213,1234,224C1302.9,235,1371,213,1406,202.7L1440,192L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"></path></svg> */}}
+    <!-- filler div and svg pattern -->
     <div class="w-full" style="background-color: #fff; height: 250px;"></div>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 18 1000 320"><path fill="#fff" fill-opacity="1" d="M0,96L34.3,90.7C68.6,85,137,75,206,85.3C274.3,96,343,128,411,133.3C480,139,549,117,617,128C685.7,139,754,181,823,186.7C891.4,192,960,160,1029,165.3C1097.1,171,1166,213,1234,224C1302.9,235,1371,213,1406,202.7L1440,192L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"></path></svg>
 </div>
 
 
-<!-- left nav -->
-{{/* <div class="fixed top-0 right-0 z-30 mr-3 mt-3 md:mt-8">
-    <div class="flex">
-        <div class="hidden md:flex justify-center"> <!-- button to load more commits -->
-            <div id="more-commits" class="cursor-pointer bg-gray-100 xborder-4 border-gray-300" style="border-radius: 1.2rem; border-color: #508df3;">
-                <img class="w-10 h-10 md:w-12 md:h-12 m-2 cursor-pointer transition-transform duration-200" src="/static/cyclone.png" alt="toggle-message">
-            </div>
-        </div>
+<div class="w-full px-4 md:px-8 lg:px-8 pt-24">
+    <!-- commits -->
+    <div id="commits" class="relative flex flex-wrap justify-center max-w-screen-md lg:max-w-screen-lg border-4 border-gray-200 md:border-gray-100 shadow-md bg-white text-md md:text-lg mx-auto p-2 md:p-6" style="border-radius: 0.5rem;">
 
-        <div class="flex justify-center ml-2"> <!-- button to uncensor commit messages -->
-            <div id="censor-toggle" class="cursor-pointer bg-gray-100 xborder-4 border-gray-300" style="border-radius: 1.2rem; border-color: #508df3;">
-                <img class="w-10 h-10 md:w-12 md:h-12 m-2 cursor-pointer transition-transform duration-200" src="/static/curse-face.png" alt="toggle-message">
-            </div>
-        </div>  
-    </div>
-</div> */}}
-
-
-<div class="w-full px-4 md:px-8 lg:px-8 pt-24 xmd:pt-16">
-    <div id="commits" class="border-4 border-gray-200 md:border-gray-100 relative xrounded-md shadow-md bg-white p-2 md:p-6 text-md md:text-lg      max-w-screen-md lg:max-w-screen-lg container mx-auto flex flex-wrap justify-center" style="xfont-size: 1rem; border-radius: 0.8rem; border-radius: 0.5rem; xbox-shadow: 0px 1px 15px -3px rgba(0,0,0,.1), 0 4px 6px -2px rgba(0,0,0,.05);">
-
-        <div class="border-4 border-gray-100 shadow absolute flex z-10 py-3 px-2 bg-white" style="border-radius: 1.2rem; border-radius: 0.5rem; xtop: -55px; top: -95px;"> <!-- navs -->
+        <!-- navs -->
+        <div class="border-4 border-gray-100 shadow absolute flex z-10 py-3 px-2 bg-white" style="border-radius: 1.2rem; border-radius: 0.5rem; top: -95px;">
 
             <div class="flex justify-center"> <!-- button to load more commits -->
                 <div id="more-commits" class="cursor-pointer xpy-1 xbg-gray-100 xborder-4 border-gray-300" style="border-radius: 1.2rem; border-color: #508df3;">
-                    <img class="w-10 h-10 mx-2 cursor-pointer transition-transform duration-200" src="/static/face-with-tears-of-joy.png" alt="toggle-message">
+                    <img class="w-10 h-10 mx-2 cursor-pointer transition-transform duration-200" src="/static/img/face-with-tears-of-joy.png" alt="toggle-message">
                 </div>
             </div>
 
             <div class="flex justify-center ml-2"> <!-- button to load more commits -->
                 <div id="poop-commits" class="cursor-pointer xpy-1 xbg-gray-100 xborder-4 border-gray-300" style="border-radius: 1.2rem; border-color: #508df3;">
-                    <img class="w-10 h-10 mx-2 cursor-pointer transition-transform duration-200" src="/static/pile-of-poo.png" alt="toggle-message">
+                    <img class="w-10 h-10 mx-2 cursor-pointer transition-transform duration-200" src="/static/img/pile-of-poo.png" alt="toggle-message">
                 </div>
             </div>
 
             <div class="flex justify-center ml-2"> <!-- button to load more commits -->
                 <div id="holy-commits" class="cursor-pointer xpy-1 xbg-gray-100 xborder-4 border-gray-300" style="border-radius: 1.2rem; border-color: #508df3;">
-                    <img class="w-10 h-10 mx-2 cursor-pointer transition-transform duration-200" src="/static/smiling-face-with-halo.png" alt="toggle-message">
+                    <img class="w-10 h-10 mx-2 cursor-pointer transition-transform duration-200" src="/static/img/smiling-face-with-halo.png" alt="toggle-message">
                 </div>
             </div>
 
             <div class="flex justify-center border-l-2 border-gray-300 ml-2 pl-2"> <!-- button to uncensor commit messages -->
                 <div id="censor-toggle" class="cursor-pointer xpy-1 xbg-yellow-200 rounded-full xborder-4 border-gray-300" style="xborder-radius: 1.2rem; border-color: #508df3;">
-                    <img class="w-10 h-10 mx-2 cursor-pointer transition-transform duration-200" src="/static/curse-face.png" alt="toggle-message">
+                    <img class="w-10 h-10 mx-2 cursor-pointer transition-transform duration-200" src="/static/img/curse-face.png" alt="toggle-message">
                 </div>
             </div>
         </div> <!-- /navs -->
 
-
         {{range .}}
-        <span class="commit-item flex flex-col mx-375 my-375 mb-3 font-mono xsoft-edge"> <!-- commit -->
-            <div class="rounded xshadow xgrit relative" style="background-color: {{.ColorBackground}}; color: {{.ColorForeground}}">
-                <div class="flex items-center text-sm md:text-base px-2 py-1 lg:py-2">
-                    <a class="hidden md:inline pr-2" target="_blank" href="{{.Author.URL}}">
-                        <img loading="lazy" class="rounded-full w-6 h-6" alt="{{.Author.Username}}" src="{{.Author.AvatarURL}}">
-                    </a>
+            <!-- single commit -->
+            <span class="commit-item flex flex-col m-375 font-mono">
+                <div class="relative rounded" style="background-color: {{.ColorBackground}}; color: {{.ColorForeground}}">
+                    <div class="flex items-center text-sm md:text-base px-2 py-1 lg:py-2">
+                        <a class="hidden md:inline pr-2" target="_blank" href="{{.Author.URL}}">
+                            <img loading="lazy" class="rounded-full w-6 h-6" alt="{{.Author.Username}}" src="{{.Author.AvatarURL}}">
+                        </a>
 
-                    <a class="app-message relative" target="_blank" href="{{.URL}}">
-                        <span class="app-commit commit-message-censored inline">{{.MessageCensoredHTML}}</span>
-                        <span class="app-commit commit-message-raw inline hidden">{{.Message}}</span>
-                    </a>
+                        <a class="relative" target="_blank" href="{{.URL}}">
+                            <span class="commit-message-censored inline">{{.MessageCensoredHTML}}</span>
+                            <span class="commit-message-raw inline hidden">{{.Message}}</span>
+                        </a>
+                    </div>
                 </div>
-            </div>
-        </span>
+            </span> <!-- /single commit -->
         {{end}}
-    </div> <!-- #commits -->
-
-
-
-
-    {{/* <h3>(ノಠ益ಠ)ノ 彡</h3> */}}
+    </div> <!-- /commits -->
 </div>
 
 
 <div class="relative"> <!-- info -->
-    {{/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 50 1340 220"><path fill="#629dff" xfill="#f7fafc" fill-opacity="1" d="M0,192L48,165.3C96,139,192,85,288,101.3C384,117,480,203,576,229.3C672,256,768,224,864,186.7C960,149,1056,107,1152,106.7C1248,107,1344,149,1392,170.7L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg> */}}
-    {{/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120"><path fill="#0099ff" fill-opacity="1" d="M0,96L1440,32L1440,320L0,320Z"></path></svg> */}}
-
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 270"><path fill="#ffffff" fill-opacity="1" d="M0,192L120,186.7C240,181,480,171,720,181.3C960,192,1200,224,1320,240L1440,256L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z"></path></svg>
 
-
-    {{/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#ffffff" fill-opacity="1" d="M0,96L80,96C160,96,320,96,480,96C640,96,800,96,960,101.3C1120,107,1280,117,1360,122.7L1440,128L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path></svg> */}}
-    {{/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 50 1440 220"><path fill="#ffffff" fill-opacity="1" d="M0,128L34.3,112C68.6,96,137,64,206,74.7C274.3,85,343,139,411,170.7C480,203,549,213,617,224C685.7,235,754,245,823,229.3C891.4,213,960,171,1029,165.3C1097.1,160,1166,192,1234,181.3C1302.9,171,1371,117,1406,90.7L1440,64L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z"></path></svg> */}}
-    {{/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 50 1440 220"><path fill="#f5f5f5" fill-opacity="1" d="M0,192L48,165.3C96,139,192,85,288,101.3C384,117,480,203,576,229.3C672,256,768,224,864,186.7C960,149,1056,107,1152,106.7C1248,107,1344,149,1392,170.7L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg> */}}
-    {{/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#ffffff" fill-opacity="1" d="M0,64L48,64C96,64,192,64,288,85.3C384,107,480,149,576,192C672,235,768,277,864,272C960,267,1056,213,1152,213.3C1248,213,1344,267,1392,293.3L1440,320L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg> */}}
-    {{/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 60 1440 320"><path fill="#ffffff" fill-opacity="1" d="M0,128L60,117.3C120,107,240,85,360,101.3C480,117,600,171,720,165.3C840,160,960,96,1080,90.7C1200,85,1320,139,1380,165.3L1440,192L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg> */}}
-
-    <div class="w-full xp-4 px-4 pt-0 pb-24 bg-white">
-        <div class="max-w-screen-lg mx-auto container font-sans leading-snug text-xl">
-            {{/* <p class="font-sans text-xl md:text-3xl font-black text-gray-600">
-                "Delightful devs from across the web,<br />&nbsp;&nbsp;&nbsp;grace us with your enchanting words."
-            </p> */}}
+    <div class="w-full bg-white px-4 pt-0 pb-24">
+        <div class="max-w-screen-lg mx-auto container font-sans leading-snug text-md md:text-lg">
             <p class="font-sans text-2xl md:text-3xl font-black text-gray-600">
-                {{/* "The brightest minds of our generation" */}}
-                {{/* "Commit and chill ... <br />&nbsp;&nbsp;&nbsp;until something's broken" */}}
                 "...and they thought no one would see these"
-                {{/* "Every commit is worth a thousand LOLs ... maybe" */}}
             </p>
 
-            {{/* <p class="mt-12">
-                Commits.lol is a website that collects funny commit messages from GitHub.<br />
-                Made mostly for fun and lols.
-            </p> */}}
-            {{/* <p class="mt-12">Commits.lol is a website that collects funny commit messages from <a class="underline text-indigo-500" target="_blank" href="https://docs.github.com/en/free-pro-team@latest/rest">GitHub</a>.</p> */}}
             <p class="mt-12">Commits.lol collects funny commit messages from <a class="underline text-indigo-500" target="_blank" href="https://docs.github.com/en/free-pro-team@latest/rest">GitHub</a>.</p>
             <p>Made mostly for fun and lolz. Updated every hour.</p>
-            {{/* <p>Commits are collected every hour via <a class="underline text-indigo-500" target="_blank" href="https://docs.github.com/en/free-pro-team@latest/rest">GitHub's API</a>.</p> */}}
-
-            {{/* <img src="/static/lol.gif"/> */}}
 
             <p class="mt-12 font-bold">Tech stack?</p>
-            {{/* <p>
-                Commits.lol is built with <strong>Go</strong> and <strong>Tailwind CSS</strong>.<br />
-                The project is open-source, so you can check it out <a class="underline text-indigo-500" target="_blank" href="https://github.com/TunedMystic/commits.lol">here</a>!
-            </p> */}}
             <p>Built with <strong>Go</strong> and <strong>Tailwind CSS</strong>.</p>
             <p>The project is open-source &mdash; check it out <a class="underline text-indigo-500" target="_blank" href="https://github.com/TunedMystic/commits.lol">here</a>!</p>
 
             <p class="mt-12 font-bold">Credits</p>
             <p><a class="underline text-indigo-500" target="_blank" href="https://www.joypixels.com/">Joypixels</a> for their super cool emojis.</p>
             <p><a class="underline text-indigo-500" target="_blank" href="https://graf1x.com/category/color-shades/">Graf1x</a> for their beautiful color codes.</p>
-
-            <p class="hidden mt-12 font-bold">Want to reach out?</p>
-
-            <!-- social links -->
-            <div class="hidden flex flex-col relative" style="width: 300px; margin-top: 5rem;">
-
-                <div class="social-links relative w-full relative">
-                    <div class="social-link social-twitter inline-block absolute transition-transform duration-200"> <!-- twitter -->
-                        <a href="https://twitter.com/tunedmystic" target="_blank">
-                            <svg class="fill-current w-8 h-8 p-1 rounded-full" style="background-color: #1da1f2;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                <path fill="#ffffff" d="M17.316,6.246c0.008,0.162,0.011,0.326,0.011,0.488c0,4.99-3.797,10.742-10.74,10.742  c-2.133,0-4.116-0.625-5.787-1.697c0.296,0.035,0.596,0.053,0.9,0.053c1.77,0,3.397-0.604,4.688-1.615  c-1.651-0.031-3.046-1.121-3.526-2.621c0.23,0.043,0.467,0.066,0.71,0.066c0.345,0,0.679-0.045,0.995-0.131  C2.84,11.183,1.539,9.658,1.539,7.828c0-0.016,0-0.031,0-0.047c0.509,0.283,1.092,0.453,1.71,0.473  c-1.013-0.678-1.68-1.832-1.68-3.143c0-0.691,0.186-1.34,0.512-1.898C3.942,5.498,6.725,7,9.862,7.158  C9.798,6.881,9.765,6.594,9.765,6.297c0-2.084,1.689-3.773,3.774-3.773c1.086,0,2.067,0.457,2.756,1.191  c0.859-0.17,1.667-0.484,2.397-0.916c-0.282,0.881-0.881,1.621-1.66,2.088c0.764-0.092,1.49-0.293,2.168-0.594  C18.694,5.051,18.054,5.715,17.316,6.246z"/>
-                            </svg>
-                        </a>
-                    </div>
-
-                    <div class="social-link social-github inline-block absolute transition-transform duration-200"> <!-- github -->
-                        <div class="bg-white inline-block rounded-full">
-                            <a href="https://github.com/TunedMystic" target="_blank">
-                                <svg style="color: #24292e" class="fill-current w-8 h-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="social-link social-website inline-block absolute transition-transform duration-200"> <!-- blog -->
-                        <div class="bg-white inline-block rounded-full">
-                            <a href="https://sandeep.sh" target="_blank">
-                                <svg class="bg-indigo-600 rounded-full fill-current w-8 h-8 p-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill="#ffffff" d="M7.859,14.691l-0.81,0.805c-0.701,0.695-1.843,0.695-2.545,0c-0.336-0.334-0.521-0.779-0.521-1.252  s0.186-0.916,0.521-1.252l2.98-2.955c0.617-0.613,1.779-1.515,2.626-0.675c0.389,0.386,1.016,0.384,1.403-0.005  c0.385-0.389,0.383-1.017-0.006-1.402C10.069,6.527,7.941,6.791,6.088,8.63l-2.98,2.956C2.393,12.295,2,13.24,2,14.244  c0,1.006,0.394,1.949,1.108,2.658c0.736,0.73,1.702,1.096,2.669,1.096s1.934-0.365,2.669-1.096l0.811-0.805  c0.389-0.385,0.391-1.012,0.005-1.4C8.875,14.309,8.248,14.307,7.859,14.691z M16.891,3.207c-1.547-1.534-3.709-1.617-5.139-0.197  l-1.009,1.002c-0.389,0.386-0.392,1.013-0.006,1.401c0.386,0.389,1.013,0.391,1.402,0.005l1.01-1.001  c0.74-0.736,1.711-0.431,2.346,0.197c0.336,0.335,0.522,0.779,0.522,1.252s-0.186,0.917-0.522,1.251l-3.18,3.154  c-1.454,1.441-2.136,0.766-2.427,0.477c-0.389-0.386-1.016-0.383-1.401,0.005c-0.386,0.389-0.384,1.017,0.005,1.401  c0.668,0.662,1.43,0.99,2.228,0.99c0.977,0,2.01-0.492,2.993-1.467l3.18-3.153C17.605,7.814,18,6.87,18,5.866  C18,4.861,17.605,3.917,16.891,3.207z"/>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="">
-                    <h3 class="font-mono xbg-white text-2xl inline-block">(ノಠ益ಠ)ノ 彡</h3>
-                    <p class="mt-2 xtext-lg">catch me online</p>
-                </div>
-            </div> <!-- /social links -->
-
-
-
-
         </div>
     </div>
 </div> <!-- /info -->
 
 
-<div class="w-full px-4 pt-12 pb-8 bg-gray-200" xstyle="background-color: #2c2c54;">
-
-    <div class="max-w-screen-lg mx-auto text-md block md:flex justify-center md:justify-between items-center">
+<!-- footer -->
+<div class="w-full bg-gray-200 px-4 pt-12 pb-8">
+    <div class="max-w-screen-lg mx-auto text-md block md:flex justify-between items-center">
         <!-- social links -->
         <div class="flex flex-col relative" style="width: 300px;">
 
             <div class="social-links relative w-full relative">
-                <div class="social-link social-twitter inline-block absolute transition-transform duration-200"> <!-- twitter -->
+                <div class="social-twitter inline-block absolute transition-transform duration-200"> <!-- twitter -->
                     <a href="https://twitter.com/tunedmystic" target="_blank">
                         <svg class="fill-current w-8 h-8 p-1 rounded-full" style="background-color: #1da1f2;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                             <path fill="#ffffff" d="M17.316,6.246c0.008,0.162,0.011,0.326,0.011,0.488c0,4.99-3.797,10.742-10.74,10.742  c-2.133,0-4.116-0.625-5.787-1.697c0.296,0.035,0.596,0.053,0.9,0.053c1.77,0,3.397-0.604,4.688-1.615  c-1.651-0.031-3.046-1.121-3.526-2.621c0.23,0.043,0.467,0.066,0.71,0.066c0.345,0,0.679-0.045,0.995-0.131  C2.84,11.183,1.539,9.658,1.539,7.828c0-0.016,0-0.031,0-0.047c0.509,0.283,1.092,0.453,1.71,0.473  c-1.013-0.678-1.68-1.832-1.68-3.143c0-0.691,0.186-1.34,0.512-1.898C3.942,5.498,6.725,7,9.862,7.158  C9.798,6.881,9.765,6.594,9.765,6.297c0-2.084,1.689-3.773,3.774-3.773c1.086,0,2.067,0.457,2.756,1.191  c0.859-0.17,1.667-0.484,2.397-0.916c-0.282,0.881-0.881,1.621-1.66,2.088c0.764-0.092,1.49-0.293,2.168-0.594  C18.694,5.051,18.054,5.715,17.316,6.246z"/>
@@ -253,7 +154,7 @@
                     </a>
                 </div>
 
-                <div class="social-link social-github inline-block absolute transition-transform duration-200"> <!-- github -->
+                <div class="social-github inline-block absolute transition-transform duration-200"> <!-- github -->
                     <div class="bg-white inline-block rounded-full">
                         <a href="https://github.com/TunedMystic" target="_blank">
                             <svg style="color: #24292e" class="fill-current w-8 h-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -263,7 +164,7 @@
                     </div>
                 </div>
 
-                <div class="social-link social-website inline-block absolute transition-transform duration-200"> <!-- blog -->
+                <div class="social-website inline-block absolute transition-transform duration-200"> <!-- blog -->
                     <div class="bg-white inline-block rounded-full">
                         <a href="https://sandeep.sh" target="_blank">
                             <svg class="bg-indigo-600 rounded-full fill-current w-8 h-8 p-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -274,8 +175,8 @@
                 </div>
             </div>
 
-            <div class="">
-                <h3 class="font-mono xbg-white text-2xl inline-block">(ノಠ益ಠ)ノ 彡</h3>
+            <div>
+                <h3 class="font-mono text-2xl">(ノಠ益ಠ)ノ 彡</h3>
                 <p class="mt-2">catch me online</p>
             </div>
         </div> <!-- /social links -->
@@ -283,62 +184,14 @@
         <div class="mt-12 md:mt-0">made by <a class="underline" href="https://github.com/TunedMystic" target="_blank">@tunedmystic</a></div>
 
     </div>
-
-</div>
-
-
-<div class="hidden w-full xbg-gray-400 bg-white pt-32 xpb-24" xstyle="clip-path: circle(25% at 50% 140%);">
-
-
-        <!-- social links -->
-        <div class="mx-auto flex flex-col relative" style="width: 300px;">
-
-            <div class="social-links relative w-full relative">
-                <div class="social-link social-twitter inline-block absolute transition-transform duration-200"> <!-- twitter -->
-                    <a href="https://twitter.com/tunedmystic" target="_blank">
-                        <svg class="fill-current w-8 h-8 p-1 rounded-full" style="background-color: #1da1f2;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                            <path fill="#ffffff" d="M17.316,6.246c0.008,0.162,0.011,0.326,0.011,0.488c0,4.99-3.797,10.742-10.74,10.742  c-2.133,0-4.116-0.625-5.787-1.697c0.296,0.035,0.596,0.053,0.9,0.053c1.77,0,3.397-0.604,4.688-1.615  c-1.651-0.031-3.046-1.121-3.526-2.621c0.23,0.043,0.467,0.066,0.71,0.066c0.345,0,0.679-0.045,0.995-0.131  C2.84,11.183,1.539,9.658,1.539,7.828c0-0.016,0-0.031,0-0.047c0.509,0.283,1.092,0.453,1.71,0.473  c-1.013-0.678-1.68-1.832-1.68-3.143c0-0.691,0.186-1.34,0.512-1.898C3.942,5.498,6.725,7,9.862,7.158  C9.798,6.881,9.765,6.594,9.765,6.297c0-2.084,1.689-3.773,3.774-3.773c1.086,0,2.067,0.457,2.756,1.191  c0.859-0.17,1.667-0.484,2.397-0.916c-0.282,0.881-0.881,1.621-1.66,2.088c0.764-0.092,1.49-0.293,2.168-0.594  C18.694,5.051,18.054,5.715,17.316,6.246z"/>
-                        </svg>
-                    </a>
-                </div>
-
-                <div class="social-link social-github inline-block absolute transition-transform duration-200"> <!-- github -->
-                    <div class="bg-white inline-block rounded-full">
-                        <a href="https://github.com/TunedMystic" target="_blank">
-                            <svg style="color: #24292e" class="fill-current w-8 h-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="social-link social-website inline-block absolute transition-transform duration-200"> <!-- blog -->
-                    <div class="bg-white inline-block rounded-full">
-                        <a href="https://sandeep.sh" target="_blank">
-                            <svg class="bg-indigo-600 rounded-full fill-current w-8 h-8 p-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                <path fill="#ffffff" d="M7.859,14.691l-0.81,0.805c-0.701,0.695-1.843,0.695-2.545,0c-0.336-0.334-0.521-0.779-0.521-1.252  s0.186-0.916,0.521-1.252l2.98-2.955c0.617-0.613,1.779-1.515,2.626-0.675c0.389,0.386,1.016,0.384,1.403-0.005  c0.385-0.389,0.383-1.017-0.006-1.402C10.069,6.527,7.941,6.791,6.088,8.63l-2.98,2.956C2.393,12.295,2,13.24,2,14.244  c0,1.006,0.394,1.949,1.108,2.658c0.736,0.73,1.702,1.096,2.669,1.096s1.934-0.365,2.669-1.096l0.811-0.805  c0.389-0.385,0.391-1.012,0.005-1.4C8.875,14.309,8.248,14.307,7.859,14.691z M16.891,3.207c-1.547-1.534-3.709-1.617-5.139-0.197  l-1.009,1.002c-0.389,0.386-0.392,1.013-0.006,1.401c0.386,0.389,1.013,0.391,1.402,0.005l1.01-1.001  c0.74-0.736,1.711-0.431,2.346,0.197c0.336,0.335,0.522,0.779,0.522,1.252s-0.186,0.917-0.522,1.251l-3.18,3.154  c-1.454,1.441-2.136,0.766-2.427,0.477c-0.389-0.386-1.016-0.383-1.401,0.005c-0.386,0.389-0.384,1.017,0.005,1.401  c0.668,0.662,1.43,0.99,2.228,0.99c0.977,0,2.01-0.492,2.993-1.467l3.18-3.153C17.605,7.814,18,6.87,18,5.866  C18,4.861,17.605,3.917,16.891,3.207z"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="">
-                <h3 class="font-mono xbg-white text-2xl inline-block">(ノಠ益ಠ)ノ 彡</h3>
-                <p class="mt-2 text-lg">socials here</p>
-            </div>
-        </div> <!-- /social links -->
-
-
-</div>
+</div> <!-- /footer -->
 
 <script type="text/javascript">
-
 document.addEventListener('DOMContentLoaded', (e) => {
     console.log('hi');
 
-    const curseFace = '/static/curse-face.png';
-    const flushedFace = '/static/flushed-face.png';
+    const curseFace = '/static/img/curse-face.png';
+    const flushedFace = '/static/img/flushed-face.png';
 
     document.getElementById('censor-toggle').addEventListener('click', e => {
         e.preventDefault();
