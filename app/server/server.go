@@ -31,7 +31,7 @@ func (s *Server) IndexHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	for _, commit := range commits {
-		commit.GetColorTheme()
+		commit.SetColorTheme()
 	}
 	s.Templates.ExecuteTemplate(w, "index", commits)
 }
@@ -44,7 +44,7 @@ func (s *Server) CommitsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	for _, commit := range commits {
-		commit.GetColorTheme()
+		commit.SetColorTheme()
 	}
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	s.Templates.ExecuteTemplate(w, "commits", commits)

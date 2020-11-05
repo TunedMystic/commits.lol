@@ -1,8 +1,11 @@
 package models
 
 import (
+	"fmt"
 	"html/template"
 	"time"
+
+	"github.com/tunedmystic/commits.lol/app/utils"
 )
 
 // GitUser is the model for the git_user table.
@@ -34,45 +37,60 @@ type GitCommit struct {
 	SHA             string    `db:"sha"`
 	URL             string    `db:"url"`
 	Date            time.Time `db:"date"`
+
 	CreatedAt       time.Time `db:"created_at"`
 	Valid           bool      `db:"valid"`
+	Group           string    `db:"groupname"`
+	ColorBackground string    `db:"color_bg"`
+	ColorForeground string    `db:"color_fg"`
 
 	Author GitUser `db:"author"`
 	Repo   GitRepo `db:"repo"`
-
-	ColorBackground string
-	ColorForeground string
 }
 
 // GitCommits is a slice of GitCommits.
 type GitCommits []*GitCommit
-
-// Term is the model for the term table.
-type Term struct {
-	ID   int    `db:"id"`
-	Text string `db:"text"`
-	Rank int    `db:"rank"`
-}
-
-// Terms is a slice of Term values.
-type Terms []Term
-
-// Strings converts the Terms slice into a slice of strings.
-func (t Terms) Strings() []string {
-	values := []string{}
-	for _, term := range t {
-		values = append(values, term.Text)
-	}
-	return values
-}
 
 // MessageCensoredHTML ...
 func (c *GitCommit) MessageCensoredHTML() template.HTML {
 	return template.HTML(c.MessageCensored)
 }
 
-// GetColorTheme ...
-func (c *GitCommit) GetColorTheme() {
+// SetCensoredMessage cleans the commit message and sets it as the `MessageCensored` field.
+// Returns true if message was censored.
+// Returns false if there were no bad words to be cleaned.
+func (c *GitCommit) SetCensoredMessage(cl utils.Cleaner) bool {
+	cleanedMsg, wordsCensored := cl.Clean(c.Message)
+
+	// If the cleaned message is the same as the commit's message, then nothing was cleaned.
+	// If there were no words censored, then nothing was cleaned.
+	// In any of these cases, return false to express that the Commit was not updated.
+	if cleanedMsg == c.Message || wordsCensored == 0 {
+		fmt.Printf("CCommit %v - no censoring\n", c.Message)
+		return false
+	}
+
+	c.MessageCensored = cleanedMsg
+	return true
+}
+
+// SetGroup assigns the commit to a group based on the commit message.
+func (c *GitCommit) SetGroup(g utils.Grouper) bool {
+	commitGroup := g.Group(c.Message)
+
+	// If the generated group is the same as the commit's group, then nothing was changed.
+	// In that case, return false to express that the Commit was not updated.
+	if commitGroup == c.Group {
+		return false
+	}
+
+	c.Group = commitGroup
+	return true
+}
+
+// SetColorTheme sets the background and foreground color based on
+// various attributes of the given Commit.
+func (c *GitCommit) SetColorTheme() {
 	// Colors ...
 	colors := [][]string{
 
@@ -145,4 +163,60 @@ func (c *GitCommit) GetColorTheme() {
 
 	c.ColorBackground = color[0]
 	c.ColorForeground = color[1]
+}
+
+// Term is the model for the searchterm table.
+type Term struct {
+	ID   int    `db:"id"`
+	Text string `db:"text"`
+	Rank int    `db:"rank"`
+}
+
+// Terms is a slice of Term values.
+type Terms []Term
+
+// ToStrings converts the Terms slice into a slice of strings.
+func (t Terms) ToStrings() []string {
+	values := make([]string, 0, len(t))
+	for _, term := range t {
+		values = append(values, term.Text)
+	}
+	return values
+}
+
+// BadWord is the model for the config_badword table.
+type BadWord struct {
+	ID   int    `db:"id"`
+	Text string `db:"text"`
+}
+
+// BadWords is a slice of BadWord values.
+type BadWords []BadWord
+
+// ToStrings converts the BadWords slice into a slice of strings.
+func (b BadWords) ToStrings() []string {
+	values := make([]string, 0, len(b))
+	for _, badword := range b {
+		values = append(values, badword.Text)
+	}
+	return values
+}
+
+// GroupTerm is the model for the config_groupterm table.
+type GroupTerm struct {
+	ID    int    `db:"id"`
+	Text  string `db:"text"`
+	Group string `db:"groupname"`
+}
+
+// GroupTerms is a slice of GroupTerm values.
+type GroupTerms []GroupTerm
+
+// ToMap converts the GroupTerms slice into a map of [string]string.
+func (g GroupTerms) ToMap() map[string]string {
+	values := make(map[string]string, len(g))
+	for _, groupterm := range g {
+		values[groupterm.Text] = groupterm.Group
+	}
+	return values
 }

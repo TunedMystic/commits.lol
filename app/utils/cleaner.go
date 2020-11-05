@@ -5,15 +5,20 @@ import (
 	"strings"
 )
 
-// TextCleaner ...
-type TextCleaner struct {
+// Cleaner defines behavior for a content cleaner.
+type Cleaner interface {
+	Clean(text string) (string, int)
+}
+
+// MessageCleaner ...
+type MessageCleaner struct {
 	BadWords     []string
 	CensorTokens []string
 }
 
-// NewTextCleaner ...
-func NewTextCleaner(badWords []string) *TextCleaner {
-	return &TextCleaner{
+// NewMessageCleaner ...
+func NewMessageCleaner(badWords []string) *MessageCleaner {
+	return &MessageCleaner{
 		BadWords:     badWords,
 		CensorTokens: []string{"#", "%", "@", "$", "!"},
 	}
@@ -21,7 +26,7 @@ func NewTextCleaner(badWords []string) *TextCleaner {
 
 // makeReplacement masks the given word with censor tokens.
 // Example:  badword  ->  b#%@$!#
-func (t *TextCleaner) makeReplacement(word string) string {
+func (t *MessageCleaner) makeReplacement(word string) string {
 	if len(word) <= 1 {
 		return word
 	}
@@ -33,8 +38,8 @@ func (t *TextCleaner) makeReplacement(word string) string {
 	return fmt.Sprintf(`<span class="censored">%v<span class="word">%v</span></span>`, word[:1], fragment)
 }
 
-// CensorText ...
-func (t *TextCleaner) CensorText(text string) (string, int) {
+// Clean ...
+func (t *MessageCleaner) Clean(text string) (string, int) {
 	newText := []string{}
 	censoredWords := 0
 	for _, word := range strings.Fields(text) {
@@ -53,3 +58,6 @@ func (t *TextCleaner) CensorText(text string) (string, int) {
 	}
 	return strings.Join(newText, " "), censoredWords
 }
+
+// Ensure the MessageCleaner type satisfies the Cleaner interface.
+var _ Cleaner = &MessageCleaner{}

@@ -1,7 +1,18 @@
-CREATE TABLE IF NOT EXISTS term (
+CREATE TABLE IF NOT EXISTS searchterm (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     text VARCHAR(50) NOT NULL,
     rank INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS config_badword (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    text VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS config_groupterm (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    text VARCHAR(50) NOT NULL,
+    groupname VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS git_user (
@@ -32,6 +43,9 @@ CREATE TABLE IF NOT EXISTS git_commit (
     date DATETIME NOT NULL,
     created_at DATETIME NOT NULL,
     valid BOOL NOT NULL DEFAULT TRUE,
+    groupname VARCHAR(50) NOT NULL,
+    color_bg VARCHAR(10) NOT NULL,
+    color_fg VARCHAR(10) NOT NULL,
     FOREIGN KEY(repo_id) REFERENCES git_repo(id),
     FOREIGN KEY(author_id) REFERENCES git_user(id)
 );

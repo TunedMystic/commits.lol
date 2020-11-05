@@ -27,7 +27,7 @@ func NewSqliteDB(name string) *SqliteDB {
 func (s *SqliteDB) RandomTermsByRank(amount, rank int) (models.Terms, error) {
 	terms := []models.Term{}
 
-	query := `SELECT * FROM term WHERE rank = ? ORDER BY random() LIMIT ?;`
+	query := `SELECT * FROM searchterm WHERE rank = ? ORDER BY random() LIMIT ?;`
 
 	if err := s.DB.Select(&terms, query, rank, amount); err != nil {
 		return nil, err
@@ -56,7 +56,33 @@ func (s *SqliteDB) RandomTerms() models.Terms {
 	return models.Terms(values)
 }
 
-// AllCommits ...
+// AllBadWords returns all the bad words.
+func (s *SqliteDB) AllBadWords() (models.BadWords, error) {
+	values := []models.BadWord{}
+
+	query := `SELECT * FROM config_badword;`
+
+	if err := s.DB.Select(&values, query); err != nil {
+		return nil, err
+	}
+
+	return models.BadWords(values), nil
+}
+
+// AllGroupTerms returns all the group terms.
+func (s *SqliteDB) AllGroupTerms() (models.GroupTerms, error) {
+	values := []models.GroupTerm{}
+
+	query := `SELECT * FROM config_groupterm;`
+
+	if err := s.DB.Select(&values, query); err != nil {
+		return nil, err
+	}
+
+	return models.GroupTerms(values), nil
+}
+
+// AllCommits returns all the commits.
 func (s *SqliteDB) AllCommits() ([]*models.GitCommit, error) {
 	values := []*models.GitCommit{}
 
@@ -193,11 +219,13 @@ func (s *SqliteDB) CreateCommit(commit *models.GitCommit) error {
 	query := `
 		INSERT INTO git_commit (
 			"source", "author_id", "repo_id", "message", "message_censored",
-			"sha", "url", "date", "created_at", "valid"
+			"sha", "url", "date", "created_at", "valid", "groupname",
+			"color_bg", "color_fg"
 		)
 		VALUES (
 			:source, :author_id, :repo_id, :message, :message_censored,
-			:sha, :url, :date, :created_at, :valid
+			:sha, :url, :date, :created_at, :valid, :groupname,
+			:color_bg, :color_fg
 		);`
 
 	row, err := s.DB.NamedExec(query, commit)

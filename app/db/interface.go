@@ -6,6 +6,8 @@ import "github.com/tunedmystic/commits.lol/app/models"
 type Database interface {
 	RandomTermsByRank(amount, rank int) (models.Terms, error)
 	RandomTerms() models.Terms
+	AllBadWords() (models.BadWords, error)
+	AllGroupTerms() (models.GroupTerms, error)
 	AllCommits() ([]*models.GitCommit, error)
 	UpdateCommit(commit *models.GitCommit) error
 	RecentCommits() (models.GitCommits, error)
