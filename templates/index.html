@@ -63,32 +63,32 @@
 
 
 <div class="w-full px-4 md:px-8 lg:px-8 pt-24">
-    <!-- commits -->
-    <div id="commits" class="relative flex flex-wrap justify-center max-w-screen-md lg:max-w-screen-lg border-4 border-gray-200 md:border-gray-100 shadow-md bg-white text-md md:text-lg mx-auto p-2 md:p-6" style="border-radius: 0.5rem;">
+    <!-- commits container -->
+    <div class="relative flex flex-wrap justify-center max-w-screen-md lg:max-w-screen-lg border-4 border-gray-200 md:border-gray-100 shadow-md bg-white text-md md:text-lg mx-auto p-2 md:p-6" style="border-radius: 0.5rem;">
 
         <!-- navs -->
-        <div class="border-4 border-gray-100 shadow absolute flex z-10 py-3 px-2 bg-white" style="border-radius: 1.2rem; border-radius: 0.5rem; top: -95px;">
+        <div class="noselect border-4 border-gray-100 shadow absolute flex z-10 py-3 px-2 bg-white" style="border-radius: 1.2rem; border-radius: 0.5rem; top: -95px;">
 
             <div class="flex justify-center"> <!-- button to load more commits -->
-                <div id="more-commits" class="cursor-pointer xpy-1 xbg-gray-100 xborder-4 border-gray-300" style="border-radius: 1.2rem; border-color: #508df3;">
+                <div id="more-commits" class="cursor-pointer">
                     <img class="w-10 h-10 mx-2 cursor-pointer transition-transform duration-200" src="/static/img/face-with-tears-of-joy.png" alt="toggle-message">
                 </div>
             </div>
 
             <div class="flex justify-center ml-2"> <!-- button to load more commits -->
-                <div id="poop-commits" class="cursor-pointer xpy-1 xbg-gray-100 xborder-4 border-gray-300" style="border-radius: 1.2rem; border-color: #508df3;">
+                <div id="poop-commits" class="cursor-pointer">
                     <img class="w-10 h-10 mx-2 cursor-pointer transition-transform duration-200" src="/static/img/pile-of-poo.png" alt="toggle-message">
                 </div>
             </div>
 
             <div class="flex justify-center ml-2"> <!-- button to load more commits -->
-                <div id="holy-commits" class="cursor-pointer xpy-1 xbg-gray-100 xborder-4 border-gray-300" style="border-radius: 1.2rem; border-color: #508df3;">
+                <div id="holy-commits" class="cursor-pointer">
                     <img class="w-10 h-10 mx-2 cursor-pointer transition-transform duration-200" src="/static/img/smiling-face-with-halo.png" alt="toggle-message">
                 </div>
             </div>
 
             <div class="flex justify-center border-l-2 border-gray-300 ml-2 pl-2"> <!-- button to uncensor commit messages -->
-                <div id="censor-toggle" class="cursor-pointer xpy-1 xbg-yellow-200 rounded-full xborder-4 border-gray-300" style="xborder-radius: 1.2rem; border-color: #508df3;">
+                <div id="censor-toggle" class="cursor-pointer rounded-full">
                     <img class="w-10 h-10 mx-2 cursor-pointer transition-transform duration-200" src="/static/img/curse-face.png" alt="toggle-message">
                 </div>
             </div>
@@ -99,7 +99,7 @@
             {{template "commits" .}}
         </div> <!-- /commit items -->
 
-    </div> <!-- /commits -->
+    </div> <!-- /commits container -->
 </div>
 
 
