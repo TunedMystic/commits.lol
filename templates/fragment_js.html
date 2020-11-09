@@ -39,7 +39,7 @@ function toggleCensoredCommits() {
 function fetchMoreCommits(group) {
     group = typeof(group) === 'undefined' ? '' : group;
     return function() {
-        makeRequest(`/commits?group=${group}`, (html) => {
+        makeRequest(`/?group=${group}&fragment=true`, (html) => {
             document.getElementById('commit-items').innerHTML = html;
         }, 'when fetching commits');
     }

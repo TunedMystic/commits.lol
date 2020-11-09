@@ -53,7 +53,7 @@ func Commits(db db.Database) *CommitPipeline {
 // WithRandomTerms adds random terms to the pipeline.
 func (c *CommitPipeline) WithRandomTerms() *CommitPipeline {
 	c.terms = []string{}
-	randomTerms := c.db.RandomTerms()
+	randomTerms := c.db.RandomSearchTerms()
 	c.terms = append(c.terms, randomTerms.ToStrings()...)
 	return c
 }

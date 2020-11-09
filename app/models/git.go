@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"html/template"
 	"time"
 
@@ -49,7 +48,7 @@ type GitCommit struct {
 }
 
 // GitCommits is a slice of GitCommits.
-type GitCommits []*GitCommit
+type GitCommits []GitCommit
 
 // MessageCensoredHTML ...
 func (c *GitCommit) MessageCensoredHTML() template.HTML {
@@ -66,7 +65,6 @@ func (c *GitCommit) SetCensoredMessage(cl utils.Cleaner) bool {
 	// If there were no words censored, then nothing was cleaned.
 	// In any of these cases, return false to express that the Commit was not updated.
 	if cleanedMsg == c.Message || wordsCensored == 0 {
-		fmt.Printf("CCommit %v - no censoring\n", c.Message)
 		return false
 	}
 
@@ -113,7 +111,7 @@ func (c *GitCommit) SetColorTheme() {
 		// {"#24e860", "#000000"}, // lime green*
 
 		// Ref: https://graf1x.com/shades-of-blue-color-palette/
-		// {"#73c2fb", "#000000"}, // maya
+		{"#73c2fb", "#000000"}, // maya
 		// {"#6593f5", "#000000"}, // cornflower
 		// {"#074fbd", "#ffffff"}, // sapphire*
 		// {"#1f63ca", "#ffffff"}, // sapphire*
@@ -122,8 +120,10 @@ func (c *GitCommit) SetColorTheme() {
 
 		// Ref: https://graf1x.com/24-shades-of-pink-color-palette/
 		// {"#fe7f9c", "#000000"}, // watermelon
-		{"#ff66cc", "#000000"}, // rose pink
-		{"#fb607f", "#000000"}, // brick
+		// {"#ff66cc", "#000000"}, // rose pink
+		// {"#fb607f", "#000000"}, // brick
+		{"#cea8ff", "#000000"}, // light purple*
+		{"#ff9ff3", "#000000"}, // jigglypuff
 
 		// Ref: https://www.eggradients.com/shades-of-purple
 		// {"#6147f1", "#ffffff"}, // electric indigo*
@@ -139,7 +139,7 @@ func (c *GitCommit) SetColorTheme() {
 		// {"#ff6b6b", "#ffffff"}, // pastel red
 		// {"#222f3e", "#ffffff"}, // imperial primer
 		// {"#feca57", "#000000"}, // casandora yellow
-		{"#ff9ff3", "#000000"}, // jigglypuff
+		// {"#ff9ff3", "#000000"}, // jigglypuff
 		// {"#ff9f43", "#000000"}, // double dragon skin
 		// {"#0ca9f2", "#000000"}, // jade dust
 		// {"#9a89f7", "#000000"}, // joust blue
@@ -163,60 +163,4 @@ func (c *GitCommit) SetColorTheme() {
 
 	c.ColorBackground = color[0]
 	c.ColorForeground = color[1]
-}
-
-// Term is the model for the searchterm table.
-type Term struct {
-	ID   int    `db:"id"`
-	Text string `db:"text"`
-	Rank int    `db:"rank"`
-}
-
-// Terms is a slice of Term values.
-type Terms []Term
-
-// ToStrings converts the Terms slice into a slice of strings.
-func (t Terms) ToStrings() []string {
-	values := make([]string, 0, len(t))
-	for _, term := range t {
-		values = append(values, term.Text)
-	}
-	return values
-}
-
-// BadWord is the model for the config_badword table.
-type BadWord struct {
-	ID   int    `db:"id"`
-	Text string `db:"text"`
-}
-
-// BadWords is a slice of BadWord values.
-type BadWords []BadWord
-
-// ToStrings converts the BadWords slice into a slice of strings.
-func (b BadWords) ToStrings() []string {
-	values := make([]string, 0, len(b))
-	for _, badword := range b {
-		values = append(values, badword.Text)
-	}
-	return values
-}
-
-// GroupTerm is the model for the config_groupterm table.
-type GroupTerm struct {
-	ID    int    `db:"id"`
-	Text  string `db:"text"`
-	Group string `db:"groupname"`
-}
-
-// GroupTerms is a slice of GroupTerm values.
-type GroupTerms []GroupTerm
-
-// ToMap converts the GroupTerms slice into a map of [string]string.
-func (g GroupTerms) ToMap() map[string]string {
-	values := make(map[string]string, len(g))
-	for _, groupterm := range g {
-		values[groupterm.Text] = groupterm.Group
-	}
-	return values
 }
