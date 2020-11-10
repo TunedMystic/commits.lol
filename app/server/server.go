@@ -50,10 +50,18 @@ func (s *Server) IndexHandler(w http.ResponseWriter, r *http.Request) {
 	s.Templates.ExecuteTemplate(w, "index", commits)
 }
 
+// CacheControl ...
+func CacheControl(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Cache-Control", "max-age=300") // 5 minutes
+		h.ServeHTTP(w, r)
+	})
+}
+
 // Routes returns the routes for the application.
 func (s *Server) Routes() *mux.Router {
 	router := mux.NewRouter()
 	router.HandleFunc("/", s.IndexHandler).Methods("GET")
-	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", CacheControl(http.FileServer(http.Dir("static")))))
 	return router
 }
