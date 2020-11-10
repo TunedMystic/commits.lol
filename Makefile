@@ -8,6 +8,7 @@ help:  ## This help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[1m%-15s\033[0m %s\n", $$1, $$2}'
 
 build: clean  ## Build the binary
+	@npm run build-styles-prod
 	@go build -ldflags="-s -w"
 
 clean:  ## Clean workspace
@@ -30,6 +31,7 @@ cover:  ## View HTML coverage reports
 	@go tool cover -html coverage.out
 
 watch:  ## Watch for file changes and run the server.
+	@npm run build-styles
 	@bash -c "find . -type f \( -name '*.go' -o -name '*.html' \) | grep -v 'misc' | entr -r $(MAKE) dev"
 
 watchtests:  ## Watch for file changes and run tests.
