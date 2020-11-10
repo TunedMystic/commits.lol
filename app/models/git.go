@@ -93,11 +93,11 @@ func (c *GitCommit) SetColorTheme() {
 	colors := [][]string{
 
 		// Ref: https://graf1x.com/shades-of-yellow-color-palette-chart/
-		{"#fda50f", "#000000"}, // fire yellow
+		// {"#fda50f", "#000000"}, // fire yellow
 		{"#ffbf00", "#000000"}, // amber
 		{"#fedc56", "#000000"}, // mustard
 		{"#ffddaf", "#000000"}, // navajo
-		{"#ffc30b", "#000000"}, // honey
+		// {"#ffc30b", "#000000"}, // honey
 		{"#ffd300", "#000000"}, // cyber
 		{"#fada5e", "#000000"}, // royal
 		{"#f8d373", "#000000"}, // mellow
@@ -147,7 +147,7 @@ func (c *GitCommit) SetColorTheme() {
 		// // spanish
 		// {"#ff793f", "#000000"}, // synthetic pumpkin
 		// {"#2b5cb7", "#ffffff"}, // c64 purple
-		{"#2c2c54", "#ffffff"}, // lucky point
+		// {"#2c2c54", "#ffffff"}, // lucky point
 
 		// // india
 		// {"#2c3a47", "#ffffff"}, // ship's officer

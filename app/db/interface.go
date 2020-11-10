@@ -4,10 +4,10 @@ import "github.com/tunedmystic/commits.lol/app/models"
 
 // Database defines the behavior for the application's database.
 type Database interface {
-	RandomSearchTermsByRank(amount, rank int) (models.SearchTerms, error)
-	RandomSearchTerms() models.SearchTerms
 	AllBadWords() (models.BadWords, error)
 	AllGroupTerms() (models.GroupTerms, error)
+	RandomSearchTerms() models.SearchTerms
+
 	AllCommits() (models.GitCommits, error)
 	UpdateCommit(commit *models.GitCommit) error
 	RecentCommitsByGroup(group string) (models.GitCommits, error)

@@ -5,26 +5,16 @@ import "github.com/tunedmystic/commits.lol/app/models"
 // MockDB is an fake DB type that implements the Database interface.
 // Used for testing.
 type MockDB struct {
-	RandomSearchTermsByRankMock func(amount, rank int) (models.SearchTerms, error)
-	RandomSearchTermsMock       func() models.SearchTerms
-	AllBadWordsMock             func() (models.BadWords, error)
-	AllGroupTermsMock           func() (models.GroupTerms, error)
-	AllCommitsMock              func() (models.GitCommits, error)
-	UpdateCommitMock            func(commit *models.GitCommit) error
-	RecentCommitsByGroupMock    func(group string) (models.GitCommits, error)
-	GetOrCreateUserMock         func(user *models.GitUser) error
-	GetOrCreateRepoMock         func(repo *models.GitRepo) error
-	GetOrCreateCommitMock       func(commit *models.GitCommit) error
-}
+	AllBadWordsMock       func() (models.BadWords, error)
+	AllGroupTermsMock     func() (models.GroupTerms, error)
+	RandomSearchTermsMock func() models.SearchTerms
 
-// RandomSearchTermsByRank ...
-func (m *MockDB) RandomSearchTermsByRank(amount, rank int) (models.SearchTerms, error) {
-	return m.RandomSearchTermsByRankMock(amount, rank)
-}
-
-// RandomSearchTerms ...
-func (m *MockDB) RandomSearchTerms() models.SearchTerms {
-	return m.RandomSearchTermsMock()
+	AllCommitsMock           func() (models.GitCommits, error)
+	UpdateCommitMock         func(commit *models.GitCommit) error
+	RecentCommitsByGroupMock func(group string) (models.GitCommits, error)
+	GetOrCreateUserMock      func(user *models.GitUser) error
+	GetOrCreateRepoMock      func(repo *models.GitRepo) error
+	GetOrCreateCommitMock    func(commit *models.GitCommit) error
 }
 
 // AllBadWords ...
@@ -35,6 +25,11 @@ func (m *MockDB) AllBadWords() (models.BadWords, error) {
 // AllGroupTerms ...
 func (m *MockDB) AllGroupTerms() (models.GroupTerms, error) {
 	return m.AllGroupTermsMock()
+}
+
+// RandomSearchTerms ...
+func (m *MockDB) RandomSearchTerms() models.SearchTerms {
+	return m.RandomSearchTermsMock()
 }
 
 // AllCommits ...
