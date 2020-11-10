@@ -1,0 +1,14 @@
+{
+  "name": "commits.lol",
+  "version": "0.0.1",
+  "author": "Sandeep Jadoonannan",
+  "description": "Devs say the darndest things",
+  "dependencies": {
+    "tailwindcss": "^1.9.6"
+  },
+  "scripts": {
+    "build-styles": "tailwindcss build -o static/css/tailwind.css",
+    "build-styles-prod": "NODE_ENV=production tailwindcss build -o static/css/tailwind.css"
+  },
+  "license": "MIT"
+}

@@ -18,7 +18,9 @@
 tmp
 
 # Misc files
-tailwind.min.css
+node_modules
+package-lock.json
+tailwind.css
 
 # Binary
 commits.lol
