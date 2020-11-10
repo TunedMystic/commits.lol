@@ -23,43 +23,69 @@ func NewSqliteDB(name string) *SqliteDB {
 	return &sdb
 }
 
-// RandomTermsByRank returns a list of randomly selected terms of a specified rank.
-func (s *SqliteDB) RandomTermsByRank(amount, rank int) (models.Terms, error) {
-	terms := []models.Term{}
+// ------------------------------------------------------------------
+// Methods to modify config-related tables (BadWWord, GroupTerm, SearchTerm)
 
-	query := `SELECT * FROM term WHERE rank = ? ORDER BY random() LIMIT ?;`
+// AllBadWords returns all the bad words.
+func (s *SqliteDB) AllBadWords() (models.BadWords, error) {
+	values := []models.BadWord{}
+
+	if err := s.DB.Select(&values, `SELECT * FROM config_badword;`); err != nil {
+		return nil, err
+	}
+
+	return models.BadWords(values), nil
+}
+
+// AllGroupTerms returns all the group terms.
+func (s *SqliteDB) AllGroupTerms() (models.GroupTerms, error) {
+	values := []models.GroupTerm{}
+
+	if err := s.DB.Select(&values, `SELECT * FROM config_groupterm;`); err != nil {
+		return nil, err
+	}
+
+	return models.GroupTerms(values), nil
+}
+
+// randomSearchTermsByRank returns a list of randomly selected terms of a specified rank.
+func (s *SqliteDB) randomSearchTermsByRank(amount, rank int) (models.SearchTerms, error) {
+	terms := []models.SearchTerm{}
+	query := `SELECT * FROM config_searchterm WHERE rank = ? ORDER BY random() LIMIT ?;`
 
 	if err := s.DB.Select(&terms, query, rank, amount); err != nil {
 		return nil, err
 	}
-	return models.Terms(terms), nil
+	return models.SearchTerms(terms), nil
 }
 
-// RandomTerms returns a list of randomly selected terms of predetermined rank.
-func (s *SqliteDB) RandomTerms() models.Terms {
-	values := []models.Term{}
+// RandomSearchTerms returns a list of randomly selected terms of predetermined rank.
+func (s *SqliteDB) RandomSearchTerms() models.SearchTerms {
+	values := []models.SearchTerm{}
 
 	// Get terms of Rank 1.
-	t1, err := s.RandomTermsByRank(10, 1)
+	t1, err := s.randomSearchTermsByRank(10, 1)
 	if err != nil {
 		fmt.Println(err)
 	}
 	values = append(values, t1...)
 
 	// Get terms of Rank 2.
-	t2, err := s.RandomTermsByRank(4, 2)
+	t2, err := s.randomSearchTermsByRank(4, 2)
 	if err != nil {
 		fmt.Println(err)
 	}
 	values = append(values, t2...)
 
-	return models.Terms(values)
+	return models.SearchTerms(values)
 }
 
-// AllCommits ...
-func (s *SqliteDB) AllCommits() ([]*models.GitCommit, error) {
-	values := []*models.GitCommit{}
+// ------------------------------------------------------------------
+// Methods to modify git-related tables (GitCommit, GitRepo, GitUser)
 
+// AllCommits returns all the commits.
+func (s *SqliteDB) AllCommits() (models.GitCommits, error) {
+	values := []models.GitCommit{}
 	query := `SELECT * FROM git_commit;`
 
 	if err := s.DB.Select(&values, query); err != nil {
@@ -77,7 +103,8 @@ func (s *SqliteDB) UpdateCommit(commit *models.GitCommit) error {
 			source = :source, author_id = :author_id, repo_id = :repo_id,
 			message = :message, message_censored = :message_censored,
 			sha = :sha, url = :url, date = :date, created_at = :created_at,
-			valid = :valid
+			valid = :valid, groupname = :groupname,
+			color_bg = :color_bg, color_fg = :color_fg
 		WHERE id = :id;`
 
 	_, err := s.DB.NamedExec(query, commit)
@@ -89,10 +116,10 @@ func (s *SqliteDB) UpdateCommit(commit *models.GitCommit) error {
 	return nil
 }
 
-// RecentCommits returns the most recent commits.
-func (s *SqliteDB) RecentCommits() (models.GitCommits, error) {
-	values := []*models.GitCommit{}
-	daysBack := "-150 days"
+// RecentCommitsByGroup returns the most recent commits.
+func (s *SqliteDB) RecentCommitsByGroup(group string) (models.GitCommits, error) {
+	length := 20
+	commits := make([]models.GitCommit, 0, length)
 
 	query := `
 		SELECT
@@ -107,21 +134,38 @@ func (s *SqliteDB) RecentCommits() (models.GitCommits, error) {
 		FROM git_commit c
 		INNER JOIN git_user u on u.id = c.author_id
 		WHERE (
-			c.date > datetime('now', ?) AND
-			c.valid = TRUE
+			c.valid = TRUE AND
+			c.date > datetime('now', $1) AND
+			(
+				($2 != '' AND c.groupname = $2)
+				OR
+				($2 = '' AND c.groupname IS NOT NULL)
+			)
 		)
 		ORDER BY random()
-		LIMIT 18;`
+		LIMIT $3;`
 
-	if err := s.DB.Select(&values, query, daysBack); err != nil {
+	rows, err := s.DB.Queryx(query, "-150 days", group, length)
+
+	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 
-	return models.GitCommits(values), nil
+	for rows.Next() {
+		var c models.GitCommit
+		err := rows.StructScan(&c)
+		if err != nil {
+			return nil, err
+		}
+		commits = append(commits, c)
+	}
+
+	return models.GitCommits(commits), nil
 }
 
-// CreateUser inserts a new User row and returns the ID.
-func (s *SqliteDB) CreateUser(user *models.GitUser) error {
+// createUser inserts a new User row and returns the ID.
+func (s *SqliteDB) createUser(user *models.GitUser) error {
 	query := `
 		INSERT INTO git_user ("source", "username", "url", "avatar_url")
 		VALUES (:source, :username, :url, :avatar_url);`
@@ -142,20 +186,18 @@ func (s *SqliteDB) CreateUser(user *models.GitUser) error {
 // or create it if it doesn't exist.
 func (s *SqliteDB) GetOrCreateUser(user *models.GitUser) error {
 	query := `SELECT id FROM git_user WHERE url = ?;`
+
 	err := s.DB.QueryRow(query, user.URL).Scan(&user.ID)
 
 	if err == sql.ErrNoRows {
-		return s.CreateUser(user)
+		return s.createUser(user)
 	}
 
 	return err
 }
 
-// ------------------------------------------------------------------
-// Get or Create Repo.
-
-// CreateRepo inserts a new Repo row and returns the ID.
-func (s *SqliteDB) CreateRepo(repo *models.GitRepo) error {
+// createRepo inserts a new Repo row and returns the ID.
+func (s *SqliteDB) createRepo(repo *models.GitRepo) error {
 	query := `
 		INSERT INTO git_repo ("source", "name", "description", "url")
 		VALUES (:source, :name, :description, :url);`
@@ -176,28 +218,28 @@ func (s *SqliteDB) CreateRepo(repo *models.GitRepo) error {
 // or create it if it doesn't exist.
 func (s *SqliteDB) GetOrCreateRepo(repo *models.GitRepo) error {
 	query := `SELECT id FROM git_repo WHERE url = ?;`
+
 	err := s.DB.QueryRow(query, repo.URL).Scan(&repo.ID)
 
 	if err == sql.ErrNoRows {
-		return s.CreateRepo(repo)
+		return s.createRepo(repo)
 	}
 
 	return err
 }
 
-// ------------------------------------------------------------------
-// Get or Create Commit.
-
-// CreateCommit inserts a new Commit row and returns the ID.
-func (s *SqliteDB) CreateCommit(commit *models.GitCommit) error {
+// createCommit inserts a new Commit row and returns the ID.
+func (s *SqliteDB) createCommit(commit *models.GitCommit) error {
 	query := `
 		INSERT INTO git_commit (
 			"source", "author_id", "repo_id", "message", "message_censored",
-			"sha", "url", "date", "created_at", "valid"
+			"sha", "url", "date", "created_at", "valid", "groupname",
+			"color_bg", "color_fg"
 		)
 		VALUES (
 			:source, :author_id, :repo_id, :message, :message_censored,
-			:sha, :url, :date, :created_at, :valid
+			:sha, :url, :date, :created_at, :valid, :groupname,
+			:color_bg, :color_fg
 		);`
 
 	row, err := s.DB.NamedExec(query, commit)
@@ -216,10 +258,11 @@ func (s *SqliteDB) CreateCommit(commit *models.GitCommit) error {
 // or create it if it doesn't exist.
 func (s *SqliteDB) GetOrCreateCommit(commit *models.GitCommit) error {
 	query := `SELECT id FROM git_commit WHERE author_id = ? AND message = ?;`
+
 	err := s.DB.QueryRow(query, commit.AuthorID, commit.Message).Scan(&commit.ID)
 
 	if err == sql.ErrNoRows {
-		return s.CreateCommit(commit)
+		return s.createCommit(commit)
 	}
 
 	return err

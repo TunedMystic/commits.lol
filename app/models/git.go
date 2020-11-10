@@ -3,6 +3,8 @@ package models
 import (
 	"html/template"
 	"time"
+
+	"github.com/tunedmystic/commits.lol/app/utils"
 )
 
 // GitUser is the model for the git_user table.
@@ -34,54 +36,68 @@ type GitCommit struct {
 	SHA             string    `db:"sha"`
 	URL             string    `db:"url"`
 	Date            time.Time `db:"date"`
+
 	CreatedAt       time.Time `db:"created_at"`
 	Valid           bool      `db:"valid"`
+	Group           string    `db:"groupname"`
+	ColorBackground string    `db:"color_bg"`
+	ColorForeground string    `db:"color_fg"`
 
 	Author GitUser `db:"author"`
 	Repo   GitRepo `db:"repo"`
-
-	ColorBackground string
-	ColorForeground string
 }
 
 // GitCommits is a slice of GitCommits.
-type GitCommits []*GitCommit
-
-// Term is the model for the term table.
-type Term struct {
-	ID   int    `db:"id"`
-	Text string `db:"text"`
-	Rank int    `db:"rank"`
-}
-
-// Terms is a slice of Term values.
-type Terms []Term
-
-// Strings converts the Terms slice into a slice of strings.
-func (t Terms) Strings() []string {
-	values := []string{}
-	for _, term := range t {
-		values = append(values, term.Text)
-	}
-	return values
-}
+type GitCommits []GitCommit
 
 // MessageCensoredHTML ...
 func (c *GitCommit) MessageCensoredHTML() template.HTML {
 	return template.HTML(c.MessageCensored)
 }
 
-// GetColorTheme ...
-func (c *GitCommit) GetColorTheme() {
+// SetCensoredMessage cleans the commit message and sets it as the `MessageCensored` field.
+// Returns true if message was censored.
+// Returns false if there were no bad words to be cleaned.
+func (c *GitCommit) SetCensoredMessage(cl utils.Cleaner) bool {
+	cleanedMsg, wordsCensored := cl.Clean(c.Message)
+
+	// If the cleaned message is the same as the commit's message, then nothing was cleaned.
+	// If there were no words censored, then nothing was cleaned.
+	// In any of these cases, return false to express that the Commit was not updated.
+	if cleanedMsg == c.Message || wordsCensored == 0 {
+		return false
+	}
+
+	c.MessageCensored = cleanedMsg
+	return true
+}
+
+// SetGroup assigns the commit to a group based on the commit message.
+func (c *GitCommit) SetGroup(g utils.Grouper) bool {
+	commitGroup := g.Group(c.Message)
+
+	// If the generated group is the same as the commit's group, then nothing was changed.
+	// In that case, return false to express that the Commit was not updated.
+	if commitGroup == c.Group {
+		return false
+	}
+
+	c.Group = commitGroup
+	return true
+}
+
+// SetColorTheme sets the background and foreground color based on
+// various attributes of the given Commit.
+func (c *GitCommit) SetColorTheme() {
 	// Colors ...
 	colors := [][]string{
 
 		// Ref: https://graf1x.com/shades-of-yellow-color-palette-chart/
-		{"#fda50f", "#000000"}, // fire yellow
+		// {"#fda50f", "#000000"}, // fire yellow
 		{"#ffbf00", "#000000"}, // amber
 		{"#fedc56", "#000000"}, // mustard
 		{"#ffddaf", "#000000"}, // navajo
-		{"#ffc30b", "#000000"}, // honey
+		// {"#ffc30b", "#000000"}, // honey
 		{"#ffd300", "#000000"}, // cyber
 		{"#fada5e", "#000000"}, // royal
 		{"#f8d373", "#000000"}, // mellow
@@ -95,7 +111,7 @@ func (c *GitCommit) GetColorTheme() {
 		// {"#24e860", "#000000"}, // lime green*
 
 		// Ref: https://graf1x.com/shades-of-blue-color-palette/
-		// {"#73c2fb", "#000000"}, // maya
+		{"#73c2fb", "#000000"}, // maya
 		// {"#6593f5", "#000000"}, // cornflower
 		// {"#074fbd", "#ffffff"}, // sapphire*
 		// {"#1f63ca", "#ffffff"}, // sapphire*
@@ -104,8 +120,10 @@ func (c *GitCommit) GetColorTheme() {
 
 		// Ref: https://graf1x.com/24-shades-of-pink-color-palette/
 		// {"#fe7f9c", "#000000"}, // watermelon
-		{"#ff66cc", "#000000"}, // rose pink
-		{"#fb607f", "#000000"}, // brick
+		// {"#ff66cc", "#000000"}, // rose pink
+		// {"#fb607f", "#000000"}, // brick
+		{"#cea8ff", "#000000"}, // light purple*
+		{"#ff9ff3", "#000000"}, // jigglypuff
 
 		// Ref: https://www.eggradients.com/shades-of-purple
 		// {"#6147f1", "#ffffff"}, // electric indigo*
@@ -121,7 +139,7 @@ func (c *GitCommit) GetColorTheme() {
 		// {"#ff6b6b", "#ffffff"}, // pastel red
 		// {"#222f3e", "#ffffff"}, // imperial primer
 		// {"#feca57", "#000000"}, // casandora yellow
-		{"#ff9ff3", "#000000"}, // jigglypuff
+		// {"#ff9ff3", "#000000"}, // jigglypuff
 		// {"#ff9f43", "#000000"}, // double dragon skin
 		// {"#0ca9f2", "#000000"}, // jade dust
 		// {"#9a89f7", "#000000"}, // joust blue
@@ -129,7 +147,7 @@ func (c *GitCommit) GetColorTheme() {
 		// // spanish
 		// {"#ff793f", "#000000"}, // synthetic pumpkin
 		// {"#2b5cb7", "#ffffff"}, // c64 purple
-		{"#2c2c54", "#ffffff"}, // lucky point
+		// {"#2c2c54", "#ffffff"}, // lucky point
 
 		// // india
 		// {"#2c3a47", "#ffffff"}, // ship's officer

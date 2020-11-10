@@ -5,28 +5,35 @@ import "github.com/tunedmystic/commits.lol/app/models"
 // MockDB is an fake DB type that implements the Database interface.
 // Used for testing.
 type MockDB struct {
-	RandomTermsByRankMock func(amount, rank int) (models.Terms, error)
-	RandomTermsMock       func() models.Terms
-	AllCommitsMock        func() ([]*models.GitCommit, error)
-	UpdateCommitMock      func(commit *models.GitCommit) error
-	RecentCommitsMock     func() (models.GitCommits, error)
-	GetOrCreateUserMock   func(user *models.GitUser) error
-	GetOrCreateRepoMock   func(repo *models.GitRepo) error
-	GetOrCreateCommitMock func(commit *models.GitCommit) error
+	AllBadWordsMock       func() (models.BadWords, error)
+	AllGroupTermsMock     func() (models.GroupTerms, error)
+	RandomSearchTermsMock func() models.SearchTerms
+
+	AllCommitsMock           func() (models.GitCommits, error)
+	UpdateCommitMock         func(commit *models.GitCommit) error
+	RecentCommitsByGroupMock func(group string) (models.GitCommits, error)
+	GetOrCreateUserMock      func(user *models.GitUser) error
+	GetOrCreateRepoMock      func(repo *models.GitRepo) error
+	GetOrCreateCommitMock    func(commit *models.GitCommit) error
 }
 
-// RandomTermsByRank ...
-func (m *MockDB) RandomTermsByRank(amount, rank int) (models.Terms, error) {
-	return m.RandomTermsByRankMock(amount, rank)
+// AllBadWords ...
+func (m *MockDB) AllBadWords() (models.BadWords, error) {
+	return m.AllBadWordsMock()
 }
 
-// RandomTerms ...
-func (m *MockDB) RandomTerms() models.Terms {
-	return m.RandomTermsMock()
+// AllGroupTerms ...
+func (m *MockDB) AllGroupTerms() (models.GroupTerms, error) {
+	return m.AllGroupTermsMock()
+}
+
+// RandomSearchTerms ...
+func (m *MockDB) RandomSearchTerms() models.SearchTerms {
+	return m.RandomSearchTermsMock()
 }
 
 // AllCommits ...
-func (m *MockDB) AllCommits() ([]*models.GitCommit, error) {
+func (m *MockDB) AllCommits() (models.GitCommits, error) {
 	return m.AllCommitsMock()
 }
 
@@ -35,9 +42,9 @@ func (m *MockDB) UpdateCommit(commit *models.GitCommit) error {
 	return m.UpdateCommitMock(commit)
 }
 
-// RecentCommits ...
-func (m *MockDB) RecentCommits() (models.GitCommits, error) {
-	return m.RecentCommitsMock()
+// RecentCommitsByGroup ...
+func (m *MockDB) RecentCommitsByGroup(group string) (models.GitCommits, error) {
+	return m.RecentCommitsByGroupMock(group)
 }
 
 // GetOrCreateUser ...

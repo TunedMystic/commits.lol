@@ -8,12 +8,15 @@ import (
 	"github.com/tunedmystic/commits.lol/app/config"
 	"github.com/tunedmystic/commits.lol/app/db"
 	"github.com/tunedmystic/commits.lol/app/models"
+	"github.com/tunedmystic/commits.lol/app/utils"
 )
 
 // CommitPipeline is responsible for fetching commits
 // concurrently and saving them to the database.
 type CommitPipeline struct {
 	db      db.Database
+	cleaner utils.Cleaner
+	grouper utils.Grouper
 	client  *github.Client
 	options github.CommitSearchOptions
 	terms   []string
@@ -24,12 +27,24 @@ type CommitPipeline struct {
 
 // Commits creates and returns a CommitPipeline type.
 func Commits(db db.Database) *CommitPipeline {
+	badWords, err := db.AllBadWords()
+	if err != nil {
+		panic(err)
+	}
+
+	groupTerms, err := db.AllGroupTerms()
+	if err != nil {
+		panic(err)
+	}
+
 	c := CommitPipeline{
-		db:     db,
-		client: github.NewClient(),
-		jobs:   make(chan string),
-		done:   make(chan bool),
-		now:    time.Now().UTC(),
+		db:      db,
+		cleaner: utils.NewMessageCleaner(badWords.ToStrings()),
+		grouper: utils.NewCommitGrouper(groupTerms.ToMap()),
+		client:  github.NewClient(),
+		jobs:    make(chan string),
+		done:    make(chan bool),
+		now:     time.Now().UTC(),
 	}
 
 	return &c
@@ -38,8 +53,8 @@ func Commits(db db.Database) *CommitPipeline {
 // WithRandomTerms adds random terms to the pipeline.
 func (c *CommitPipeline) WithRandomTerms() *CommitPipeline {
 	c.terms = []string{}
-	randomTerms := c.db.RandomTerms()
-	c.terms = append(c.terms, randomTerms.Strings()...)
+	randomTerms := c.db.RandomSearchTerms()
+	c.terms = append(c.terms, randomTerms.ToStrings()...)
 	return c
 }
 
@@ -141,9 +156,20 @@ func (c *CommitPipeline) save(commitItem github.CommitItem) error {
 		return fmt.Errorf("pipeline.save:GetOrCreateRepo: %v", err)
 	}
 
-	// Create Commit with Author and Repo
+	// Set the Commit's Author and Repo
 	commit.AuthorID = author.ID
 	commit.RepoID = repo.ID
+
+	// Calculate commit colors (for frontend).
+	commit.SetColorTheme()
+
+	// Calculate the commit group.
+	commit.SetGroup(c.grouper)
+
+	// Censor the commit message if necessary.
+	commit.SetCensoredMessage(c.cleaner)
+
+	// Get or create commit.
 	if err := c.db.GetOrCreateCommit(&commit); err != nil {
 		return fmt.Errorf("pipeline.save:GetOrCreateCommit: %v", err)
 	}

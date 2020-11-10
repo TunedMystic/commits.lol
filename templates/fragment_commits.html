@@ -9,8 +9,8 @@
                     </a>
 
                     <a class="relative" target="_blank" href="{{.URL}}">
-                        <span class="commit-message-censored inline">{{if .MessageCensored}}{{.MessageCensoredHTML}}{{else}}{{.Message}}{{end}}</span>
-                        <span class="commit-message-raw inline hidden">{{.Message}}</span>
+                        <span class="message-censored inline">{{if .MessageCensored}}{{.MessageCensoredHTML}}{{else}}{{.Message}}{{end}}</span>
+                        <span class="message-raw inline">{{.Message}}</span>
                     </a>
                 </div>
             </div>

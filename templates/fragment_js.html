@@ -31,16 +31,15 @@ function toggleCensoredCommits() {
         img.setAttribute("src", curseFace);
     }
 
-    // Swap commit message.
-    document.querySelectorAll('.commit-message-censored').forEach(item => {item.classList.toggle('censor'); });
-    document.querySelectorAll('.commit-message-raw').forEach(item => {item.classList.toggle('censor'); });
+    // Swap the commit message by toggling a class on the parent element.
+    document.getElementById('commit-items').classList.toggle('uncensor');
 }
 
 // This function fetches a new batch of random commits and places it in the commits container.
 function fetchMoreCommits(group) {
     group = typeof(group) === 'undefined' ? '' : group;
     return function() {
-        makeRequest(`/commits?group=${group}`, (html) => {
+        makeRequest(`/?group=${group}&fragment=true`, (html) => {
             document.getElementById('commit-items').innerHTML = html;
         }, 'when fetching commits');
     }

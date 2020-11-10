@@ -29,27 +29,39 @@
 
 /* --------------------------------------------------------------- */
 
-.commit-item .commit-message-censored {
+/* These are the default styles:
+  - censored messages are displayed
+  - raw messages are hidden
+*/
+#commit-items .commit-item .message-censored {
     display: inline;
 }
 
-.commit-item .commit-message-raw {
+#commit-items .commit-item .message-raw {
+    display: none
+}
+
+/* When the 'uncensor' class is applied, then:
+  - censored messages are hidden
+  - raw messages are displayed
+*/
+#commit-items.uncensor .commit-item .message-censored {
     display: none;
 }
 
-.commit-item:hover .commit-message-censored {
-    display: none;
-}
-
-.commit-item:hover .commit-message-raw {
+#commit-items.uncensor .commit-item .message-raw {
     display: inline;
 }
 
-.commit-item .commit-message-censored.censor {
+/* When a specific commit item is being hovered over, then:
+  - censored message is hidden
+  - raw message is displayed
+*/
+#commit-items .commit-item:hover .message-censored {
     display: none;
 }
 
-.commit-item .commit-message-raw.censor {
+#commit-items .commit-item:hover .message-raw {
     display: inline;
 }
 
@@ -57,19 +69,19 @@
 /* Using :nth child to create fake random rotation. */
 /* Ref: http://jsfiddle.net/jeAsd/7 */
 
-#commits .commit-item:nth-child(1n) .censored {
+#commit-items .commit-item:nth-child(1n) .censored {
     transform: rotate(-2.2deg);
 }
 
-#commits .commit-item:nth-child(2n) .censored {
+#commit-items .commit-item:nth-child(2n) .censored {
     transform: rotate(-1.5deg);
 }
 
-#commits .commit-item:nth-child(3n) .censored {
+#commit-items .commit-item:nth-child(3n) .censored {
     transform: rotate(2.2deg);
 }
 
-#commits .commit-item:nth-child(4n) .censored {
+#commit-items .commit-item:nth-child(4n) .censored {
     transform: rotate(1.5deg);
 }
 
@@ -101,6 +113,18 @@
 .grit {
     position: relative;
     background: url(/static/img/blackgrit.png) 0% -48% / 115px;
+}
+
+/* Disable text selection highlighting */
+/* Ref: https://stackoverflow.com/a/4407335/9545946 */
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
 }
 
 @media only screen and (min-width: 768px) {
@@ -141,6 +165,5 @@
 .social-website:hover {
     transform: rotate(-5deg);
 }
-
 </style>
 {{end}}

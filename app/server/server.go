@@ -3,6 +3,7 @@ package server
 import (
 	"html/template"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 	"github.com/tunedmystic/commits.lol/app/db"
@@ -25,36 +26,34 @@ func NewServer(DB db.Database) *Server {
 
 // IndexHandler renders the index page.
 func (s *Server) IndexHandler(w http.ResponseWriter, r *http.Request) {
-	commits, err := s.DB.RecentCommits()
+	// Get query params and normalize.
+	group := r.URL.Query().Get("group")
+	fragmentParam := r.URL.Query().Get("fragment")
+	if fragmentParam == "" {
+		fragmentParam = "false"
+	}
+	fragment, _ := strconv.ParseBool(fragmentParam)
+
+	// Get recent commits.
+	commits, err := s.DB.RecentCommitsByGroup(group)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	for _, commit := range commits {
-		commit.GetColorTheme()
+
+	// Render the template.
+	if fragment {
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		s.Templates.ExecuteTemplate(w, "commits", commits)
+		return
 	}
 	s.Templates.ExecuteTemplate(w, "index", commits)
-}
-
-// CommitsHandler renders the commits template fragment.
-func (s *Server) CommitsHandler(w http.ResponseWriter, r *http.Request) {
-	commits, err := s.DB.RecentCommits()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	for _, commit := range commits {
-		commit.GetColorTheme()
-	}
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	s.Templates.ExecuteTemplate(w, "commits", commits)
 }
 
 // Routes returns the routes for the application.
 func (s *Server) Routes() *mux.Router {
 	router := mux.NewRouter()
 	router.HandleFunc("/", s.IndexHandler).Methods("GET")
-	router.HandleFunc("/commits", s.CommitsHandler).Methods("GET")
 	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	return router
 }
