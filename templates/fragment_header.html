@@ -7,9 +7,27 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <title>Commits.lol - Devs say the darndest things</title>
         <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQEAYAAABPYyMiAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAF0lEQVRIx2NgGAWjYBSMglEwCkbBSAcACBAAAeaR9cIAAAAASUVORK5CYII=" rel="icon" type="image/x-icon">
-        <link rel="stylesheet" href="/static/css/tailwind.css">
-        {{template "css"}}
+        <link rel="stylesheet" href="{{ BaseURL }}/static/css/tailwind.css">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Source+Code+Pro:wght@500&display=swap" rel="stylesheet">
+        {{template "css"}}
+
+        <!-- Primary Meta Tags -->
+        <meta name="title" content="Commits.lol - Devs say the darndest things">
+        <meta name="description" content="Read funny commit messages from GitHub. Made mostly for fun and lolz.">
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ BaseURL }}">
+        <meta property="og:title" content="Commits.lol - Devs say the darndest things">
+        <meta property="og:description" content="Read funny commit messages from GitHub. Made mostly for fun and lolz.">
+        <meta property="og:image" content="{{ BaseURL }}/static/img/a50046d2.png">
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="{{ BaseURL }}">
+        <meta property="twitter:title" content="Commits.lol - Devs say the darndest things">
+        <meta property="twitter:description" content="Read funny commit messages from GitHub. Made mostly for fun and lolz.">
+        <meta property="twitter:image" content="{{ BaseURL }}/static/img/a50046d2.png">
     </head>
 
     <body class="relative">
