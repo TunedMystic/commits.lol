@@ -86,6 +86,9 @@ func (c *GitCommit) SetColorTheme() {
 	// Colors ...
 	colors := [][]string{
 
+		{"#cea8ff", "#000000"}, // light purple
+		{"#ff9ff3", "#000000"}, // jigglypuff
+
 		// Ref: https://graf1x.com/shades-of-yellow-color-palette-chart/
 		// {"#fda50f", "#000000"}, // fire yellow
 		{"#ffbf00", "#000000"}, // amber
@@ -119,14 +122,13 @@ func (c *GitCommit) SetColorTheme() {
 		// {"#6a5acd", "#ffffff"}, // slate blue
 		// {"#d4449a", "#ffffff"}, // slate pink*
 		// {"#ce3876", "#ffffff"}, // slate pink*
-		{"#d83076", "#ffffff"}, // slate pink*
+		// {"#d83076", "#ffffff"}, // slate pink*
 
 		// Ref: https://graf1x.com/24-shades-of-pink-color-palette/
 		// {"#fe7f9c", "#000000"}, // watermelon
 		// {"#ff66cc", "#000000"}, // rose pink
 		// {"#fb607f", "#000000"}, // brick
-		{"#ff9ff3", "#000000"}, // jigglypuff
-		{"#cea8ff", "#000000"}, // light purple*
+		// {"#a2baff", "#000000"}, // light blueish purple
 
 		// canada
 		// {"	#1dd1a1", "#000000"}, // wild caribbean green
