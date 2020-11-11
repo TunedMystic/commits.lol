@@ -9,7 +9,7 @@
                     </a>
 
                     <a class="relative" target="_blank" href="{{.URL}}">
-                        <span class="message-censored inline">{{if .MessageCensored}}{{.MessageCensoredHTML}}{{else}}{{.Message}}{{end}}</span>
+                        <span class="message-censored inline">{{if .MessageCensored}}{{.MessageCensored | Unescape}}{{else}}{{.Message}}{{end}}</span>
                         <span class="message-raw inline">{{.Message}}</span>
                     </a>
                 </div>

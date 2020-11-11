@@ -20,6 +20,7 @@ func init() {
 
 // Config contains all settings for the application.
 type Config struct {
+	BaseURL            string
 	DatabaseName       string
 	GithubAPIKey       string
 	GithubMaxFetch     int
@@ -30,6 +31,11 @@ type Config struct {
 func GetConfig() Config {
 	var err error
 	c := Config{}
+
+	c.BaseURL = os.Getenv("BASE_URL")
+	if c.BaseURL == "" {
+		panic("config: BaseURL not set")
+	}
 
 	c.DatabaseName = os.Getenv("DATABASE_NAME")
 	if c.DatabaseName == "" {

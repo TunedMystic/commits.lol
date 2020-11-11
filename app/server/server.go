@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
+	"github.com/tunedmystic/commits.lol/app/config"
 	"github.com/tunedmystic/commits.lol/app/db"
 )
 
@@ -17,9 +18,17 @@ type Server struct {
 
 // NewServer creates a new Server type.
 func NewServer(DB db.Database) *Server {
+	templateFuncs := template.FuncMap{
+		"BaseURL": func() string {
+			return config.App.BaseURL
+		},
+		"Unescape": func(html string) template.HTML {
+			return template.HTML(html)
+		},
+	}
 	s := Server{
 		DB:        DB,
-		Templates: template.Must(template.New("").ParseGlob("templates/*.html")),
+		Templates: template.Must(template.New("").Funcs(templateFuncs).ParseGlob("templates/*.html")),
 	}
 	return &s
 }

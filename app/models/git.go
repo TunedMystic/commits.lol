@@ -1,7 +1,6 @@
 package models
 
 import (
-	"html/template"
 	"time"
 
 	"github.com/tunedmystic/commits.lol/app/utils"
@@ -49,11 +48,6 @@ type GitCommit struct {
 
 // GitCommits is a slice of GitCommits.
 type GitCommits []GitCommit
-
-// MessageCensoredHTML ...
-func (c *GitCommit) MessageCensoredHTML() template.HTML {
-	return template.HTML(c.MessageCensored)
-}
 
 // SetCensoredMessage cleans the commit message and sets it as the `MessageCensored` field.
 // Returns true if message was censored.
@@ -118,20 +112,21 @@ func (c *GitCommit) SetColorTheme() {
 		// {"#6cbff9", "#000000"}, // carolina*
 		// {"#72cbf5", "#000000"}, // baby blue*
 
-		// Ref: https://graf1x.com/24-shades-of-pink-color-palette/
-		// {"#fe7f9c", "#000000"}, // watermelon
-		// {"#ff66cc", "#000000"}, // rose pink
-		// {"#fb607f", "#000000"}, // brick
-		{"#cea8ff", "#000000"}, // light purple*
-		{"#ff9ff3", "#000000"}, // jigglypuff
-
 		// Ref: https://www.eggradients.com/shades-of-purple
 		// {"#6147f1", "#ffffff"}, // electric indigo*
 		// {"#8a2be2", "#ffffff"}, // blue violet
 		// {"#c71585", "#ffffff"}, // red violet
 		// {"#6a5acd", "#ffffff"}, // slate blue
 		// {"#d4449a", "#ffffff"}, // slate pink*
-		{"#ce3876", "#ffffff"}, // slate pink*
+		// {"#ce3876", "#ffffff"}, // slate pink*
+		{"#d83076", "#ffffff"}, // slate pink*
+
+		// Ref: https://graf1x.com/24-shades-of-pink-color-palette/
+		// {"#fe7f9c", "#000000"}, // watermelon
+		// {"#ff66cc", "#000000"}, // rose pink
+		// {"#fb607f", "#000000"}, // brick
+		{"#ff9ff3", "#000000"}, // jigglypuff
+		{"#cea8ff", "#000000"}, // light purple*
 
 		// canada
 		// {"	#1dd1a1", "#000000"}, // wild caribbean green
