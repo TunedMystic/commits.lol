@@ -94,4 +94,5 @@ func FetchCommits(fromDate, toDate string) {
 
 	// Run the commit pipeline with randomly fetched searchTerms.
 	services.Commits(db).WithOptions(options).WithRandomSearchTerms().Run()
+	fmt.Println("[done] FetchCommits")
 }
