@@ -50,16 +50,16 @@ func Commits(db db.Database) *CommitPipeline {
 	return &c
 }
 
-// WithRandomTerms adds random terms to the pipeline.
-func (c *CommitPipeline) WithRandomTerms() *CommitPipeline {
+// WithRandomSearchTerms adds random terms to the pipeline.
+func (c *CommitPipeline) WithRandomSearchTerms() *CommitPipeline {
 	c.terms = []string{}
 	randomTerms := c.db.RandomSearchTerms()
 	c.terms = append(c.terms, randomTerms.ToStrings()...)
 	return c
 }
 
-// WithTerms adds the provided terms to the pipeline.
-func (c *CommitPipeline) WithTerms(terms ...string) *CommitPipeline {
+// WithSearchTerms adds the provided terms to the pipeline.
+func (c *CommitPipeline) WithSearchTerms(terms ...string) *CommitPipeline {
 	c.terms = []string{}
 	c.terms = append(c.terms, terms...)
 	return c
