@@ -49,35 +49,38 @@ func (s *SqliteDB) AllGroupTerms() (models.GroupTerms, error) {
 }
 
 // randomSearchTermsByRank returns a list of randomly selected terms of a specified rank.
-func (s *SqliteDB) randomSearchTermsByRank(amount, rank int) (models.SearchTerms, error) {
-	terms := []models.SearchTerm{}
+func (s *SqliteDB) randomSearchTermsByRank(rank, amount int) (models.SearchTerms, error) {
+	terms := make(models.SearchTerms, 0, amount)
 	query := `SELECT * FROM config_searchterm WHERE rank = ? ORDER BY random() LIMIT ?;`
 
 	if err := s.DB.Select(&terms, query, rank, amount); err != nil {
 		return nil, err
 	}
-	return models.SearchTerms(terms), nil
+	return terms, nil
 }
 
 // RandomSearchTerms returns a list of randomly selected terms of predetermined rank.
 func (s *SqliteDB) RandomSearchTerms() models.SearchTerms {
-	values := []models.SearchTerm{}
+	rank1Amount := 10
+	rank2Amount := 4
+	totalTerms := rank1Amount + rank2Amount
+	terms := make(models.SearchTerms, 0, totalTerms)
 
 	// Get terms of Rank 1.
-	t1, err := s.randomSearchTermsByRank(10, 1)
+	t1, err := s.randomSearchTermsByRank(1, rank1Amount)
 	if err != nil {
 		fmt.Println(err)
 	}
-	values = append(values, t1...)
+	terms = append(terms, t1...)
 
 	// Get terms of Rank 2.
-	t2, err := s.randomSearchTermsByRank(4, 2)
+	t2, err := s.randomSearchTermsByRank(2, rank2Amount)
 	if err != nil {
 		fmt.Println(err)
 	}
-	values = append(values, t2...)
+	terms = append(terms, t2...)
 
-	return models.SearchTerms(values)
+	return terms
 }
 
 // ------------------------------------------------------------------
@@ -85,14 +88,13 @@ func (s *SqliteDB) RandomSearchTerms() models.SearchTerms {
 
 // AllCommits returns all the commits.
 func (s *SqliteDB) AllCommits() (models.GitCommits, error) {
-	values := []models.GitCommit{}
-	query := `SELECT * FROM git_commit;`
+	commits := make(models.GitCommits, 0, 1000)
 
-	if err := s.DB.Select(&values, query); err != nil {
+	if err := s.DB.Select(&commits, `SELECT * FROM git_commit;`); err != nil {
 		return nil, err
 	}
 
-	return values, nil
+	return commits, nil
 }
 
 // UpdateCommit ...
@@ -118,8 +120,8 @@ func (s *SqliteDB) UpdateCommit(commit *models.GitCommit) error {
 
 // RecentCommitsByGroup returns the most recent commits.
 func (s *SqliteDB) RecentCommitsByGroup(group string) (models.GitCommits, error) {
-	length := 20
-	commits := make([]models.GitCommit, 0, length)
+	length := 17
+	commits := make(models.GitCommits, 0, length)
 
 	query := `
 		SELECT
@@ -161,7 +163,7 @@ func (s *SqliteDB) RecentCommitsByGroup(group string) (models.GitCommits, error)
 		commits = append(commits, c)
 	}
 
-	return models.GitCommits(commits), nil
+	return commits, nil
 }
 
 // createUser inserts a new User row and returns the ID.
