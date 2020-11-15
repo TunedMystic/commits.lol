@@ -81,10 +81,10 @@ func (g *Client) CommitSearch(options CommitSearchOptions) (*CommitSearchRespons
 
 // CommitSearchPaginated ...
 func (g *Client) CommitSearchPaginated(options CommitSearchOptions) ([]CommitItem, error) {
-	commitItems := []CommitItem{} // stores commit objects across the fetched pages
+	commitItems := make([]CommitItem, 0, 30) // stores commit objects across the fetched pages
 
 	for {
-		fmt.Printf("Fetching page %v\n", options.Page)
+		fmt.Printf("Fetching page %v for query %v\n", options.Page, options.QueryText)
 
 		// Perform search.
 		response, err := g.CommitSearch(options)
@@ -93,7 +93,7 @@ func (g *Client) CommitSearchPaginated(options CommitSearchOptions) ([]CommitIte
 		}
 
 		commitItems = append(commitItems, response.CommitItems...)
-		fmt.Printf("  - Page %v, got %v items\n", options.Page, len(response.CommitItems))
+		fmt.Printf("  - Page %v for query %v, got %v items\n", options.Page, options.QueryText, len(response.CommitItems))
 
 		// Check if last page.
 		if len(commitItems) == response.TotalCount {
