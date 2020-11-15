@@ -9,6 +9,7 @@ import (
 
 	"github.com/integrii/flaggy"
 	_ "github.com/mattn/go-sqlite3" // sqlite
+	"github.com/robfig/cron/v3"
 
 	"github.com/tunedmystic/commits.lol/app/clients/github"
 	"github.com/tunedmystic/commits.lol/app/config"
@@ -45,6 +46,7 @@ func main() {
 	}
 
 	if cmdRunServer.Used {
+		RunTasks()
 		RunServer()
 	}
 
@@ -57,6 +59,7 @@ func main() {
 
 // RunServer ...
 func RunServer() {
+	fmt.Println("[setup] run server")
 	db := db.NewSqliteDB(config.App.DatabaseName)
 	s := server.NewServer(db)
 
@@ -65,8 +68,22 @@ func RunServer() {
 	log.Fatal(http.ListenAndServe(addr, s.Routes()))
 }
 
+// RunTasks ...
+func RunTasks() {
+	fmt.Println("[setup] tasks")
+	c := cron.New()
+	c.AddFunc("@every 60m", func() {
+		to := time.Now().UTC()
+		from := to.AddDate(0, 0, -3) // 3 days back.
+		FetchCommits(from.Format("2006-01-02"), to.Format("2006-01-02"))
+	})
+	c.Start()
+}
+
 // FetchCommits ...
 func FetchCommits(fromDate, toDate string) {
+	now := time.Now().UTC()
+	fmt.Printf("[run] FetchCommits, %v\n", now)
 	db := db.NewSqliteDB(config.App.DatabaseName)
 
 	options := github.CommitSearchOptions{

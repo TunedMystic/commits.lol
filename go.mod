@@ -8,5 +8,6 @@ require (
 	github.com/integrii/flaggy v1.4.4
 	github.com/jmoiron/sqlx v1.2.0
 	github.com/mattn/go-sqlite3 v1.14.4
+	github.com/robfig/cron/v3 v3.0.1 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 )
