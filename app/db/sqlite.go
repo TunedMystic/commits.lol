@@ -61,9 +61,11 @@ func (s *SqliteDB) randomSearchTermsByRank(rank, amount int) (models.SearchTerms
 
 // RandomSearchTerms returns a list of randomly selected terms of predetermined rank.
 func (s *SqliteDB) RandomSearchTerms() (models.SearchTerms, error) {
-	rank1Amount := 10
+	rank1Amount := 8
 	rank2Amount := 4
-	totalTerms := rank1Amount + rank2Amount
+	rank3Amount := 4
+	rank4Amount := 2
+	totalTerms := rank1Amount + rank2Amount + rank3Amount + rank4Amount
 	terms := make(models.SearchTerms, 0, totalTerms)
 
 	// Get terms of Rank 1.
@@ -79,6 +81,20 @@ func (s *SqliteDB) RandomSearchTerms() (models.SearchTerms, error) {
 		return nil, fmt.Errorf("db:RandomSearchTerms: %v", err)
 	}
 	terms = append(terms, t2...)
+
+	// Get terms of Rank 3.
+	t3, err := s.randomSearchTermsByRank(3, rank3Amount)
+	if err != nil {
+		return nil, fmt.Errorf("db:RandomSearchTerms: %v", err)
+	}
+	terms = append(terms, t3...)
+
+	// Get terms of Rank 4.
+	t4, err := s.randomSearchTermsByRank(4, rank4Amount)
+	if err != nil {
+		return nil, fmt.Errorf("db:RandomSearchTerms: %v", err)
+	}
+	terms = append(terms, t4...)
 
 	return terms, nil
 }
