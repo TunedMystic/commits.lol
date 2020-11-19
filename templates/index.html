@@ -45,14 +45,16 @@
     </div>
 
     <!-- filler div and svg pattern -->
+    <!--div>
     <div class="w-full" style="background-color: #fff; height: 250px;"></div>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 18 1000 320"><path fill="#fff" fill-opacity="1" d="M0,96L34.3,90.7C68.6,85,137,75,206,85.3C274.3,96,343,128,411,133.3C480,139,549,117,617,128C685.7,139,754,181,823,186.7C891.4,192,960,160,1029,165.3C1097.1,171,1166,213,1234,224C1302.9,235,1371,213,1406,202.7L1440,192L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"></path></svg>
+    </div-->
 </div>
 
 
 <div class="w-full px-4 md:px-8 lg:px-8 pt-24">
     <!-- commits container -->
-    <div class="relative flex flex-wrap justify-center max-w-screen-md lg:max-w-screen-lg border-4 border-gray-200 md:border-gray-100 shadow-md bg-white text-md md:text-lg mx-auto p-2 md:p-6" style="border-radius: 0.5rem;">
+    <div class="relative flex flex-wrap justify-center max-w-screen-md lg:max-w-screen-lg xborder-4 xborder-gray-200 xmd:border-gray-100 xshadow-md bg-white text-md md:text-lg mx-auto p-2 md:p-6" style="border-radius: 0.5rem;">
 
         <!-- navs -->
         <div class="noselect border-4 border-gray-100 shadow absolute flex z-10 py-3 px-2 bg-white" style="border-radius: 1.2rem; border-radius: 0.5rem; top: -95px;">
@@ -93,11 +95,11 @@
 
 <div class="relative"> <!-- info -->
     <!-- original viewBox: 0 0 1440 270 -->
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 120 1440 140"><path fill="#ffffff" fill-opacity="1" d="M0,192L120,186.7C240,181,480,171,720,181.3C960,192,1200,224,1320,240L1440,256L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z"></path></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 120 1440 140"><path fill="#f3f7fb" xfill="#ffffff" fill-opacity="1" d="M0,192L120,186.7C240,181,480,171,720,181.3C960,192,1200,224,1320,240L1440,256L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z"></path></svg>
 
-    <div class="w-full bg-white px-4 pt-0 pb-24">
+    <div class="w-full bg-light-gray xbg-white px-4 pt-0 pb-24">
         <div class="max-w-screen-lg mx-auto container font-sans leading-snug text-md md:text-lg">
-            <p class="font-sans text-2xl md:text-3xl font-black text-gray-600">
+            <p class="font-sans text-2xl md:text-3xl font-black text-gray-700">
                 "...and they thought no one would see"
             </p>
 
@@ -117,8 +119,10 @@
 
 
 <!-- footer -->
-<div class="w-full px-4 pt-12 pb-8">
-    <div class="max-w-screen-lg mx-auto text-md block md:flex justify-between items-center">
+<div class="relative w-full xpx-4 xpt-12 pb-8">
+    <!-- original viewBox 0 0 1440 320 -->
+    <svg class="absolute" xmlns="http://www.w3.org/2000/svg" viewBox="0 30 1440 320"><path fill="#f3f7fb" fill-opacity="1" d="M0,32L120,58.7C240,85,480,139,720,144C960,149,1200,107,1320,85.3L1440,64L1440,0L1320,0C1200,0,960,0,720,0C480,0,240,0,120,0L0,0Z"></path></svg>
+    <div class="pt-24 max-w-screen-lg mx-auto text-md block md:flex justify-between items-center">
         <!-- social links -->
         <div class="flex flex-col relative" style="width: 300px;">
 
@@ -158,7 +162,7 @@
             </div>
         </div> <!-- /social links -->
 
-        <div class="mt-12 md:mt-0">made by <a class="underline" href="https://github.com/TunedMystic" target="_blank">@tunedmystic</a></div>
+        <div class="z-30 mt-12 md:mt-0">made by <a class="underline" href="https://github.com/TunedMystic" target="_blank">@tunedmystic</a></div>
 
     </div>
 </div> <!-- /footer -->
