@@ -10,6 +10,7 @@ import (
 
 	"github.com/beefsack/go-rate"
 	"github.com/tunedmystic/commits.lol/app/config"
+	"go.uber.org/zap"
 )
 
 // Client for Github
@@ -84,7 +85,7 @@ func (g *Client) CommitSearchPaginated(options CommitSearchOptions) ([]CommitIte
 	commitItems := make([]CommitItem, 0, 30) // stores commit objects across the fetched pages
 
 	for {
-		fmt.Printf("Fetching page %v for query %v\n", options.Page, options.QueryText)
+		zap.S().Infof("  Query [%s], fetching Page %d", options.QueryText, options.Page)
 
 		// Perform search.
 		response, err := g.CommitSearch(options)
@@ -93,23 +94,23 @@ func (g *Client) CommitSearchPaginated(options CommitSearchOptions) ([]CommitIte
 		}
 
 		commitItems = append(commitItems, response.CommitItems...)
-		fmt.Printf("  - Page %v for query %v, got %v items\n", options.Page, options.QueryText, len(response.CommitItems))
+		zap.S().Debugf("    - Query [%s], Page %d, got %d items", options.QueryText, options.Page, len(response.CommitItems))
 
 		// Check if last page.
 		if len(commitItems) == response.TotalCount {
-			fmt.Println("  - reached last page")
+			zap.S().Debugf("    - Query [%s], reached last Page %d", options.QueryText, options.Page)
 			break
 		}
 
 		// Check max item threshold.
 		if len(commitItems) >= g.maxFetch {
-			fmt.Printf("  - reached max items limit of %v\n", g.maxFetch)
+			zap.S().Debugf("    - Query [%s], reached items limit of %d", options.QueryText, g.maxFetch)
 			break
 		}
 
 		options.Page++
 	}
 
-	fmt.Printf("\nFetched a total of %v results\n", len(commitItems))
+	zap.S().Infof("  Query [%s], total fetched: %d", options.QueryText, len(commitItems))
 	return commitItems, nil
 }

@@ -8,14 +8,14 @@ import (
 	"time"
 
 	"github.com/integrii/flaggy"
-	_ "github.com/mattn/go-sqlite3" // sqlite
 	"github.com/robfig/cron/v3"
+	"go.uber.org/zap"
 
 	"github.com/tunedmystic/commits.lol/app/clients/github"
 	"github.com/tunedmystic/commits.lol/app/config"
 	"github.com/tunedmystic/commits.lol/app/db"
+	"github.com/tunedmystic/commits.lol/app/pipeline"
 	"github.com/tunedmystic/commits.lol/app/server"
-	"github.com/tunedmystic/commits.lol/app/services"
 	"github.com/tunedmystic/commits.lol/app/utils"
 )
 
@@ -29,7 +29,8 @@ func main() {
 	fetchCommitsToDate := todayDate
 
 	// The 'run-server' subcommand.
-	cmdRunServer := flaggy.NewSubcommand("run-server")
+	cmdRunServer := flaggy.NewSubcommand("server")
+	cmdRunServer.Description = "Run the application server"
 	flaggy.AttachSubcommand(cmdRunServer, 1)
 
 	// The 'fetch-commits' subcommand.
@@ -43,7 +44,10 @@ func main() {
 
 	if len(os.Args) < 2 {
 		flaggy.ShowHelp("")
+		return
 	}
+
+	utils.SetupLogging()
 
 	if cmdRunServer.Used {
 		RunTasks()
@@ -59,18 +63,18 @@ func main() {
 
 // RunServer ...
 func RunServer() {
-	fmt.Println("[setup] run server")
+	zap.S().Info("[run] server")
 	db := db.NewSqliteDB(config.App.DatabaseName)
 	s := server.NewServer(db)
 
 	addr := fmt.Sprintf("0.0.0.0:%v", config.App.Port)
-	fmt.Printf("Running server on %v ...\n", addr)
+	zap.S().Info("Server is running on ", addr)
 	log.Fatal(http.ListenAndServe(addr, s.Routes()))
 }
 
 // RunTasks ...
 func RunTasks() {
-	fmt.Println("[setup] tasks")
+	zap.S().Info("[run] periodic tasks")
 	c := cron.New()
 	c.AddFunc("@every 60m", func() {
 		to := time.Now().UTC()
@@ -82,8 +86,7 @@ func RunTasks() {
 
 // FetchCommits ...
 func FetchCommits(fromDate, toDate string) {
-	now := time.Now().UTC()
-	fmt.Printf("[run] FetchCommits, %v\n", now)
+	zap.S().Infof("[run] fetch-commits from %s to %s", fromDate, toDate)
 	db := db.NewSqliteDB(config.App.DatabaseName)
 
 	options := github.CommitSearchOptions{
@@ -93,6 +96,6 @@ func FetchCommits(fromDate, toDate string) {
 	}
 
 	// Run the commit pipeline with randomly fetched searchTerms.
-	services.Commits(db).WithOptions(options).WithRandomSearchTerms().Run()
-	fmt.Println("[done] FetchCommits")
+	pipeline.Commits(db).WithOptions(options).WithRandomSearchTerms().Run()
+	zap.S().Info("[done] fetch-commits")
 }

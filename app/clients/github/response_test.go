@@ -2,12 +2,10 @@ package github
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"testing"
 	"time"
 
-	"github.com/tunedmystic/commits.lol/app/config"
 	u "github.com/tunedmystic/commits.lol/app/utils"
 )
 
@@ -83,8 +81,6 @@ func Test_Validate_Message(t *testing.T) {
 		message  string
 		expected error
 	}
-
-	fmt.Printf("config.App.GithubCommitLength: %v\n", config.App.GithubCommitLength)
 
 	tests := []test{
 		{"fixed a bug", nil},

@@ -1,4 +1,4 @@
-package services
+package pipeline
 
 import (
 	"fmt"
@@ -9,6 +9,7 @@ import (
 	"github.com/tunedmystic/commits.lol/app/db"
 	"github.com/tunedmystic/commits.lol/app/models"
 	"github.com/tunedmystic/commits.lol/app/utils"
+	"go.uber.org/zap"
 )
 
 // CommitPipeline is responsible for fetching commits
@@ -53,7 +54,10 @@ func Commits(db db.Database) *CommitPipeline {
 // WithRandomSearchTerms adds random terms to the pipeline.
 func (c *CommitPipeline) WithRandomSearchTerms() *CommitPipeline {
 	c.terms = []string{}
-	randomTerms := c.db.RandomSearchTerms()
+	randomTerms, err := c.db.RandomSearchTerms()
+	if err != nil {
+		zap.S().Warn(err.Error())
+	}
 	c.terms = append(c.terms, randomTerms.ToStrings()...)
 	return c
 }
@@ -75,11 +79,11 @@ func (c *CommitPipeline) WithOptions(options github.CommitSearchOptions) *Commit
 
 // Run ...
 func (c *CommitPipeline) Run() {
-	fmt.Println("pipeline.Run")
+	zap.S().Info("pipeline.Run")
 
 	// Exit if there are no terms.
 	if len(c.terms) == 0 {
-		fmt.Println("no terms in pipeline. exiting.")
+		zap.S().Warn("no terms in pipeline. exiting.")
 		return
 	}
 
@@ -94,7 +98,6 @@ func (c *CommitPipeline) Run() {
 	// Wait for all goroutines to finish.
 	for i := 0; i < len(c.terms); i++ {
 		<-c.done
-		fmt.Println("goroutine finished")
 	}
 
 	close(c.done)
@@ -110,7 +113,7 @@ func (c *CommitPipeline) writeJobs() {
 
 // worker consumes jobs from the jobs channel, and executes the work.
 func (c *CommitPipeline) worker(ID int) {
-	fmt.Printf("worker [%v] started \n", ID)
+	zap.S().Infof("worker %d started", ID)
 	for term := range c.jobs {
 		// Copy the options, and add the term.
 		options := c.options
@@ -120,7 +123,7 @@ func (c *CommitPipeline) worker(ID int) {
 		commitItems, err := c.client.CommitSearchPaginated(options)
 
 		if err != nil {
-			fmt.Printf("pipeline.fetch: %v\n", err)
+			zap.S().Errorf("Error with pipeline.worker %d: %v", ID, err.Error())
 			c.done <- true
 			continue
 		}
@@ -132,7 +135,7 @@ func (c *CommitPipeline) worker(ID int) {
 
 		c.done <- true
 	}
-	fmt.Printf("worker [%v] done\n", ID)
+	zap.S().Infof("worker %d done", ID)
 }
 
 func (c *CommitPipeline) save(commitItem github.CommitItem) error {
@@ -174,7 +177,6 @@ func (c *CommitPipeline) save(commitItem github.CommitItem) error {
 		return fmt.Errorf("pipeline.save:GetOrCreateCommit: %v", err)
 	}
 
-	// fmt.Printf(">> %v | %v | %v\n\n", commit.Message, commit.ID, commit.URL)
 	return nil
 }
 

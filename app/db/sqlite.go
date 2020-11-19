@@ -60,7 +60,7 @@ func (s *SqliteDB) randomSearchTermsByRank(rank, amount int) (models.SearchTerms
 }
 
 // RandomSearchTerms returns a list of randomly selected terms of predetermined rank.
-func (s *SqliteDB) RandomSearchTerms() models.SearchTerms {
+func (s *SqliteDB) RandomSearchTerms() (models.SearchTerms, error) {
 	rank1Amount := 10
 	rank2Amount := 4
 	totalTerms := rank1Amount + rank2Amount
@@ -69,18 +69,18 @@ func (s *SqliteDB) RandomSearchTerms() models.SearchTerms {
 	// Get terms of Rank 1.
 	t1, err := s.randomSearchTermsByRank(1, rank1Amount)
 	if err != nil {
-		fmt.Println(err)
+		return nil, fmt.Errorf("db:RandomSearchTerms: %v", err)
 	}
 	terms = append(terms, t1...)
 
 	// Get terms of Rank 2.
 	t2, err := s.randomSearchTermsByRank(2, rank2Amount)
 	if err != nil {
-		fmt.Println(err)
+		return nil, fmt.Errorf("db:RandomSearchTerms: %v", err)
 	}
 	terms = append(terms, t2...)
 
-	return terms
+	return terms, nil
 }
 
 // ------------------------------------------------------------------
@@ -120,7 +120,7 @@ func (s *SqliteDB) UpdateCommit(commit *models.GitCommit) error {
 
 // RecentCommitsByGroup returns the most recent commits.
 func (s *SqliteDB) RecentCommitsByGroup(group string) (models.GitCommits, error) {
-	length := 17
+	length := 30
 	commits := make(models.GitCommits, 0, length)
 
 	query := `

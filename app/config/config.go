@@ -3,6 +3,7 @@ package config
 import (
 	"os"
 	"strconv"
+	"strings"
 )
 
 // SourceGithub is an enum for the Github source.
@@ -26,6 +27,7 @@ type Config struct {
 	GithubAPIKey       string
 	GithubMaxFetch     int
 	GithubCommitLength int
+	LogLevel           string
 }
 
 // GetConfig creates a Config type with settings from the environment.
@@ -71,6 +73,12 @@ func GetConfig() Config {
 	if err != nil {
 		panic("config: GithubCommitLength error when parsing")
 	}
+
+	logLevel := os.Getenv("LOG_LEVEL")
+	if logLevel == "" {
+		logLevel = "INFO"
+	}
+	c.LogLevel = strings.ToUpper(logLevel)
 
 	return c
 }
