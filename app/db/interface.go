@@ -6,7 +6,7 @@ import "github.com/tunedmystic/commits.lol/app/models"
 type Database interface {
 	AllBadWords() (models.BadWords, error)
 	AllGroupTerms() (models.GroupTerms, error)
-	RandomSearchTerms() models.SearchTerms
+	RandomSearchTerms() (models.SearchTerms, error)
 
 	AllCommits() (models.GitCommits, error)
 	UpdateCommit(commit *models.GitCommit) error

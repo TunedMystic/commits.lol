@@ -17,7 +17,7 @@ clean:  ## Clean workspace
 	@go clean -testcache
 
 dev:  ## Run the program in dev mode.
-	@go run main.go run-server
+	@go run main.go server
 
 install:  ## Install project dependencies
 	@go mod download
