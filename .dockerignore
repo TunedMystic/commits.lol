@@ -12,9 +12,9 @@
 *.conf
 .DS_Store
 .vscode
-misc
-tmp
+.misc
 .env
+!.env.test
 
 # Misc files
 node_modules

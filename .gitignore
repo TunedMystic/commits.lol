@@ -13,15 +13,12 @@
 .DS_Store
 .vscode
 .misc
-tmp
 .env
 !.env.test
-*.tar.gz
 
 # Misc files
 node_modules
 package-lock.json
-tailwind.css
 
 # Binary
 commits.lol
