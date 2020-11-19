@@ -1,5 +1,3 @@
-{{define "js"}}
-<script type="text/javascript">
 const header = `
   _   _ _   _____ _                   _
  | | | (_) |_   _| |__   ___ _ __ ___| |
@@ -63,5 +61,3 @@ const makeRequest = (url, onSuccess, errorMessage) => {
         alert(errorMessageText);
     });
 };
-</script>
-{{end}}

@@ -1,5 +1,3 @@
-{{define "css"}}
-<style>
 .font-mono {
     font-family: 'Source Code Pro', monospace;
 }
@@ -171,5 +169,3 @@
 .social-website:hover {
     transform: rotate(-5deg);
 }
-</style>
-{{end}}
