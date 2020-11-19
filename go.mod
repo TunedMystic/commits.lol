@@ -4,7 +4,6 @@ go 1.15
 
 require (
 	github.com/beefsack/go-rate v0.0.0-20200827232406-6cde80facd47
-	github.com/google/martian/v3 v3.1.0
 	github.com/gorilla/mux v1.8.0
 	github.com/integrii/flaggy v1.4.4
 	github.com/jmoiron/sqlx v1.2.0

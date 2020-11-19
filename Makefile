@@ -11,30 +11,39 @@ build: clean  ## Build the binary
 	@npm run build-styles-prod
 	@go build -ldflags="-s -w"
 
-clean:  ## Clean workspace
-	@rm -f ${APP}
-	@rm -rf coverage.out
-	@go clean -testcache
-
-dev:  ## Run the program in dev mode.
-	@go run main.go server
+build-docker: clean  ## Build docker image
+	@npm run build-styles-prod
+	@tar -cvzf assets.tar.gz static templates
+	@docker build -t commits.lol .
 
 install:  ## Install project dependencies
 	@go mod download
+
+clean:  ## Clean workspace
+	@rm -f ${APP}
+	@rm -f coverage.out
+	@rm -f assets.tar.gz
+	@go clean -testcache
+
+dev:  ## Run the program
+	@eval $$(egrep -v '^#' .env | xargs) go run main.go server
+
+dev-w:  ## Run the program and watch for file changes
+	@npm run build-styles
+	@bash -c "find . -type f \( -name '*.go' -o -name '*.html' \) | grep -v 'misc' | entr -r $(MAKE) dev"
+
+dev-docker: ## Run the docker container.
+	@docker run -p 8000:8000 --env-file .env -v $$(pwd)/commits.lol.sqlite:/usr/src/commits.lol.sqlite commits.lol
 
 test: clean  ## Run tests
 	@eval $$(egrep -v '^#' .env.test | xargs) go test ./... -covermode=atomic -coverprofile coverage.out
 	@go tool cover -func coverage.out
 	@eval $$(egrep -v '^#' .env.test | xargs) bash scripts/coverage-threshold.sh
 
+test-w:  ## Run tests and watch for file changes
+	@bash -c "find . -name '*.go' | grep -v 'misc' | entr -r $(MAKE) test"
+
 cover:  ## View HTML coverage reports
 	@go tool cover -html coverage.out
 
-watch:  ## Watch for file changes and run the server.
-	@npm run build-styles
-	@bash -c "find . -type f \( -name '*.go' -o -name '*.html' \) | grep -v 'misc' | entr -r $(MAKE) dev"
-
-watchtests:  ## Watch for file changes and run tests.
-	@bash -c "find . -name '*.go' | grep -v 'misc' | entr -r $(MAKE) test"
-
-.PHONY: help build clean dev install test watch watchtests
+.PHONY: help build build-docker install clean dev dev-w dev-docker test test-w cover
