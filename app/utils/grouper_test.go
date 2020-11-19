@@ -41,9 +41,9 @@ func Test_Grouper(t *testing.T) {
 	}
 	grouper := NewCommitGrouper(groupedTerms)
 
-	for _, test := range tests {
-		t.Run(test.label, func(t *testing.T) {
-			AssertEqual(t, grouper.Group(test.text), test.expected)
+	for _, testItem := range tests {
+		t.Run(testItem.label, func(t *testing.T) {
+			AssertEqual(t, grouper.Group(testItem.text), testItem.expected)
 		})
 	}
 }
