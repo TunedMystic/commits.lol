@@ -13,7 +13,6 @@ build: clean  ## Build the binary
 
 build-docker: clean  ## Build docker image
 	@npm run build-styles-prod
-	@tar -cvzf assets.tar.gz static templates
 	@docker build -t commits.lol .
 
 install:  ## Install project dependencies
@@ -22,7 +21,6 @@ install:  ## Install project dependencies
 clean:  ## Clean workspace
 	@rm -f ${APP}
 	@rm -f coverage.out
-	@rm -f assets.tar.gz
 	@go clean -testcache
 
 dev:  ## Run the program

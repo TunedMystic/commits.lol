@@ -35,7 +35,8 @@ WORKDIR $APP_PATH
 RUN apk add --no-cache bash
 
 COPY --from=builder /build/commits.lol $APP_PATH
-ADD assets.tar.gz $APP_PATH
+COPY --from=builder /build/static $APP_PATH/static
+COPY --from=builder /build/templates $APP_PATH/templates
 
 EXPOSE 8000
 CMD ["./commits.lol", "server"]

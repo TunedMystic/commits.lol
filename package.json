@@ -4,11 +4,13 @@
   "author": "Sandeep Jadoonannan",
   "description": "Devs say the darndest things",
   "dependencies": {
+    "minify": "^6.0.1",
     "tailwindcss": "^1.9.6"
   },
   "scripts": {
     "build-styles": "tailwindcss build -o static/css/tailwind.css",
-    "build-styles-prod": "NODE_ENV=production tailwindcss build -o static/css/tailwind.css"
+    "build-styles-prod": "NODE_ENV=production npm run build-styles && npm run minify-tailwind",
+    "minify-tailwind": "minify static/css/tailwind.css > static/css/tailwind.min.css && mv static/css/tailwind.min.css static/css/tailwind.css"
   },
   "license": "MIT"
 }
