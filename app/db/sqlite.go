@@ -136,7 +136,7 @@ func (s *SqliteDB) UpdateCommit(commit *models.GitCommit) error {
 
 // RecentCommitsByGroup returns the most recent commits.
 func (s *SqliteDB) RecentCommitsByGroup(group string) (models.GitCommits, error) {
-	length := 30
+	length := 33
 	commits := make(models.GitCommits, 0, length)
 
 	query := `
@@ -163,7 +163,7 @@ func (s *SqliteDB) RecentCommitsByGroup(group string) (models.GitCommits, error)
 		ORDER BY random()
 		LIMIT $3;`
 
-	rows, err := s.DB.Queryx(query, "-150 days", group, length)
+	rows, err := s.DB.Queryx(query, "-21 days", group, length)
 
 	if err != nil {
 		return nil, err

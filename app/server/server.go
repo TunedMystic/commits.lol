@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/getsentry/sentry-go"
 	"github.com/gorilla/mux"
 	"github.com/tunedmystic/commits.lol/app/config"
 	"github.com/tunedmystic/commits.lol/app/db"
@@ -35,8 +36,7 @@ func NewServer(DB db.Database) *Server {
 
 // IndexHandler renders the index page.
 func (s *Server) IndexHandler(w http.ResponseWriter, r *http.Request) {
-	// Get query params and normalize.
-	group := r.URL.Query().Get("group")
+	// Should we render the recent commits as an html fragment?
 	fragmentParam := r.URL.Query().Get("fragment")
 	if fragmentParam == "" {
 		fragmentParam = "false"
@@ -44,9 +44,11 @@ func (s *Server) IndexHandler(w http.ResponseWriter, r *http.Request) {
 	fragment, _ := strconv.ParseBool(fragmentParam)
 
 	// Get recent commits.
+	group := r.URL.Query().Get("group")
 	commits, err := s.DB.RecentCommitsByGroup(group)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		sentry.CaptureException(err)
+		http.Error(w, "oopsie, something went horribly wrong", http.StatusInternalServerError)
 		return
 	}
 
