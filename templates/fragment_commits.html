@@ -1,9 +1,9 @@
 {{define "commits"}}
     {{range .}}
         <!-- single commit -->
-        <span class="commit-item flex flex-col m-375 font-mono">
-            <div class="relative rounded" style="background-color: {{.ColorBackground}}; color: {{.ColorForeground}}">
-                <div class="flex items-center text-sm md:text-lg px-2 py-1 lg:py-2">
+        <span class="commit-item flex flex-col m-45 font-mono">
+            <div class="relative rounded-md" style="background-color: {{.ColorBackground}}; color: {{.ColorForeground}}">
+                <div class="flex items-center text-sm md:text-base px-2 py-1">
                     <a class="hidden md:inline pr-2" target="_blank" href="{{.Author.URL}}">
                         <img loading="lazy" class="rounded-full w-6 h-6" alt="{{.Author.Username}}" src="{{.Author.AvatarURL}}">
                     </a>
