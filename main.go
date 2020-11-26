@@ -48,6 +48,8 @@ func main() {
 	}
 
 	utils.SetupLogging()
+	flushSentry := utils.SetupSentry()
+	defer flushSentry()
 
 	if cmdRunServer.Used {
 		RunTasks()

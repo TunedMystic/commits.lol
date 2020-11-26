@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/getsentry/sentry-go"
 	"github.com/tunedmystic/commits.lol/app/clients/github"
 	"github.com/tunedmystic/commits.lol/app/config"
 	"github.com/tunedmystic/commits.lol/app/db"
@@ -123,14 +124,20 @@ func (c *CommitPipeline) worker(ID int) {
 		commitItems, err := c.client.CommitSearchPaginated(options)
 
 		if err != nil {
-			zap.S().Errorf("Error with pipeline.worker %d: %v", ID, err.Error())
+			errMsg := fmt.Errorf("Error with pipeline.worker %d: %v", ID, err.Error())
+			zap.S().Errorf(errMsg.Error())
+			sentry.CaptureException(errMsg)
+
 			c.done <- true
 			continue
 		}
 
 		// Save commitItems to the database.
 		for _, commitItem := range commitItems {
-			c.save(commitItem)
+			err := c.save(commitItem)
+			if err != nil {
+				sentry.CaptureException(err)
+			}
 		}
 
 		c.done <- true

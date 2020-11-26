@@ -28,6 +28,7 @@ type Config struct {
 	GithubMaxFetch     int
 	GithubCommitLength int
 	LogLevel           string
+	SentryDSN          string
 }
 
 // GetConfig creates a Config type with settings from the environment.
@@ -79,6 +80,8 @@ func GetConfig() Config {
 		logLevel = "INFO"
 	}
 	c.LogLevel = strings.ToUpper(logLevel)
+
+	c.SentryDSN = os.Getenv("SENTRY_DSN")
 
 	return c
 }
