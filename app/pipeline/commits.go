@@ -81,6 +81,7 @@ func (c *CommitPipeline) WithOptions(options github.CommitSearchOptions) *Commit
 // Run ...
 func (c *CommitPipeline) Run() {
 	zap.S().Info("pipeline.Run")
+	sentry.CaptureMessage("pipeline.Run")
 
 	// Exit if there are no terms.
 	if len(c.terms) == 0 {
@@ -135,7 +136,14 @@ func (c *CommitPipeline) worker(ID int) {
 		// Save commitItems to the database.
 		for _, commitItem := range commitItems {
 			err := c.save(commitItem)
-			if err != nil {
+
+			if err == nil {
+				continue
+			}
+
+			// If it's not a validation error, then it might
+			// be serious, so capture it with Sentry.
+			if _, ok := err.(github.ValidationError); !ok {
 				sentry.CaptureException(err)
 			}
 		}
