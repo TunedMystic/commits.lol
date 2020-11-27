@@ -34,6 +34,40 @@ func NewClient() *Client {
 	return &g
 }
 
+// RateLimits checks the rate limit for the configured API Key.
+func (g *Client) RateLimits() (RateLimitResponse, error) {
+	// Build request
+	url := fmt.Sprintf("%v/rate_limit", g.baseURL)
+	req, _ := http.NewRequest(http.MethodGet, url, nil)
+
+	req.Header.Add("User-Agent", "commits.lol")
+	req.Header.Add("Accept", "application/vnd.github.v3+json")
+	req.Header.Add("Authorization", "token "+g.apiKey)
+
+	var response RateLimitResponse
+
+	// Make request
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return response, fmt.Errorf("error making request: %v", err)
+	}
+
+	// Read the response body.
+	data, _ := ioutil.ReadAll(res.Body)
+	res.Body.Close()
+
+	if res.StatusCode != http.StatusOK {
+		return response, NewAPIError(url, data, res.StatusCode)
+	}
+
+	// Unmarshal the JSON data.
+	if err = json.Unmarshal(data, &response); err != nil {
+		return response, fmt.Errorf("not able to unmarshal response: %v", err)
+	}
+
+	return response, nil
+}
+
 // CommitSearch ...
 // The search commits endpoint works with at most 5 qualifiers
 // Example:

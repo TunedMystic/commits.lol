@@ -53,12 +53,11 @@ type GitCommits []GitCommit
 // Returns true if message was censored.
 // Returns false if there were no bad words to be cleaned.
 func (c *GitCommit) SetCensoredMessage(cl utils.Cleaner) bool {
-	cleanedMsg, wordsCensored := cl.Clean(c.Message)
+	cleanedMsg, _ := cl.Clean(c.Message)
 
 	// If the cleaned message is the same as the commit's message, then nothing was cleaned.
-	// If there were no words censored, then nothing was cleaned.
 	// In any of these cases, return false to express that the Commit was not updated.
-	if cleanedMsg == c.Message || wordsCensored == 0 {
+	if cleanedMsg == c.Message {
 		return false
 	}
 

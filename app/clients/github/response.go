@@ -14,6 +14,17 @@ func init() {
 	CommitMessagePattern = regexp.MustCompile(`^[a-zA-Z][\w '#%\.\!\:\-\)\(]+$`)
 }
 
+// RateLimitResponse ...
+type RateLimitResponse struct {
+	Resources struct {
+		Search struct {
+			Limit     int `json:"limit"`
+			Used      int `json:"used"`
+			Remaining int `json:"remaining"`
+		} `json:"search"`
+	} `json:"resources"`
+}
+
 // CommitSearchResponse ...
 type CommitSearchResponse struct {
 	TotalCount  int          `json:"total_count"`
