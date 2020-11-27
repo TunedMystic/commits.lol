@@ -135,7 +135,14 @@ func (c *CommitPipeline) worker(ID int) {
 		// Save commitItems to the database.
 		for _, commitItem := range commitItems {
 			err := c.save(commitItem)
-			if err != nil {
+
+			if err == nil {
+				continue
+			}
+
+			// If it's not a validation error, then it might
+			// be serious, so capture it with Sentry.
+			if _, ok := err.(github.ValidationError); !ok {
 				sentry.CaptureException(err)
 			}
 		}
