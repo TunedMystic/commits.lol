@@ -81,6 +81,7 @@ func (c *CommitPipeline) WithOptions(options github.CommitSearchOptions) *Commit
 // Run ...
 func (c *CommitPipeline) Run() {
 	zap.S().Info("pipeline.Run")
+	sentry.CaptureMessage("pipeline.Run")
 
 	// Exit if there are no terms.
 	if len(c.terms) == 0 {
