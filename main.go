@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -40,6 +41,11 @@ func main() {
 	cmdFetchCommits.String(&fetchCommitsToDate, "t", "to", "AuthorDate to")
 	flaggy.AttachSubcommand(cmdFetchCommits, 1)
 
+	// The 'limits' subcommand.
+	cmdLimits := flaggy.NewSubcommand("limits")
+	cmdLimits.Description = "Check API rate limits"
+	flaggy.AttachSubcommand(cmdLimits, 1)
+
 	flaggy.Parse()
 
 	if len(os.Args) < 2 {
@@ -60,6 +66,10 @@ func main() {
 		utils.MustParseDate(fetchCommitsFromDate)
 		utils.MustParseDate(fetchCommitsToDate)
 		FetchCommits(fetchCommitsFromDate, fetchCommitsToDate)
+	}
+
+	if cmdLimits.Used {
+		CheckRateLimits()
 	}
 }
 
@@ -100,4 +110,18 @@ func FetchCommits(fromDate, toDate string) {
 	// Run the commit pipeline with randomly fetched searchTerms.
 	pipeline.Commits(db).WithOptions(options).WithRandomSearchTerms().Run()
 	zap.S().Info("[done] fetch-commits")
+}
+
+// CheckRateLimits ...
+func CheckRateLimits() {
+	zap.S().Infof("[run] limits")
+
+	response, err := github.NewClient().RateLimits()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	s, _ := json.MarshalIndent(response.Resources.Search, "", "   ")
+
+	zap.S().Infof("Github Rate Limits\n%s", string(s))
 }

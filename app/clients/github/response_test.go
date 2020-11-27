@@ -9,6 +9,19 @@ import (
 	u "github.com/tunedmystic/commits.lol/app/utils"
 )
 
+func Test_RateLimitResponse_Unmarshal(t *testing.T) {
+	response := RateLimitResponse{}
+
+	if err := json.Unmarshal([]byte(responseRateLimit), &response); err != nil {
+		t.Errorf("Failed to parse json %v\n", err)
+	}
+
+	// Check Search limits
+	u.AssertEqual(t, response.Resources.Search.Limit, 30)
+	u.AssertEqual(t, response.Resources.Search.Used, 1)
+	u.AssertEqual(t, response.Resources.Search.Remaining, 29)
+}
+
 func Test_CommitSearchResponse_Unmarshal(t *testing.T) {
 	response := CommitSearchResponse{}
 
@@ -123,6 +136,53 @@ func Test_Validate_fail_because_no_author(t *testing.T) {
 // ------------------------------------------------------------------
 // Test JSON response data
 // ------------------------------------------------------------------
+
+const responseRateLimit = `{
+    "resources": {
+        "core": {
+            "limit": 5000,
+            "used": 95,
+            "remaining": 4905,
+            "reset": 1606461255
+        },
+        "search": {
+            "limit": 30,
+            "used": 1,
+            "remaining": 29,
+            "reset": 1606460379
+        },
+        "graphql": {
+            "limit": 5000,
+            "used": 0,
+            "remaining": 5000,
+            "reset": 1606463919
+        },
+        "integration_manifest": {
+            "limit": 5000,
+            "used": 0,
+            "remaining": 5000,
+            "reset": 1606463919
+        },
+        "source_import": {
+            "limit": 100,
+            "used": 0,
+            "remaining": 100,
+            "reset": 1606460379
+        },
+        "code_scanning_upload": {
+            "limit": 500,
+            "used": 0,
+            "remaining": 500,
+            "reset": 1606463919
+        }
+    },
+    "rate": {
+        "limit": 5000,
+        "used": 95,
+        "remaining": 4905,
+        "reset": 1606461255
+    }
+}`
 
 const responseCommitSearch = `{
     "total_count": 1,
