@@ -120,7 +120,13 @@ func Test_Validate_Message(t *testing.T) {
 				Commit: Commit{Message: testItem.message},
 			}
 
-			u.AssertEqual(t, commit.Validate(), testItem.expected)
+			err := commit.Validate()
+
+			if err != nil {
+				u.AssertEqual(t, err.Error(), testItem.expected.Error())
+			} else {
+				u.AssertEqual(t, err, testItem.expected)
+			}
 		})
 	}
 }

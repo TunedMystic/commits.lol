@@ -23,6 +23,9 @@ func NewServer(DB db.Database) *Server {
 		"BaseURL": func() string {
 			return config.App.BaseURL
 		},
+		"Goatcounter": func() string {
+			return config.App.GoatcounterUser
+		},
 		"Unescape": func(html string) template.HTML {
 			return template.HTML(html)
 		},

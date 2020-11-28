@@ -15,6 +15,10 @@ const (
 // ValidationError is returned when a Commit is not valid.
 type ValidationError string
 
+func (err ValidationError) Error() string {
+	return string(err)
+}
+
 // APIError ...
 type APIError struct {
 	URL        string `json:"-"`
@@ -29,10 +33,6 @@ func NewAPIError(url string, data []byte, statusCode int) *APIError {
 		e.Message = "not able to unmarshal error response"
 	}
 	return &e
-}
-
-func (err ValidationError) Error() string {
-	return string(err)
 }
 
 func (e *APIError) Error() string {
