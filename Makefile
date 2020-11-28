@@ -31,7 +31,7 @@ dev-w:  ## Run the program and watch for file changes
 	@bash -c "find . -type f \( -name '*.go' -o -name '*.html' \) | grep -v 'misc' | entr -r $(MAKE) dev"
 
 dev-docker: ## Run the docker container.
-	@docker run -p 8000:8000 --env-file .env -v $$(pwd)/commits.lol.sqlite:/usr/src/commits.lol.sqlite commits.lol
+	@docker run --rm --name commits.lol -p 8000:8000 --env-file .env -v $$(pwd)/commits.lol.sqlite:/usr/src/commits.lol.sqlite commits.lol
 
 test: clean  ## Run tests
 	@eval $$(egrep -v '^#' .env.test | xargs) go test ./... -covermode=atomic -coverprofile coverage.out
