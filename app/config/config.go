@@ -2,6 +2,8 @@ package config
 
 import (
 	"fmt"
+	"path/filepath"
+	"runtime"
 
 	"github.com/kelseyhightower/envconfig"
 )
@@ -26,11 +28,16 @@ const SourceGithub int = 1
 // WorkerSize defines the amount of goroutines to spawn when running background tasks.
 const WorkerSize int = 4
 
-// GoatCounterScript initializes analytics for the site.
-const GoatCounterScript string = `<script data-goatcounter="https://%s.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>`
-
 // App stores the configuration for the application.
 var App Config
+
+// BasePath is the root directory of the project.
+var BasePath string
+
+func setBasePath(s *string) {
+	_, b, _, _ := runtime.Caller(0)
+	*s = filepath.Join(filepath.Dir(b), "../..")
+}
 
 func init() {
 	// Load config variables from the environment.
@@ -38,4 +45,7 @@ func init() {
 	if err != nil {
 		panic(fmt.Sprintf("config: %+v\n", err.Error()))
 	}
+
+	// Resolve basepath.
+	setBasePath(&BasePath)
 }

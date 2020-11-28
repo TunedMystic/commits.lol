@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -25,10 +24,7 @@ func NewServer(DB db.Database) *Server {
 			return config.App.BaseURL
 		},
 		"Goatcounter": func() string {
-			if config.App.GoatcounterUser == "" {
-				return ""
-			}
-			return fmt.Sprintf(config.GoatCounterScript, config.App.GoatcounterUser)
+			return config.App.GoatcounterUser
 		},
 		"Unescape": func(html string) template.HTML {
 			return template.HTML(html)
