@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -22,6 +23,12 @@ func NewServer(DB db.Database) *Server {
 	templateFuncs := template.FuncMap{
 		"BaseURL": func() string {
 			return config.App.BaseURL
+		},
+		"Goatcounter": func() string {
+			if config.App.GoatcounterUser == "" {
+				return ""
+			}
+			return fmt.Sprintf(config.GoatCounterScript, config.App.GoatcounterUser)
 		},
 		"Unescape": func(html string) template.HTML {
 			return template.HTML(html)
