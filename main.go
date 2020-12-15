@@ -90,7 +90,7 @@ func RunServer() {
 func RunTasks() {
 	zap.S().Info("[run] periodic tasks")
 	c := cron.New()
-	c.AddFunc("@every 4m", func() {
+	c.AddFunc("@every 60m", func() {
 		to := time.Now().UTC()
 		from := to.AddDate(0, 0, -3) // 3 days back.
 		FetchCommits(from.Format("2006-01-02"), to.Format("2006-01-02"))
