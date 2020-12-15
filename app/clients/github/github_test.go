@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
-	"reflect"
 	"testing"
 
 	u "github.com/tunedmystic/commits.lol/app/utils"
@@ -39,7 +38,9 @@ func Test_CommitSearch_APIError(t *testing.T) {
 
 	// How to detect whether a struct pointer is nil in golang?
 	// Ref: https://stackoverflow.com/a/55900511
-	u.AssertEqual(t, reflect.ValueOf(response).IsNil(), true)
+	// u.AssertEqual(t, reflect.ValueOf(response).IsNil(), true)
+
+	u.AssertEqual(t, response.IsEmpty(), true)
 	u.AssertEqual(t, err.Error(), expected)
 }
 
@@ -52,7 +53,7 @@ func Test_CommitSearch_empty_search_options(t *testing.T) {
 
 	response, err := g.CommitSearch(CommitSearchOptions{})
 
-	u.AssertEqual(t, reflect.ValueOf(response).IsNil(), true)
+	u.AssertEqual(t, response.IsEmpty(), true)
 	u.AssertEqual(t, err.Error(), "no search options provided")
 }
 
@@ -65,7 +66,7 @@ func Test_CommitSearch_invalid_url(t *testing.T) {
 
 	response, err := g.CommitSearch(options)
 
-	u.AssertEqual(t, reflect.ValueOf(response).IsNil(), true)
+	u.AssertEqual(t, response.IsEmpty(), true)
 	u.AssertEqual(t, err.Error(), expected)
 }
 
@@ -81,7 +82,7 @@ func Test_CommitSearch_unmarshal_fail(t *testing.T) {
 
 	response, err := g.CommitSearch(options)
 
-	u.AssertEqual(t, reflect.ValueOf(response).IsNil(), true)
+	u.AssertEqual(t, response.IsEmpty(), true)
 	u.AssertEqual(t, err.Error(), expected)
 }
 

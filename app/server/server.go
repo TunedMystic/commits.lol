@@ -18,7 +18,7 @@ type Server struct {
 }
 
 // NewServer creates a new Server type.
-func NewServer(DB db.Database) *Server {
+func NewServer(DB db.Database) Server {
 	templateFuncs := template.FuncMap{
 		"BaseURL": func() string {
 			return config.App.BaseURL
@@ -34,7 +34,7 @@ func NewServer(DB db.Database) *Server {
 		DB:        DB,
 		Templates: template.Must(template.New("").Funcs(templateFuncs).ParseGlob("templates/*.html")),
 	}
-	return &s
+	return s
 }
 
 // IndexHandler renders the index page.

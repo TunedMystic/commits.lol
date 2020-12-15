@@ -16,11 +16,16 @@ type SqliteDB struct {
 }
 
 // NewSqliteDB connects to the database, and returns a new *SqliteDB type.
-func NewSqliteDB(name string) *SqliteDB {
+func NewSqliteDB(name string) SqliteDB {
 	sdb := SqliteDB{
 		DB: sqlx.MustConnect("sqlite3", name),
 	}
-	return &sdb
+	return sdb
+}
+
+// Close the database connection.
+func (s *SqliteDB) Close() {
+	s.DB.Close()
 }
 
 // ------------------------------------------------------------------
