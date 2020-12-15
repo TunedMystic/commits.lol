@@ -14,4 +14,6 @@ type Database interface {
 	GetOrCreateUser(user *models.GitUser) error
 	GetOrCreateRepo(repo *models.GitRepo) error
 	GetOrCreateCommit(commit *models.GitCommit) error
+
+	Close()
 }

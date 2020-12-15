@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/integrii/flaggy"
-	"github.com/robfig/cron/v3"
+	"github.com/robfig/cron"
 	"go.uber.org/zap"
 
 	"github.com/tunedmystic/commits.lol/app/clients/github"
@@ -77,7 +77,9 @@ func main() {
 func RunServer() {
 	zap.S().Info("[run] server")
 	db := db.NewSqliteDB(config.App.DatabaseName)
-	s := server.NewServer(db)
+	defer db.Close()
+
+	s := server.NewServer(&db)
 
 	addr := fmt.Sprintf("0.0.0.0:%v", config.App.Port)
 	zap.S().Info("Server is running on ", addr)
@@ -88,7 +90,7 @@ func RunServer() {
 func RunTasks() {
 	zap.S().Info("[run] periodic tasks")
 	c := cron.New()
-	c.AddFunc("@every 60m", func() {
+	c.AddFunc("@every 4m", func() {
 		to := time.Now().UTC()
 		from := to.AddDate(0, 0, -3) // 3 days back.
 		FetchCommits(from.Format("2006-01-02"), to.Format("2006-01-02"))
@@ -100,6 +102,7 @@ func RunTasks() {
 func FetchCommits(fromDate, toDate string) {
 	zap.S().Infof("[run] fetch-commits from %s to %s", fromDate, toDate)
 	db := db.NewSqliteDB(config.App.DatabaseName)
+	defer db.Close()
 
 	options := github.CommitSearchOptions{
 		FromDate: fromDate,
@@ -108,15 +111,19 @@ func FetchCommits(fromDate, toDate string) {
 	}
 
 	// Run the commit pipeline with randomly fetched searchTerms.
-	pipeline.Commits(db).WithOptions(options).WithRandomSearchTerms().Run()
+	p := pipeline.Commits(&db)
+	p.WithOptions(options)
+	p.WithRandomSearchTerms()
+	p.Run()
 	zap.S().Info("[done] fetch-commits")
 }
 
 // CheckRateLimits ...
 func CheckRateLimits() {
 	zap.S().Infof("[run] limits")
+	c := github.NewClient()
 
-	response, err := github.NewClient().RateLimits()
+	response, err := c.RateLimits()
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -34,7 +34,8 @@ func Test_NewServer(t *testing.T) {
 }
 
 func TestRoutes(t *testing.T) {
-	NewServer(&db.MockDB{}).Routes()
+	s := NewServer(&db.MockDB{})
+	s.Routes()
 }
 
 func Test_IndexHandler_renders_index_page(t *testing.T) {

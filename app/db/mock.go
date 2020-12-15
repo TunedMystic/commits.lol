@@ -62,5 +62,8 @@ func (m *MockDB) GetOrCreateCommit(commit *models.GitCommit) error {
 	return m.GetOrCreateCommitMock(commit)
 }
 
+// Close ...
+func (m *MockDB) Close() {}
+
 // Ensure the MockDB type satisfies the Database interface.
 var _ Database = &MockDB{}

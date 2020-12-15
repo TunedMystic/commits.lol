@@ -16,19 +16,21 @@ import (
 // CommitPipeline is responsible for fetching commits
 // concurrently and saving them to the database.
 type CommitPipeline struct {
-	db      db.Database
+	db db.Database
+
+	client  github.Client
+	options github.CommitSearchOptions
 	cleaner utils.Cleaner
 	grouper utils.Grouper
-	client  *github.Client
-	options github.CommitSearchOptions
-	terms   []string
-	jobs    chan string
-	done    chan bool
-	now     time.Time
+
+	jobs  chan string
+	done  chan bool
+	terms []string
+	now   time.Time
 }
 
 // Commits creates and returns a CommitPipeline type.
-func Commits(db db.Database) *CommitPipeline {
+func Commits(db db.Database) CommitPipeline {
 	badWords, err := db.AllBadWords()
 	if err != nil {
 		panic(err)
@@ -39,43 +41,41 @@ func Commits(db db.Database) *CommitPipeline {
 		panic(err)
 	}
 
-	c := CommitPipeline{
+	return CommitPipeline{
 		db:      db,
+		client:  github.NewClient(),
 		cleaner: utils.NewMessageCleaner(badWords.ToStrings()),
 		grouper: utils.NewCommitGrouper(groupTerms.ToMap()),
-		client:  github.NewClient(),
 		jobs:    make(chan string),
 		done:    make(chan bool),
 		now:     time.Now().UTC(),
 	}
-
-	return &c
 }
 
 // WithRandomSearchTerms adds random terms to the pipeline.
-func (c *CommitPipeline) WithRandomSearchTerms() *CommitPipeline {
+func (c *CommitPipeline) WithRandomSearchTerms() CommitPipeline {
 	c.terms = []string{}
 	randomTerms, err := c.db.RandomSearchTerms()
 	if err != nil {
 		zap.S().Warn(err.Error())
 	}
 	c.terms = append(c.terms, randomTerms.ToStrings()...)
-	return c
+	return *c
 }
 
 // WithSearchTerms adds the provided terms to the pipeline.
-func (c *CommitPipeline) WithSearchTerms(terms ...string) *CommitPipeline {
+func (c *CommitPipeline) WithSearchTerms(terms ...string) CommitPipeline {
 	c.terms = []string{}
 	c.terms = append(c.terms, terms...)
-	return c
+	return *c
 }
 
 // WithOptions ...
-func (c *CommitPipeline) WithOptions(options github.CommitSearchOptions) *CommitPipeline {
+func (c *CommitPipeline) WithOptions(options github.CommitSearchOptions) CommitPipeline {
 	options.QueryText = ""
 	options.Page = 1
 	c.options = options
-	return c
+	return *c
 }
 
 // Run ...
@@ -129,7 +129,7 @@ func (c *CommitPipeline) worker(ID int) {
 			zap.S().Errorf(errMsg.Error())
 			sentry.CaptureException(errMsg)
 
-			c.done <- true
+			// c.done <- true
 			continue
 		}
 

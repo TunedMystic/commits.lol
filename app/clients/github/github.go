@@ -23,15 +23,14 @@ type Client struct {
 }
 
 // NewClient ...
-func NewClient() *Client {
-	g := Client{
+func NewClient() Client {
+	return Client{
 		baseURL:       "https://api.github.com",
 		apiKey:        config.App.GithubAPIKey,
 		searchLimiter: rate.New(30, time.Second*70),  // 30 times per 70 seconds
 		maxFetch:      config.App.GithubMaxFetch,     // Max amount of items to fetch when paginating
 		commitLength:  config.App.GithubCommitLength, // Max length of commit message
 	}
-	return &g
 }
 
 // RateLimits checks the rate limit for the configured API Key.
@@ -73,12 +72,14 @@ func (g *Client) RateLimits() (RateLimitResponse, error) {
 // Example:
 //    https://api.github.com/search/commits?q='monkey'+author-date:2020-01-01..2020-01-13+sort:author-date-asc&page=1
 //
-func (g *Client) CommitSearch(options CommitSearchOptions) (*CommitSearchResponse, error) {
+func (g *Client) CommitSearch(options CommitSearchOptions) (CommitSearchResponse, error) {
+	response := CommitSearchResponse{}
+
 	// Check the rate limit, and block until the rate limit has lifted.
 	g.searchLimiter.Wait()
 
 	if options.IsEmpty() {
-		return nil, errors.New("no search options provided")
+		return response, errors.New("no search options provided")
 	}
 
 	// Build request
@@ -93,7 +94,7 @@ func (g *Client) CommitSearch(options CommitSearchOptions) (*CommitSearchRespons
 	// Make request
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("error making request: %v", err)
+		return response, fmt.Errorf("error making request: %v", err)
 	}
 
 	// Read the response body.
@@ -101,17 +102,15 @@ func (g *Client) CommitSearch(options CommitSearchOptions) (*CommitSearchRespons
 	res.Body.Close()
 
 	if res.StatusCode != http.StatusOK {
-		return nil, NewAPIError(url, data, res.StatusCode)
+		return response, NewAPIError(url, data, res.StatusCode)
 	}
 
 	// Unmarshal the JSON data.
-	response := CommitSearchResponse{}
-
 	if err = json.Unmarshal(data, &response); err != nil {
-		return nil, fmt.Errorf("not able to unmarshal response: %v", err)
+		return response, fmt.Errorf("not able to unmarshal response: %v", err)
 	}
 
-	return &response, nil
+	return response, nil
 }
 
 // CommitSearchPaginated ...

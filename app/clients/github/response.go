@@ -31,6 +31,11 @@ type CommitSearchResponse struct {
 	CommitItems []CommitItem `json:"items"`
 }
 
+// IsEmpty checks if the response is empty.
+func (resp CommitSearchResponse) IsEmpty() bool {
+	return len(resp.CommitItems) == 0
+}
+
 // CommitItem ...
 type CommitItem struct {
 	URL    string     `json:"html_url"`

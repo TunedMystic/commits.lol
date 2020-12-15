@@ -8,11 +8,15 @@ help:  ## This help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[1m%-15s\033[0m %s\n", $$1, $$2}'
 
 build: clean  ## Build the binary
+	@echo "\033[0;32m[1/2] Build Tailwind styles\033[0m"
 	@npm run build-styles-prod
+	@echo "\033[0;32m[2/2] Build Application binary\033[0m"
 	@go build -ldflags="-s -w"
 
 build-docker: clean  ## Build docker image
+	@echo "\033[0;32m[1/2] Build Tailwind styles\033[0m"
 	@npm run build-styles-prod
+	@echo "\033[0;32m[2/2] Build Docker image\033[0m"
 	@docker build -t commits.lol .
 
 install:  ## Install project dependencies
