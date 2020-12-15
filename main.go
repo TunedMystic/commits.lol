@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/integrii/flaggy"
-	"github.com/robfig/cron"
+	"github.com/robfig/cron/v3"
 	"go.uber.org/zap"
 
 	"github.com/tunedmystic/commits.lol/app/clients/github"
