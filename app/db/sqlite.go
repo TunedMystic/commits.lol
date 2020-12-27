@@ -146,29 +146,35 @@ func (s *SqliteDB) RecentCommitsByGroup(group string) (models.GitCommits, error)
 
 	query := `
 		SELECT
-			c.*,
+			c.id,
+			c.author_id,
+			c.repo_id,
+			c.message,
+			c.message_censored,
+			c.url,
+			c.color_bg,
+			c.color_fg,
 
 			u.id AS "author.id",
-			u.source AS "author.source",
-			u.username AS "author.username",
 			u.url AS "author.url",
 			u.avatar_url AS "author.avatar_url"
 
 		FROM git_commit c
 		INNER JOIN git_user u on u.id = c.author_id
 		WHERE (
+			c.date > datetime('now', '-14 days') AND
 			c.valid = TRUE AND
-			c.date > datetime('now', $1) AND
+			c.id % abs(random() % 10) = 0 AND
 			(
-				($2 != '' AND c.groupname = $2)
+				($1 != '' AND c.groupname = $1)
 				OR
-				($2 = '' AND c.groupname IS NOT NULL)
+				($1 = '' AND c.groupname IS NOT NULL)
 			)
 		)
 		ORDER BY random()
-		LIMIT $3;`
+		LIMIT $2;`
 
-	rows, err := s.DB.Queryx(query, "-21 days", group, length)
+	rows, err := s.DB.Queryx(query, group, length)
 
 	if err != nil {
 		return nil, err

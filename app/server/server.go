@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -51,6 +52,7 @@ func (s *Server) IndexHandler(w http.ResponseWriter, r *http.Request) {
 	commits, err := s.DB.RecentCommitsByGroup(group)
 	if err != nil {
 		sentry.CaptureException(err)
+		fmt.Println(err)
 		http.Error(w, "oopsie, something went horribly wrong", http.StatusInternalServerError)
 		return
 	}
