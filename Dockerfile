@@ -3,7 +3,7 @@
 # and building the golang application.
 # ----------------------------------------------------
 
-FROM golang:1.15.5-alpine3.12 as builder
+FROM golang:1.16-alpine as builder
 
 ENV GO111MODULE=on \
     GOOS=linux \
