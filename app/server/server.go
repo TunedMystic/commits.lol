@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 	"html/template"
+	"math/rand"
 	"net/http"
 	"strconv"
 
@@ -29,6 +30,10 @@ func NewServer(DB db.Database) Server {
 		},
 		"Unescape": func(html string) template.HTML {
 			return template.HTML(html)
+		},
+		"MetaImg": func() string {
+			metaImages := []string{"meta1.png", "meta2.png", "meta3.png"}
+			return metaImages[rand.Int()%len(metaImages)]
 		},
 	}
 	s := Server{
