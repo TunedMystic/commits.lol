@@ -1,6 +1,6 @@
 module github.com/tunedmystic/commits.lol
 
-go 1.15
+go 1.16
 
 require (
 	github.com/beefsack/go-rate v0.0.0-20200827232406-6cde80facd47
