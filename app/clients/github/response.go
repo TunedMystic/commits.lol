@@ -17,6 +17,11 @@ func init() {
 // RateLimitResponse ...
 type RateLimitResponse struct {
 	Resources struct {
+		Core struct {
+			Limit     int `json:"limit"`
+			Used      int `json:"used"`
+			Remaining int `json:"remaining"`
+		} `json:"core"`
 		Search struct {
 			Limit     int `json:"limit"`
 			Used      int `json:"used"`

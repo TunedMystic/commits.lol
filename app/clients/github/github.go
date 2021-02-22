@@ -15,21 +15,23 @@ import (
 
 // Client for Github
 type Client struct {
-	baseURL       string
-	apiKey        string
-	searchLimiter *rate.RateLimiter
-	maxFetch      int
-	commitLength  int
+	baseURL          string
+	apiKey           string
+	searchLimiterMin *rate.RateLimiter
+	searchLimiterHr  *rate.RateLimiter
+	maxFetch         int
+	commitLength     int
 }
 
 // NewClient ...
 func NewClient() Client {
 	return Client{
-		baseURL:       "https://api.github.com",
-		apiKey:        config.App.GithubAPIKey,
-		searchLimiter: rate.New(30, time.Second*70),  // 30 times per 70 seconds
-		maxFetch:      config.App.GithubMaxFetch,     // Max amount of items to fetch when paginating
-		commitLength:  config.App.GithubCommitLength, // Max length of commit message
+		baseURL:          "https://api.github.com",
+		apiKey:           config.App.GithubAPIKey,
+		searchLimiterMin: rate.New(30, time.Second*70),   // 30 times per 70 seconds
+		searchLimiterHr:  rate.New(5000, time.Minute*70), // 5000 times per 70 minutes
+		maxFetch:         config.App.GithubMaxFetch,      // Max amount of items to fetch when paginating
+		commitLength:     config.App.GithubCommitLength,  // Max length of commit message
 	}
 }
 
@@ -76,7 +78,7 @@ func (g *Client) CommitSearch(options CommitSearchOptions) (CommitSearchResponse
 	response := CommitSearchResponse{}
 
 	// Check the rate limit, and block until the rate limit has lifted.
-	g.searchLimiter.Wait()
+	g.searchLimiterMin.Wait()
 
 	if options.IsEmpty() {
 		return response, errors.New("no search options provided")

@@ -16,6 +16,11 @@ func Test_RateLimitResponse_Unmarshal(t *testing.T) {
 		t.Errorf("Failed to parse json %v\n", err)
 	}
 
+	// Check Core limits
+	u.AssertEqual(t, response.Resources.Core.Limit, 5000)
+	u.AssertEqual(t, response.Resources.Core.Used, 95)
+	u.AssertEqual(t, response.Resources.Core.Remaining, 4905)
+
 	// Check Search limits
 	u.AssertEqual(t, response.Resources.Search.Limit, 30)
 	u.AssertEqual(t, response.Resources.Search.Used, 1)
