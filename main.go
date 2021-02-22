@@ -128,7 +128,7 @@ func CheckRateLimits() {
 		log.Fatal(err)
 	}
 
-	s, _ := json.MarshalIndent(response.Resources.Search, "", "   ")
+	limitsDisplay, _ := json.MarshalIndent(response.Resources, "", "   ")
 
-	zap.S().Infof("Github Rate Limits\n%s", string(s))
+	zap.S().Infof("Github Rate Limits\n%s", string(limitsDisplay))
 }
